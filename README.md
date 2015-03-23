@@ -10,7 +10,7 @@
 
 # Using the Sample Application
 
-The following section is an overview for setting up the AT&T Enhanced WebRTC DHS and sample application. The sample app can be used as a reference and starting point for your own applications.
+The following section is an overview for setting up the AT&T Enhanced WebRTC sample application. The sample app can be used as a reference and starting point for your own applications.
 
 For full instructions on deploying this SDK and sample app, see the [Enhanced WebRTC JavaScript SDK page](http://developer.att.com/sdks-plugins/enhanced-webrtc) on the AT&T Developer Program Web site.
 

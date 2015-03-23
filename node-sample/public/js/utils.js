@@ -1,7 +1,7 @@
 /*jslint browser: true, devel: true, node: true, debug: true, todo: true, indent: 2, maxlen: 150*/
 /*global ATT, RESTClient, console, log, phone, holder, eWebRTCDomain,
-  sessionData, env_config, defaultHeaders, onError, getCallerInfo,
-  loginMobileNumber, createAccessToken, associateAccessToken, createE911Id,
+  sessionData, defaultHeaders, onError, getCallerInfo,
+  loginMobileNumber, associateAccessToken, ewebrtc_domain,
   loginEnhancedWebRTC, hideParticipants, showParticipants*/
 
 'use strict';
@@ -30,7 +30,7 @@ function unsupportedBrowserError() {
 // it takes args as a parameter it contains end url details
 /**
  * @param args
- * ajax Call for UI change and for DHS  all
+ * ajax Call for sample app
  */
 function ajaxRequest(args) {
   var rc = new ATT.RESTClient({
@@ -42,15 +42,6 @@ function ajaxRequest(args) {
     error: args.error || onError
   });
   rc.ajax();
-}
-
-function loadConfiguration(callback) {
-  ajaxRequest({
-    url: '/configuration',
-    success: function (response) {
-      callback(response.getJson());
-    }
-  });
 }
 
 function clearSessionData() {
@@ -120,7 +111,7 @@ function setupHomeView() {
     callActions.style.opacity = '0';
   });
 
-  document.getElementById('callee').value =  '@' + env_config.ewebrtc_domain;
+  document.getElementById('callee').value =  '@' + ewebrtc_domain;
 }
 
 function formatError(errObj) {
@@ -229,8 +220,6 @@ function createView(view, data, response) {
 }
 
 function loadView(view, success) {
-  log('Loading ' + view + ' page');
-
   // The ajaxRequest method takes url and the callback to be called on success error
   ajaxRequest({
     url: 'views/' + view + '.html',
@@ -294,8 +283,10 @@ function loadDefaultView() {
 function getE911Id(address, is_confirmed, success, error) {
   createAccessToken('E911',
     null,
-    function (data) {
+    function (response) {
       try {
+        var data = response.getJson();
+
         createE911Id(data.access_token, address, is_confirmed, success, error);
       } catch (error) {
         onError(error);
@@ -311,13 +302,11 @@ function accessTokenSuccess(data) {
       throw 'No create token response data received';
     }
 
-    log(JSON.stringify(data));
-
     if (data.user_type === 'MOBILE_NUMBER' ||
         data.user_type === 'VIRTUAL_NUMBER') {
       switchView('address');
     } else { // Account ID
-      // if no error after login to dhs, create web rtc session
+      // if access token obtained successfully, create web rtc session
       loginEnhancedWebRTC(data.access_token);
     }
   } catch (err) {
@@ -328,11 +317,13 @@ function accessTokenSuccess(data) {
 function login(userType, authCode, userName) {
   createAccessToken(userType,
     authCode,
-    function (data) {
+    function (response) {
+      var data = response.getJson();
+
       data.user_type = userType;
 
       if (userType !== 'MOBILE_NUMBER') { // VIRTUAL_NUMBER and ACCOUNT_ID
-        data.user_name = userType === 'VIRTUAL_NUMBER' ? userName : userName + '@' + env_config.ewebrtc_domain;
+        data.user_name = userType === 'VIRTUAL_NUMBER' ? userName : userName + '@' + ewebrtc_domain;
 
         ATT.utils.extend(sessionData, data); // save token/user data locally
 
@@ -652,11 +643,7 @@ function onConnecting(data) {
     callerInfo,
     cancelBtn;
 
-  if (undefined !== data.from) {
-    peer = data.from;
-  } else if (undefined !== data.to) {
-    peer = data.to;
-  }
+  peer = data.from || data.to;
 
   callerInfo = getCallerInfo(peer);
 
@@ -749,7 +736,7 @@ function onAnswering(data) {
   var from,
     callerInfo;
 
-  callerInfo = getCallerInfo(from);
+  callerInfo = getCallerInfo(data.from);
 
   if (callerInfo.callerId.indexOf('@') > -1) {
     from = callerInfo.callerId;
@@ -768,7 +755,7 @@ function onJoiningConference(data) {
   var from,
     callerInfo;
 
-  callerInfo = getCallerInfo(from);
+  callerInfo = getCallerInfo(data.from);
 
   if (callerInfo.callerId.indexOf('@') > -1) {
     from = callerInfo.callerId;

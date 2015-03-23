@@ -41,26 +41,26 @@ The following features will be added soon:
 *	Upgrade or downgrade between audio and video
 *	Firefox browser support
 
-# v1.0.0-rc.13
+# v1.0.0-rc.14
 
-March 6, 2015
+March 22, 2015
 
-* **Fix:** Call index is the same for 2 calls in phone.getCalls().
-* **New:** DHS Library: A new server side node based library to provide oAuth token and E911 Id methods
-    * This will replace a separate server for DHS
-    * The DHS specific configuration (app key/secret etc) can now be done on the sample server itself
-    * Please refer to DHS Library JsDocs and README for further information
-* **Change** The following SDK methods are changed. **Please update your web application accordingly**
-    * ATT.rtc.dhs.createAccessToken is now ATT.rtc.createAccessToken
-    * ATT.rtc.dhs.createE911Id is now ATT.rtc.createE911Id
-    * ATT.rtc.configure now has a new signature. Please refer to SDK API JsDocs for updates to this method
-* **Change** The sample app can now be launched by navigating to `https://localhost:9001`.
-    * You still need to add the security exception for `https://localhost:9001` on your browser.
-    * Please refer to the README for more information
+* **New:** DHS functions are now available as public node module named  as`att-dhs`. You can use this like regular node modules.
+* **Removed:**
+ * Stand-alone node-dhs is removed. DHS functions are now available it `att-dhs` public node module. You can user these DHS functions in your own NodeJS App. An illustrative example is provided in node-sample.
+ * ATT.rtc.dhs namespace is deleted, instead use migration guide for code snippets to invoke sample app DHS routes.
+ * ATT.rtc.configure method is no longer needed.
+* **Removed:**
+ * DHS routes are now in node-sample.
+ * `restify-dhs` is optional, use this only if you want a stand-alone node-dhs.
+* **Fix:** `phone.logout` method will always return after cleaning session and call resources if any.
 
 ## Known Issues
-
-* While using Chrome 40, adding Mobile Device as a participant to a conference hosted by Mobile Number or Virtual Number
+* Transfer to a provisioned Phone fails when in a video call with Non-Provisioned phone. 
+* Transfer to a non-provsioned PSTN target fails while in video Call. 
+* When any user started a conference and invites a PSTN user and the user rejects the invitation. I dont get 
+invitation rejected event. 
+* While using Chrome , adding Mobile Device as a participant to a conference hosted by Mobile Number 
   results in one way audio with the notification `Media conference forbidden for this recipient`. 
 * When in a call between a Mobile Number user using Firefox and a PSTN user if the Mobile Number user tries to move the
   call to it's Mobile phone, then he might see the following error:
@@ -119,6 +119,25 @@ March 6, 2015
 
 
 # Changelog
+
+
+# v1.0.0-rc.13
+
+March 6, 2015
+
+* **Fix:** Call index is the same for 2 calls in phone.getCalls().
+* **New:** DHS Library: A new server side node based library to provide oAuth token and E911 Id methods
+    * This will replace a separate server for DHS
+    * The DHS specific configuration (app key/secret etc) can now be done on the sample server itself
+    * Please refer to DHS Library JsDocs and README for further information
+* **Change** The following SDK methods are changed. **Please update your web application accordingly**
+    * ATT.rtc.dhs.createAccessToken is now ATT.rtc.createAccessToken
+    * ATT.rtc.dhs.createE911Id is now ATT.rtc.createE911Id
+    * ATT.rtc.configure now has a new signature. Please refer to SDK API JsDocs for updates to this method
+* **Change** The sample app can now be launched by navigating to `https://localhost:9001`.
+    * You still need to add the security exception for `https://localhost:9001` on your browser.
+    * Please refer to the README for more information
+
 
 
 # v1.0.0-rc.12

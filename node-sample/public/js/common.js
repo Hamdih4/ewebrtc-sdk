@@ -7,7 +7,7 @@
 /*jslint browser: true, devel: true, node: true, debug: true, todo: true, indent: 2, maxlen: 150*/
 
 // Make JSLint aware of variables and functions that are defined in other files.
-/*global ATT, unsupportedBrowserError, checkEnhancedWebRTCSession, loadDefaultView, configureSampleApp, addCall,
+/*global ATT, unsupportedBrowserError, checkEnhancedWebRTCSession, addCall,
   onSessionReady, onSessionDisconnected, onSessionExpired, onAddressUpdated, onError, onWarning, onDialing,
   onIncomingCall, onConnecting, onCallConnected, onMediaEstablished, onEarlyMedia, onAnswering, onCallMuted,
   onCallUnmuted, onCallHold, onCallResume, onCallDisconnecting, onCallDisconnected, onCallCanceled,
@@ -30,41 +30,158 @@ if (!bWebRTCSupportExists) {
   throw unsupportedBrowserError();
 }
 
-// ## SDK Setup
-// -----------
-// In order to make calls, you first need to setup the library
-// so that it can perform operations like create an access token and
-// e911 id. These are required for the login operation.
-function configure(options) {
-// ### Configure the SDK
+// ### Client code snippets for routes
 // ---------------------------------
-// The purpose of [**ATT.rtc.configure**](../../lib/webrtc-sdk/doc/ATT.rtc.html#configure) is to configure
-// the endpoints for creating access token and e911id. Additionally you can configure the URL for
-// Enhanced WebRTC API endpoint and the WebRTC URI.
-//```javascript
-//ATT.rtc.configure({
-//  token_endpoint: '/tokens',
-//  e911_endpoint: '/e911ids'
-//});
-//```
-// or
-//```javascript
-//ATT.rtc.configure({
-//  token_endpoint: '/tokens',
-//  e911_endpoint: '/e911ids'
-//  api_endpoint: 'https://api.att.com' // optional Enhanced WebRTC API endpoint
-//  ewebrtc_uri: '/RC/v1' // optional Enhanced WebRTC API URI
-//});
-//```
-//-----------------------------------
-  ATT.rtc.configure({
-    token_endpoint: options.token_endpoint, // e.g. '/oauth/token'
-    e911_endpoint: options.e911_endpoint, // e.g. '/e911id'
-    api_endpoint: options.api_endpoint, // e.g. 'https://api.att.com'
-    ewebrtc_uri: options.ewebrtc_uri // e.g. '/RC/v1'
-  });
-}
-
+//
+// #### Get app configuration
+//
+// **Example 1:** Getting **virtual numbers** list
+//
+// <pre>
+//  function setDropdownData(virtualNumbers) {
+//    var virtualNumbersDropdown;
+//
+//    virtualNumbersDropdown =
+//      document.getElementById("virtual-numbers");
+//
+//    for (var i=0; i < virtual_numbers.length; i++) {
+//      addOption(virtualNumberDropdown, virtualNumbers[i]);
+//    }
+//  }
+//
+//  ajaxRequest({
+//    url: '/config',
+//    success: function (data) {
+//      var config = data.getJson(),
+//        virtualNumbers = config.virtual_number_pools;
+//
+//      setDropdownData(virtualNumbers);
+//    }
+//  });
+// </pre>
+//
+// **Example 2:** Getting domain name for **account id** users
+//
+// <pre>
+//  function displayAccountId(accountIdDomain) {
+//    var userIdElement,
+//        userId;
+//
+//    userId = document.getElementById("user-id").value;
+//    userIdElement = document.getElementById("account-id");
+//
+//    userIdElement.innerHTML = userId +
+//                              "@" + accountIdDomain;
+//  }
+//
+//  ajaxRequest({
+//    url: '/config',
+//    success: function (data) {
+//      var config = data.getJson(),
+//        ewebrtc_domain = config.ewebrtc_domain;
+//
+//      displayAccountId(ewebrtc_domain);
+//    }
+//  });
+// </pre>
+//
+// #### Creating Access Token
+//
+// **Example 1:** Create access token as a **mobile number** user
+//
+// <pre>
+//  function success(data) {
+//    // do something ...
+//  }
+//
+//  function error(errorData) {
+//    // do something ...
+//  }
+//
+//  ajaxRequest({
+//    url: '/tokens',
+//    method: 'POST',
+//    data: {
+//      app_scope: "MOBILE_NUMBER",
+//      auth_code: "authorization_code"
+//    },
+//    success: success,
+//    error: error
+//  });
+// </pre>
+//
+// **Example 2:** Create access token as a **virtual number** user
+//
+// <pre>
+//  function success(data) {
+//    // do something ...
+//  }
+//
+//  function error(errorData) {
+//    // do something ...
+//  }
+//
+//  ajaxRequest({
+//    url: '/tokens',
+//    method: 'POST',
+//    data: {
+//      app_scope: "VIRTUAL_NUMBER"
+//    },
+//    success: success,
+//    error: error
+//  });
+// </pre>
+//
+// **Example 3:** Create access token as an **account id** user
+//
+// <pre>
+//  function success(data) {
+//    // do something ...
+//  }
+//
+//  function error(errorData) {
+//    // do something ...
+//  }
+//
+//  ajaxRequest({
+//    url: '/tokens',
+//    method: 'POST',
+//    data: {
+//      app_scope: "ACCOUNT_ID"
+//    },
+//    success: success,
+//    error: error
+//  });
+// </pre>
+//
+// #### Creating e911 id
+//
+// The e911id can only be created for **mobile number** users or **virtual number** users.
+//
+// **Example**
+//
+// <pre>
+//  function success(data) {
+//    // do something ...
+//  }
+//
+//  function error(errorData) {
+//    // do something ...
+//  }
+//
+//  ajaxRequest({
+//    url: '/e911ids',
+//    method: 'POST',
+//    data: {
+//      token: accessToken,
+//      address: address,
+//      is_confirmed: false
+//    },
+//    success: success,
+//    error: error
+//  });
+// </pre>
+//
 // ## The Phone Object
 // -----------
 // Every action for Call & Conference Management is done
@@ -161,27 +278,6 @@ phone.on('session:ready', onSessionReady);
 // </pre>
 phone.on('notification', onNotification);
 
-// ### Create Access Token
-// ---------------------------------
-function createAccessToken(appScope, authCode, success, error) {
-//[**ATT.rtc.createAccessToken**](../../lib/webrtc-sdk/doc/ATT.rtc.html#createAccessToken)
-// creates an access token that is needed before you can login.
-//
-// - `app_scope` is the type of access token you want to create
-//
-// - `[auth_code]` is authorization code for MOBILE_NUMBER users
-//
-// - `success` is the success callback
-//
-// - `error` is the failure callback
-  ATT.rtc.createAccessToken({
-    app_scope: appScope,
-    auth_code: authCode,
-    success: success,
-    error: error
-  });
-}
-
 // ### Associate Access Token
 // ---------------------------------
 function associateAccessToken(userId, accessToken, success, error) {
@@ -195,33 +291,9 @@ function associateAccessToken(userId, accessToken, success, error) {
 // - `success` is the success callback
 //
 // - `error` is the failure callback
-  ATT.rtc.associateAccessToken({
+  phone.associateAccessToken({
     userId: userId,
     token: accessToken,
-    success: success,
-    error: error
-  });
-}
-
-// ### Create e911 id
-// ---------------------------------
-function createE911Id(e911Token, address, is_confirmed, success, error) {
-//[**ATT.rtc.createE911Id**](../../lib/webrtc-sdk/doc/ATT.rtc.html#createE911Id)
-// associates an access token to a user id that is needed before you can login.
-//
-// - `token` is the e911 access token
-//
-// - `address` is the address that you want to create the e911 id for
-//
-// - `is_confirmed` confirm that the address exists even if not found in our database
-//
-// - `success` is the success callback
-//
-// - `error` is the failure callback
-  ATT.rtc.createE911Id({
-    token: e911Token,
-    address: address,
-    is_confirmed: is_confirmed, // On successful E911 Id creation
     success: success,
     error: error
   });
@@ -249,7 +321,6 @@ function associateE911Id(e911Id) {
 //method to update the user's e911 linked address like:
 
   phone.associateE911Id({
-    // you can get the E911 ID using the [**phone.createE911Id**](../../lib/webrtc-sdk/doc/ATT.rtc.dhs.html#createE911Id)
     e911Id: e911Id
   });
 }
@@ -924,20 +995,3 @@ function getCallerInfo(callerUri) {
   // }`.
   return phone.getCallerInfo(callerUri);
 }
-
-// ## configure and load the sample app
-// ---------------------------------
-configureSampleApp(function (config) {
-
-  // configure the SDK
-  configure({
-    token_endpoint: '/oauth/token',
-    e911_endpoint: '/e911id',
-    api_endpoint: config.api_endpoint,
-    ewebrtc_uri: config.ewebrtc_uri
-  });
-
-  // load the default view into the browser
-  loadDefaultView();
-
-});

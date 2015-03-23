@@ -1,21 +1,20 @@
 /*jslint browser: true, devel: true, node: true, debug: true, todo: true, indent: 2, maxlen: 150*/
-/*global ATT, console, log, loadConfiguration, clearMessage, clearError, onSessionDisconnected,
+/*global ATT, console, log, loadConfiguration, loadDefaultView, clearMessage, clearError, onSessionDisconnected,
   validateAddress, associateE911Id, getE911Id, loginVirtualNumberOrAccountIdUser, loginEnhancedWebRTC,
   onError, phoneLogout, loadView, switchView, dialCall, answer, answer2ndCall,
-  hold, resume, startConference, joinConference, addParticipants,
+  hold, resume, startConference, joinConference, addParticipants, virtual_numbers,
   getParticipants, removeParticipant, move, switchCall, cleanPhoneNumber*/
 
 'use strict';
 
-var env_config,
-  sessionData = {},
+var sessionData = {},
   participantsVisible = false,
   holder;
 
-function configureSampleApp(callback) {
-  loadConfiguration(function (config) {
-    env_config = config;
-    callback(env_config);
+function loadSampleApp() {
+  loadConfiguration(function () {
+    // load the default view into the browser
+    loadDefaultView();
   });
 }
 
@@ -35,8 +34,8 @@ function createE911AddressId(event, form) {
 
     getE911Id(address.base,
       address.is_confirmed,
-      function (e911Id) {
-        loginEnhancedWebRTC(sessionData.access_token, e911Id);
+      function (response) {
+        loginEnhancedWebRTC(sessionData.access_token, response.getJson());
       },
       onError);
 
@@ -86,11 +85,6 @@ function showLoginForm(form) {
   form.style.display = 'block';
 }
 
-function mobileNumberLogin() {
-  // Attempt to authorize your mobile to make Enhanced WebRTC calls
-  window.location.href = '/oauth/authorize?redirect_uri=' + window.location.href + '/consent.html';
-}
-
 function addOption(select, option, val) {
   var opt = document.createElement('option');
   opt.value = undefined === val ? option : val;
@@ -122,11 +116,11 @@ function virtualNumberLogin(e) {
     }
   }
 
-  if (select && select.children.length === 0 &&
-      env_config && env_config.virtual_numbers_pool && env_config.virtual_numbers_pool.length > 0) {
+  if (select && select.children.length === 0 && virtual_numbers && virtual_numbers.length > 0) {
     addOption(select, '-select-', '');
-    env_config.virtual_numbers_pool.forEach(function (vtn) {
-      addOption(select, vtn);
+
+    virtual_numbers.forEach(function (virtual_number) {
+      addOption(select, virtual_number);
     });
   }
 
@@ -371,3 +365,7 @@ function moveCall() {
 function switchCalls() {
   switchCall();
 }
+
+// ## load the sample app
+// ---------------------------------
+loadSampleApp();

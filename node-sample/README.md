@@ -73,7 +73,7 @@ $ npm install
 $ npm start
 ```
 
-**Note**: The `start` script uses the sandbox environment by default. To start the DHS for other environments:
+**Note**: The `start` script uses the sandbox environment by default. To start the server for other environments:
 
   * `sandbox` - Use this environment for your testing.
 
