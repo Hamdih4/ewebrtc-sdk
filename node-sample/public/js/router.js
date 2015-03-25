@@ -4,7 +4,7 @@
 
 'use strict';
 
-var myDHS = 'https://localhost',
+var myDHS = 'https://127.0.0.1:9001',
   virtual_numbers,
   ewebrtc_domain;
 

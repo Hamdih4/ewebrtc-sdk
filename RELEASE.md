@@ -13,7 +13,7 @@ This SDK includes the following components:
 The following features and functionality are available in the current SDK release for all three supported calling types
  (AT&T Mobile Number, Virtual Number, and Account ID):
 
-### Chrome v40
+### Chrome v41
 
 *	**Basic audio and video call management** – make, receive, answer, end, mute, unmute, hold, resume, cancel, and reject calls.
 *	**Basic audio and video conferencing** – create a conference, add and remove participants, hold, resume, mute, unmute and end conference.
@@ -112,7 +112,7 @@ invitation rejected event.
 
 ## Tested Environments
 
-* Chrome Version 40.0 for OSX v10.8.5 and Windows 8
+* Chrome Version 41.0 for OSX v10.8.5 and Windows 8
 * Firefox Version 33.1 for OSX v10.8.5 and Windows 8
 
 **_The SDK may also work for other Operating Systems, other Browsers but is not tested or supported._**

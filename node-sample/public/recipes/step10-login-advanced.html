@@ -21,43 +21,46 @@
 </p>    
 <p>
 <button id="startLoginButton" onClick="onStartLoginClick()" disabled>Enter Account ID/Virtual Number and Click here to start</button>
-<input type="text" id="loginInput" value="" disabled size="55"></input>
+<input type="text" id="loginInput" value="" disabled size="55">
 </p>
 <p>
 <button id="authCodeButton" onClick="onAuthCodeClick()" disabled >Get AT&T Mobile Subscriber Consent</button>
-<input id="authCodeResult" disabled size="55"></input>  
+<input id="authCodeResult" disabled size="55">  
 </p>
 <p>
 <button id="e911AddressButton" onClick="one911AddressClick()" disabled >Collect/Retrieve E911 Adress</button>
-<input id="e911AdressResult" disabled size="110"></input>  
+<input id="e911AdressResult" disabled size="110">  
 </p>
 <p>
 <button id="e911AccessTokenButton" onClick="one911AccessTokenClick()" disabled >Create E911 Access Token</button>
-<input id="e911AccessTokenResult" disabled size="40"></input>  
+<input id="e911AccessTokenResult" disabled size="40">  
 </p>
 <p>
 <button id="e911IdButton" onClick="onE911IdClick()" disabled >Get E911 Address Identifier</button>
-<input id="e911IDInput" disabled size="70"></input>
+<input id="e911IDInput" disabled size="70">
 </p>
 <p>
 <button id="createUserAccessTokenButton" onClick="createUserAccessTokenClick()" disabled >Create User Access Token</button>
-<input id="userTokenResult" disabled size="40"></input>
+<input id="userTokenResult" disabled size="40">
 </p>
 <p>
 <button id="associateUserAccessTokenButton" onClick="associateUserAccessTokenClick()" disabled>Associate User Access Token</button>
-<input id="associatedUserTokenResult" disabled size="40"></input>
+<input id="associatedUserTokenResult" disabled size="40">
 </p>
 <p>
 <button id="loginButton" onClick="onLoginClick()" disabled>Login</button>
-<input id="loginSessionResult" disabled size="60"></input>    
+<input id="loginSessionResult" disabled size="60">    
 <button id="logoutButton" onClick="logout()" hidden>Logout</button>
-<input id="errorMessage" value="There is an error. Check console log for details" hidden disabled size="60"></input>
+<input id="errorMessage" value="There is an error. Check console log for details" hidden disabled size="60">
 </p>
 
 <!-- JavaScript will go here -->  
 
+<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="/js/ewebrtc-sdk.min.js"></script>   
 <script type="text/javascript">
+    
+var phone, tokenScope, myDHS, myDHSConfigURL = 'https://127.0.0.1:9001/config';
          
 // On page load, check for URL for a OAuth Redirect
 if (window.location.href.indexOf("?code=") > -1) {
@@ -65,14 +68,32 @@ if (window.location.href.indexOf("?code=") > -1) {
     onTokenScopeSelect();
     authCodeButton.disabled = true;
     authCodeResult.value = location.search.split('code=')[1];
+    authCodeResult.value = (authCodeResult.value).replace('%7E', '~');
+    authCodeResult.value = (authCodeResult.value).replace('%7E', '~');
+    authCodeResult.value = (authCodeResult.value).replace('%7E', '~');
     onStartLoginClick();
 }
+
+//Get DHS Configuration Information
+    $.ajax({    
+        type: "GET",
+        url: myDHSConfigURL,
+        success: function(data) {
+            if (typeof data === "string") {
+                data = JSON.parse(data);
+            }
+            myDHS = data;
+            console.log(myDHS);
+            createPhoneObject();
+        },
+        error: function (data) {
+            console.log(data)
+        }
+    });
     
-var phone = ATT.rtc.configure(getPhone), tokenScope;
-  
-function getPhone() {
+function createPhoneObject() {
     phone = ATT.rtc.Phone.getPhone();
-    registerEvents (); 
+    registerEvents();
 }
 
 function registerEvents() {
@@ -138,7 +159,7 @@ function onTokenScopeSelect (data) {
 }
 
 function onAuthCodeClick() {
-    window.location.href = '/oauth/authorize?redirect_uri=https://localhost:9001/recipes/step10-login-advanced.html';
+        window.location.href = 'https://api.att.com/oauth/v4/authorize?client_id=' + myDHS.app_key + '&scope=WEBRTCMOBILE&redirect_uri=' + window.location.href;   
 }
     
 function onStartLoginClick(){
@@ -188,10 +209,12 @@ function onLoginClick() {
 }
     
 function creatAccessToken() {
-    ATT.rtc.dhs.createAccessToken({
-        app_scope: tokenScope,
-        auth_code: authCodeResult.value, 
-        success:    function (accessToken) {
+    $.ajax({    
+        type: "POST",
+        url: myDHS.app_token_url,
+        data: {app_scope: tokenScope, auth_code: authCodeResult.value},
+        success:    function (data) {
+                        accessToken = JSON.parse(data);
                         if (tokenScope == "E911") {
                             e911AccessTokenButton.disabled = true;
                             e911AccessTokenResult.value = accessToken.access_token;
@@ -211,14 +234,19 @@ function creatAccessToken() {
                             }
                         }
                     },
-        error: onError
+        error: function (data) {
+            console.log(data)
+        }
     });
 }
 
 function createE911Id () {
-    ATT.rtc.dhs.createE911Id({
-        token: e911AccessTokenResult.value,
-        address: {
+    $.ajax({
+        type: "POST",
+        url: myDHS.app_e911id_url,
+        data: {
+            token: e911AccessTokenResult.value, 
+            address: {
                     first_name: 'John',
                     last_name: 'Doe',
                     house_number: '16221',
@@ -228,6 +256,7 @@ function createE911Id () {
                     state: 'WA',
                     zip: '98052',
                     is_confirmed: 'true'
+            }
         },
         success:    function (e911Data) {
                     e911IDInput.value = e911Data.e911Locations.addressIdentifier;
@@ -235,12 +264,14 @@ function createE911Id () {
                     createUserAccessTokenButton.disabled = false;
                     userTokenResult.value = "Next create a user access token";
                     },
-        error: onError
+        error: function (data) {
+            console.log(data)
+        }
     });
 }
 
 function associateAccessToken() {
-    ATT.rtc.associateAccessToken({
+    phone.associateAccessToken({
         userId: loginInput.value,
         token: userTokenResult.value,
         success:    function () {
@@ -280,22 +311,32 @@ function logout() {
 //Step 10. Login Advanced (Account ID/Mobile Number/Virtual Number)
 
 function onAuthCodeClick() { // MOBILE_NUMBER required
-    window.location.href = '/oauth/authorize?redirect_uri=https://yourdomain.com/callback_landing_page';
+    window.location.href = 'https://api.att.com/oauth/v4/authorize?client_id=' + 
+    myDHS.app_key + '&scope=WEBRTCMOBILE&redirect_uri=' + window.location.href;
 }
 
 function createAccessToken() { // ACCOUNT_ID, VIRTUAL_NUMBER, MOBILE_NUMBER, and E911 required
-    ATT.rtc.dhs.createAccessToken({
-        app_scope:  scope, 
-        auth_code:  consent_code // MOBILE_NUMBER required
-        success:    sucess,
-        error:      error
+    $.ajax({    
+        type: "POST",
+        url: myDHS.app_token_url,
+        data: {app_scope: tokenScope, auth_code: authCodeResult.value},
+        success: function(data) {
+            accessToken = JSON.parse(data);
+            associateAccessToken();
+        },
+        error: function (data) {
+            console.log(data)
+        }
     });
 }
- 
-function createE911Id() {  // VIRTUAL_NUMBER and MOBILE_NUMBER required
-    ATT.rtc.dhs.createE911Id({
-        token:      token,
-        address: {
+  
+function createE911Id () { // VIRTUAL_NUMBER and MOBILE_NUMBER required
+    $.ajax({
+        type: "POST",
+        url: myDHS.app_e911id_url,
+        data: {
+            token: accessToken.access_token, 
+            address: {
                     first_name: 'John',
                     last_name: 'Doe',
                     house_number: '16221',
@@ -305,19 +346,26 @@ function createE911Id() {  // VIRTUAL_NUMBER and MOBILE_NUMBER required
                     state: 'WA',
                     zip: '98052',
                     is_confirmed: 'true'
+            }
         },
-        success:    success,
-        error:      error
+        success:    function (e911Data) {
+                    e911Id = e911Data.e911Locations.addressIdentifier;
+                    },
+        error: function (data) {
+            console.log(data)
+        }
     });
 }
 
-function associateAccessToken() { // ACCOUNT_ID and VIRTUAL_NUMBER required
-    ATT.rtc.associateAccessToken({
-        userId:     userID, // Example: alice or vtn:1234567890
-        token:      token
-        success:    success,
-        error:      error
-    });
+function associateAccessToken() {
+    phone.associateAccessToken({
+        userId: loginInput.value,
+        token: accessToken.access_token,
+        success: function () {
+            login();
+        },
+        error: onError
+    }); 
 }
 
 function login() { // ACCOUNT_ID, VIRTUAL_NUMBER, and MOBILE_NUMBER required

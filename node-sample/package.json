@@ -25,8 +25,8 @@
 	"engines": {
 		"node": "0.11.*"
 	},
-	"http_port": 80,
-	"https_port": 443,
+	"http_port": 9000,
+	"https_port": 9001,
 	"cert_file": "sample.cert",
 	"key_file": "sample.key",
 	"logs_dir": "logs",
@@ -39,46 +39,37 @@
 		"localhost:9001",
 		"127.0.0.1:9001"
 	],
-	"default_api_env": "prod",
+	"default_api_env": "sandbox",
 	"sandbox": {
-		"api_endpoint": "https://api.att.com",
-		"ewebrtc_uri": "/RTC/v1",
-		"app_key": "YourAppKey",
-		"app_secret": "YourAppSecret",
+		"app_key": "<your-app-key>",
+		"app_secret": "<your-app-secret>",
 		"oauth_callback": "https://127.0.0.1:9001/oauth/callback",
-		"app_token_url": "https://localhost:9001/tokens",
-		"app_e911id_url": "https://localhost:9001/e911ids",
+		"app_token_url": "https://127.0.0.1:9001/tokens",
+		"app_e911id_url": "https://127.0.0.1:9001/e911ids",
 		"virtual_numbers_pool": [
 			"number1",
 			"number2",
 			"number3"
 		],
-		"ewebrtc_domain": "your.ewebrtc_domain.com"
+		"ewebrtc_domain": "<your-ewebrtc-domain>"
 	},
 	"prod": {
-		"api_endpoint": "https://api.att.com",
-		"ewebrtc_uri": "/RTC/v1",
-		"app_key": "YourAppKey",
-		"app_secret": "YourAppSecret",
+		"app_key": "<your-app-key>",
+		"app_secret": "<your-app-secret>",
 		"oauth_callback": "https://127.0.0.1:9001/oauth/callback",
 		"virtual_numbers_pool": [
 			"number1",
 			"number2",
 			"number3"
 		],
-		"ewebrtc_domain": "your.ewebrtc_domain.com"
+		"ewebrtc_domain": "<your-ewebrtc-domain>"
 	},
 	"dependencies": {
-		"att-dhs": "^1.0.0",
+		"att-dhs": "stable",
 		"body-parser": "~1.0.0",
 		"express": "~4.2.0",
 		"hjs": "~0.0.6",
 		"restify": "^2.8.5",
 		"static-favicon": "~1.0.0"
-	},
-	"devDependencies": {
-		"grunt": "^0.4.5",
-		"grunt-docco": "^0.3.3",
-		"grunt-jslint": "^1.1.12"
 	}
 }
