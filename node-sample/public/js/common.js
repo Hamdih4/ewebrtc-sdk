@@ -49,15 +49,21 @@ if (!bWebRTCSupportExists) {
 //    }
 //  }
 //
-//  ajaxRequest({
-//    url: '/config',
-//    success: function (data) {
-//      var config = data.getJson(),
-//        virtualNumbers = config.virtual_number_pools;
+//  var xhrConfig = new XMLHttpRequest();
+//  xhrConfig.open('GET', '/config');
+//  xhrConfig.onreadystatechange = function() {  
+//    if (xhrConfig.readyState == 4) {
+//        if (xhrConfig.status == 200) {
+//            var config = JSON.parse(xhrConfig.responseText);
+//            virtualNumbers = config.virtual_numbers_pool;
+//            setDropdownData(virtualNumbers)
+//        } else {
+//            console.log(xhrConfig.responseText);
+//        }
+//     }
+//  }
+//  xhrConfig.send();
 //
-//      setDropdownData(virtualNumbers);
-//    }
-//  });
 // </pre>
 //
 // **Example 2:** Getting domain name for **account id** users
@@ -74,15 +80,21 @@ if (!bWebRTCSupportExists) {
 //                              "@" + accountIdDomain;
 //  }
 //
-//  ajaxRequest({
-//    url: '/config',
-//    success: function (data) {
-//      var config = data.getJson(),
-//        ewebrtc_domain = config.ewebrtc_domain;
-//
-//      displayAccountId(ewebrtc_domain);
+//  var xhrConfig = new XMLHttpRequest();
+//  xhrConfig.open('GET', '/config');
+//  xhrConfig.onreadystatechange = function() {  
+//    if (xhrConfig.readyState == 4) {
+//      if (xhrConfig.status == 200) {
+//         var config = JSON.parse(xhrConfig.responseText);
+//         ewebrtc_domain = config.ewebrtc_domain;
+//         displayAccountId(ewebrtc_domain);
+//      } else {
+//         console.log(xhrConfig.responseText);
+//      }
 //    }
-//  });
+//  }
+//  xhrConfig.send();
+//
 // </pre>
 //
 // #### Creating Access Token
@@ -98,16 +110,23 @@ if (!bWebRTCSupportExists) {
 //    // do something ...
 //  }
 //
-//  ajaxRequest({
-//    url: '/tokens',
-//    method: 'POST',
-//    data: {
-//      app_scope: "MOBILE_NUMBER",
-//      auth_code: "authorization_code"
-//    },
-//    success: success,
-//    error: error
-//  });
+//  var xhrToken = new XMLHttpRequest();
+//  xhrToken.open('POST', '/tokens');
+//  xhrToken.setRequestHeader("Content-Type", "application/json");
+//  xhrToken.onreadystatechange = function() {
+//    if (xhrToken.readyState == 4) {
+//      if (xhrToken.status == 200) {
+//        success(JSON.parse(xhrToken.responseText));
+//      } else {
+//        error(xhrToken.responseText);
+//      }
+//    }
+//  }
+//  xhrToken.send(JSON.stringify({
+//    app_scope: "MOBILE_NUMBER",
+//    auth_code: "authorization_code"
+//  }));
+//
 // </pre>
 //
 // **Example 2:** Create access token as a **virtual number** user
@@ -121,15 +140,22 @@ if (!bWebRTCSupportExists) {
 //    // do something ...
 //  }
 //
-//  ajaxRequest({
-//    url: '/tokens',
-//    method: 'POST',
-//    data: {
-//      app_scope: "VIRTUAL_NUMBER"
-//    },
-//    success: success,
-//    error: error
-//  });
+//  var xhrToken = new XMLHttpRequest();
+//  xhrToken.open('POST', '/tokens');
+//  xhrToken.setRequestHeader("Content-Type", "application/json");
+//  xhrToken.onreadystatechange = function() {
+//    if (xhrToken.readyState == 4) {
+//      if (xhrToken.status == 200) {
+//        success(JSON.parse(xhrToken.responseText));
+//      } else {
+//        error(xhrToken.responseText);
+//      }
+//    }
+//  }
+//  xhrToken.send(JSON.stringify({
+//    app_scope: "VIRTUAL_NUMBER"
+//  }));
+//
 // </pre>
 //
 // **Example 3:** Create access token as an **account id** user
@@ -143,15 +169,22 @@ if (!bWebRTCSupportExists) {
 //    // do something ...
 //  }
 //
-//  ajaxRequest({
-//    url: '/tokens',
-//    method: 'POST',
-//    data: {
-//      app_scope: "ACCOUNT_ID"
-//    },
-//    success: success,
-//    error: error
-//  });
+//  var xhrToken = new XMLHttpRequest();
+//  xhrToken.open('POST', '/tokens');
+//  xhrToken.setRequestHeader("Content-Type", "application/json");
+//  xhrToken.onreadystatechange = function() {
+//    if (xhrToken.readyState == 4) {
+//      if (xhrToken.status == 200) {
+//        success(JSON.parse(xhrToken.responseText));
+//      } else {
+//        error(xhrToken.responseText);
+//      }
+//    }
+//  }
+//  xhrToken.send(JSON.stringify({
+//    app_scope: "ACCOUNT_ID"
+//  }));
+//
 // </pre>
 //
 // #### Creating e911 id
@@ -169,17 +202,24 @@ if (!bWebRTCSupportExists) {
 //    // do something ...
 //  }
 //
-//  ajaxRequest({
-//    url: '/e911ids',
-//    method: 'POST',
-//    data: {
-//      token: accessToken,
-//      address: address,
-//      is_confirmed: false
-//    },
-//    success: success,
-//    error: error
-//  });
+//  var xhrE911 = new XMLHttpRequest();
+//  xhrE911.open('POST', '/e911ids');
+//  xhrE911.setRequestHeader("Content-Type", "application/json");
+//  xhrE911.onreadystatechange = function() {
+//    if (xhrE911.readyState == 4) {
+//      if (xhrE911.status == 200) {
+//        success(JSON.parse(xhrE911.responseText));
+//      } else {
+//        error(xhrE911.responseText);
+//      }
+//    }
+//  }
+//  xhrE911.send(JSON.stringify({
+//    token: accessToken,
+//    address: address, 
+//    is_confirmed: false
+//  }));
+//
 // </pre>
 //
 // ## The Phone Object

@@ -41,17 +41,30 @@
 	],
 	"default_api_env": "sandbox",
 	"sandbox": {
-		"app_key": "<your-app-key>",
-		"app_secret": "<your-app-secret>",
-		"oauth_callback": "https://127.0.0.1:9001/oauth/callback",
-		"app_token_url": "https://127.0.0.1:9001/tokens",
-		"app_e911id_url": "https://127.0.0.1:9001/e911ids",
-		"virtual_numbers_pool": [
-			"number1",
-			"number2",
-			"number3"
-		],
-		"ewebrtc_domain": "<your-ewebrtc-domain>"
+	"api_endpoint": "https://api.att.com",
+	"ewebrtc_uri": "/RTC/v1",
+	"app_key": "ze8uq6rcwyuiwhcous5nz8zdtrvreryw",
+	"app_secret": "2xumwynyykrdkg9z1ghicmp6lpwuiacy",
+	"oauth_callback": "https://127.0.0.1:9001/oauth/callback",
+	"app_token_url": "https://127.0.0.1:9001/tokens",
+	"app_e911id_url": "https://127.0.0.1:9001/e911ids",
+	"virtual_numbers_pool": [
+	  "12154471368",
+	  "18323195275",
+	  "18323195276",
+	  "18323195277",
+	  "18323195278",
+	  "18323195279",
+	  "18323195280",
+	  "18323195281",
+	  "18323195282",
+	  "18323195283",
+	  "18323195284",
+	  "14255198960",
+	  "14255198961",
+	  "14255198962"
+	],
+	"ewebrtc_domain": "ewebrtc-sdk-developer.com"
 	},
 	"prod": {
 		"app_key": "<your-app-key>",

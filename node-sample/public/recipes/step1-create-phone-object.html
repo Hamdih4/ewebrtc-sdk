@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<header>Step 1. Initialize DHS &amp; Create Phone Object
+<header>Step 1. Get DHS Configuration &amp; Create Phone Object
 &nbsp;&nbsp; <a href="step2-login-logout.html">Next Step</a>
 &nbsp;&nbsp; <a href="index.html">Home</a>
 </header>
@@ -21,28 +21,27 @@
 <!-- JavaScript will go here -->  
 
 <!-- Step 1b: Configure Phone Objects and Register Events-->
-<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="/js/ewebrtc-sdk.min.js"></script>   
+
+<script type ="text/javascript" src="/js/ewebrtc-sdk.min.js"></script>   
 <script type="text/javascript">
  
-var phone, myDHS, myDHSConfigURL = 'https://127.0.0.1:9001/config';
+var phone, myDHS, myDHSURL = 'https://127.0.0.1:9001';
     
 //Get DHS Configuration Information
-    $.ajax({    
-        type: "GET",
-        url: myDHSConfigURL,
-        success: function(data) {
-            if (typeof data === "string") {
-                data = JSON.parse(data);
-            }
-            myDHS = data;
-            console.log(myDHS);
-        },
-        error: function (data) {
-            console.log(data)
+var xhrConfig = new XMLHttpRequest();
+xhrConfig.open('GET', myDHSURL + "/config");
+xhrConfig.onreadystatechange = function() {
+    if (xhrConfig.readyState == 4) {
+        if (xhrConfig.status == 200) {
+            console.log(xhrConfig.responseText);
+            myDHS = JSON.parse(xhrConfig.responseText);
+        } else {
+            console.log(xhrConfig.responseText);
         }
-    });
-
+    }
+}
+xhrConfig.send();  
+    
 function createPhoneObject() {
     phone = ATT.rtc.Phone.getPhone();
     registerEvents();
@@ -64,25 +63,24 @@ function registerEvents() {
 <p><span><div style="background-color:#EEEEEE; font:12px; padding-left:5px; width:500px">        
 <pre>
 
-//Step 1. Create Phone Object
+//Step 1. Get DHS Configuration &amp; Create Phone Object
 
-var phone, myDHS, myDHSConfigURL = 'DHS_Configure_URL';
+var phone, myDHS, myDHSURL = 'your_dhs_url';
 
 //Get DHS Configuration Information
-    $.ajax({    
-        type: "GET",
-        url: myDHSConfigURL,
-        success: function(data) {
-            if (typeof data === "string") {
-                data = JSON.parse(data);
-            }
-            myDHS = data;
-            console.log(myDHS);
-        },
-        error: function (data) {
-            console.log(data)
+var xhrConfig = new XMLHttpRequest();
+xhrConfig.open('GET', myDHSURL + "/config");
+xhrConfig.onreadystatechange = function() {
+    if (xhrConfig.readyState == 4) {
+        if (xhrConfig.status == 200) {
+            console.log(xhrConfig.responseText);
+            myDHS = JSON.parse(xhrConfig.responseText);
+        } else {
+            console.log(xhrConfig.responseText);
         }
-    });
+    }
+}
+xhrConfig.send();  
 
 function createPhoneObject() {
     phone = ATT.rtc.Phone.getPhone();

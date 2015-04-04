@@ -18,49 +18,38 @@ The following features and functionality are available in the current SDK releas
 *	**Basic audio and video call management** – make, receive, answer, end, mute, unmute, hold, resume, cancel, and reject calls.
 *	**Basic audio and video conferencing** – create a conference, add and remove participants, hold, resume, mute, unmute and end conference.
   *	Supports dialing out to add participants.
-*	**Advanced call management** – move, transfer, add a second call, switch between two calls.
+*	**Advanced call management** – move, add a second call, switch between two calls.
   *	Audio and video calls can be moved Web-to-Web
-  *	Audio calls can be moved from the Web to an AT&T mobile phone
+  *	Calls can be moved from the Web to an AT&T mobile phone
 
+### Firefox
 
-### Firefox v33
-
-*	**Basic audio and video call management** – make, receive, answer, end, mute, unmute, hold, resume, cancel, and reject calls.
-*	**Basic audio and video conferencing** – create a conference, add and remove participants, hold, resume, mute, unmute and end conference.
-  *	Supports dialing out to add participants.
-*	**Advanced call management** – move call
-    *	Audio and video calls can be moved Web-to-Web
-    *	Audio calls can be moved from the Web to an AT&T mobile phone  
+  *	**No SDK features are tested with Firefox**
 
 ### Upcoming features
 
 The following features will be added soon:
 
-*	Move a Web video call to an audio call on an AT&T mobile phone
-*	DTMF (dialing) tones
-*	Upgrade or downgrade between audio and video
 *	Firefox browser support
+*	Upgrade or downgrade between audio and video
+*	DTMF (dialing) tones
 
-# v1.0.0-rc.14
 
-March 22, 2015
+# v1.0.0-rc.15
 
-* **New:** DHS functions are now available as public node module named  as`att-dhs`. You can use this like regular node modules.
-* **Removed:**
- * Stand-alone node-dhs is removed. DHS functions are now available it `att-dhs` public node module. You can user these DHS functions in your own NodeJS App. An illustrative example is provided in node-sample.
- * ATT.rtc.dhs namespace is deleted, instead use migration guide for code snippets to invoke sample app DHS routes.
- * ATT.rtc.configure method is no longer needed.
-* **Removed:**
- * DHS routes are now in node-sample.
- * `restify-dhs` is optional, use this only if you want a stand-alone node-dhs.
-* **Fix:** `phone.logout` method will always return after cleaning session and call resources if any.
+April 3, 2015
+
+* **Fix:** Users are not able to login again using the same Access Token.
+* **Fix:** SDK can dial second call by putting the previous call automatically on hold.
+* **Fix:** Video stream dropped when call is put on hold for 15 min or moand resumed.
 
 ## Known Issues
-* Transfer to a provisioned Phone fails when in a video call with Non-Provisioned phone. 
-* Transfer to a non-provsioned PSTN target fails while in video Call. 
-* When any user started a conference and invites a PSTN user and the user rejects the invitation. I dont get 
+* Transfer features not supported in this release
+* `call:held` event is not being published when making second call.
+* Media stream may not function correctly unless IPv6 is disabled. 
+* When any user started a conference and invites a PSTN user and the user rejects the invitation. I dont get
 invitation rejected event. 
-* While using Chrome , adding Mobile Device as a participant to a conference hosted by Mobile Number 
+* While using Chrome , adding Mobile Device as a participant to a conference hosted by Mobile Number
   results in one way audio with the notification `Media conference forbidden for this recipient`. 
 * When in a call between a Mobile Number user using Firefox and a PSTN user if the Mobile Number user tries to move the
   call to it's Mobile phone, then he might see the following error:
@@ -81,18 +70,13 @@ invitation rejected event.
     The call is established but the users cannot hear each other.
 * Canceling to give consent to a Mobile Number results in redirecting the user to an access denied error page. 
 * Resuming a video conference from the participant side results in no video on both host and participant sides. 
-* Transferring a call between Mobile Number and Account ID to a Virtual Number, the Virtual Number user will not get the
-  video of the Account ID. 
-* Transfer doesn't work if the transferer switched to the first call before transferring the call. 
 * A background call will auto resume if the user moves his call to another device. 
 * Switching to the background call on Chrome Windows results in no media in the call. 
-* Transferring a call fails with HTTP error code `409` when an Account ID user transfers to a Mobile Device. 
 * Adding (non-provisioned) Mobile Device as a participant to a conference results in one way audio with the notification
   `Media conference forbidden for this recipient`. 
 * Adding Account ID participant to a conference when the host is Virtual Number fails with message: `User Not Found`. 
 * List of participants is not cleared when ending a conference. 
 * `call:move-terminated` event is not fired when successfully completing `phone.move`.
-* After successfully adding a Mobile Device to a Conference it will be disconnected after ~24s.
 * Adding multiple participants at once using `Phone.addParticipants` method fails with error:
   `SVC8501:MediaConference ongoing update participant operation.,Variables=`. Use `Phone.addParticipants`
   with a single participant ID (Mobile Number, Account ID, Virtual Number) and wait for that participant to
@@ -113,13 +97,25 @@ invitation rejected event.
 ## Tested Environments
 
 * Chrome Version 41.0 for OSX v10.8.5 and Windows 8
-* Firefox Version 33.1 for OSX v10.8.5 and Windows 8
 
 **_The SDK may also work for other Operating Systems, other Browsers but is not tested or supported._**
 
 
 # Changelog
 
+# v1.0.0-rc.14
+
+March 22, 2015
+
+* **New:** DHS functions are now available as public node module named  as`att-dhs`. You can use this like regular node modules.
+* **Removed:**
+ * Stand-alone node-dhs is removed. DHS functions are now available it `att-dhs` public node module. You can user these DHS functions in your own NodeJS App. An illustrative example is provided in node-sample.
+ * ATT.rtc.dhs namespace is deleted, instead use migration guide for code snippets to invoke sample app DHS routes.
+ * ATT.rtc.configure method is no longer needed.
+* **Removed:**
+ * DHS routes are now in node-sample.
+ * `restify-dhs` is optional, use this only if you want a stand-alone node-dhs.
+* **Fix:** `phone.logout` method will always return after cleaning session and call resources if any.
 
 # v1.0.0-rc.13
 

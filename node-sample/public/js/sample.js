@@ -35,7 +35,10 @@ function createE911AddressId(event, form) {
     getE911Id(address.base,
       address.is_confirmed,
       function (response) {
-        loginEnhancedWebRTC(sessionData.access_token, response.getJson());
+        if (typeof response === 'string') {
+            response = JSON.parse(response);
+        }
+        loginEnhancedWebRTC(sessionData.access_token, response);
       },
       onError);
 

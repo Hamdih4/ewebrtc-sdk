@@ -285,8 +285,14 @@ function getE911Id(address, is_confirmed, success, error) {
     null,
     function (response) {
       try {
-        var data = response.getJson();
-
+        //TODO remove this after fixinf the DHS
+        if (typeof response === 'string') {
+          response = JSON.parse(response);
+          if (typeof response === 'string') {
+            response = JSON.parse(response);
+          }
+        }
+        var data = response;
         createE911Id(data.access_token, address, is_confirmed, success, error);
       } catch (error) {
         onError(error);
@@ -318,8 +324,14 @@ function login(userType, authCode, userName) {
   createAccessToken(userType,
     authCode,
     function (response) {
-      var data = response.getJson();
-
+      //TODO remove this after fixinf the DHS
+      if (typeof response === 'string') {
+        response = JSON.parse(response);
+        if (typeof response === 'string') {
+          response = JSON.parse(response);
+        }
+      }
+      var data = response;
       data.user_type = userType;
 
       if (userType !== 'MOBILE_NUMBER') { // VIRTUAL_NUMBER and ACCOUNT_ID
