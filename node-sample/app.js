@@ -88,7 +88,6 @@
     privateKey,
     certificate,
     api_env,
-    api_endpoint,
     app_key,
     app_secret,
     oauth_callback,
@@ -136,17 +135,15 @@
   env_config = pkg[api_env];
   env_config.api_env = api_env;
 
-  api_endpoint = env_config.api_endpoint;
   app_key = env_config.app_key;
   app_secret = env_config.app_secret;
   oauth_callback = env_config.oauth_callback;
   virtual_numbers_pool = env_config.virtual_numbers_pool;
   ewebrtc_domain = env_config.ewebrtc_domain;
 
-  if (!api_endpoint || !app_key || !app_secret) {
+  if (!app_key || !app_secret) {
     console.error('Insufficient App Configuration');
-    console.error('Entries api_endpoint, app_key, app_secret are mandatory');
-    console.error('Check package.json for entries under ', api_env, ' section');
+    console.error('Entries app_key, app_secret are mandatory');
     console.error('Exiting...');
     process.exit(1);
   }
@@ -154,14 +151,11 @@
   if ('YourAppKey' === app_key || 'YourAppSecret' === app_secret) {
     console.error('Invalid app_key or app_secret');
     console.error('Entries app_key or app_secret are not set');
-    console.error('Check package.json for entries under ', api_env, ' section');
     console.error('Exiting...');
     process.exit(1);
   }
 
   console.info('#####################################################');
-  console.info('Using API Environment: ', api_env);
-  console.info('      Its Endpoint is: ', api_endpoint);
   console.info('        Using App Key: ', app_key);
   console.info('     Using App Secret: ', app_secret);
   console.info('#####################################################');
@@ -178,13 +172,6 @@
     console.info(virtual_numbers_pool);
   } else {
     console.info('Virtual numbers pool is NOT configured. You can not user virtual numbers');
-  }
-  console.info('#####################################################');
-
-  if (ewebrtc_domain) {
-    console.info('Using Enhanced WebRTC Domain: ', ewebrtc_domain);
-  } else {
-    console.info('Enhanced WebRTC domain is NOT configured. You cannot use account ids');
   }
   console.info('#####################################################');
 

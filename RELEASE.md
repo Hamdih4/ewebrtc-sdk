@@ -41,7 +41,7 @@ April 3, 2015
 
 * **Fix:** Users are not able to login again using the same Access Token.
 * **Fix:** SDK can dial second call by putting the previous call automatically on hold.
-* **Fix:** Video stream dropped when call is put on hold for 15 min or moand resumed.
+* **Fix:** Video stream dropped when video call is on hold for 15 minutes or more, and the call is resumed.
 
 ## Known Issues
 * Transfer features not supported in this release

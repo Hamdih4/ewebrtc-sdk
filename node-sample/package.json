@@ -57,6 +57,8 @@
 		"app_key": "<your-app-key>",
 		"app_secret": "<your-app-secret>",
 		"oauth_callback": "https://127.0.0.1:9001/oauth/callback",
+		"app_token_url": "https://127.0.0.1:9001/tokens",
+		"app_e911id_url": "https://127.0.0.1:9001/e911ids",
 		"virtual_numbers_pool": [
 			"number1",
 			"number2",
