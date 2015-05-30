@@ -54,6 +54,10 @@
 					<ul class="dropdown-menu ">
 						
 						<li>
+							<a href="ATT.logManager.Logger.html">ATT.logManager.Logger</a>
+						</li>
+						
+						<li>
 							<a href="Phone.html">Phone</a>
 						</li>
 						
@@ -96,6 +100,14 @@
 						</li>
 						
 						<li>
+							<a href="Phone.html#event:call:media-modification">Phone#call:media-modification</a>
+						</li>
+						
+						<li>
+							<a href="Phone.html#event:call:modification-in-progress">Phone#call:modification-in-progress</a>
+						</li>
+						
+						<li>
 							<a href="Phone.html#event:call:moved">Phone#call:moved</a>
 						</li>
 						
@@ -113,6 +125,10 @@
 						
 						<li>
 							<a href="Phone.html#event:call:ringback-provided">Phone#call:ringback-provided</a>
+						</li>
+						
+						<li>
+							<a href="Phone.html#event:call:state-changed">Phone#call:state-changed</a>
 						</li>
 						
 						<li>
@@ -299,6 +315,9 @@
         <h3 class="subsection-title">Classes</h3>
 
         <dl>
+            <dt><a href="ATT.logManager.Logger.html">Logger</a></dt>
+            <dd></dd>
+        
             <dt><a href="Phone.html">Phone</a></dt>
             <dd>Creates a new instance of the private class Phone.</dd>
         </dl>
@@ -2339,6 +2358,586 @@ The event is fired with an attached event data of the following format:</p>
         
             
 <dt>
+    <h4 class="name" id="event:call:media-modification">call:media-modification</h4>
+    
+    
+    <p class="summary">Call media-modification event gets triggered when user needs to perform an action for the incoming
+Media-modification</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>The user is in a call and gets a media modification request. <br>
+The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the called party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="event:call:modification-in-progress">call:modification-in-progress</h4>
+    
+    
+    <p class="summary">Modification-in-progress event gets fired when downgrade request was successful.</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>There should be an ongoing call where the user has initiated a downgrade request.<br>
+This event is fired in response to a successful call to <code>downgrade</code> or <code>acceptModification</code> method.<br>
+The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the called party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="event:call:moved">call:moved</h4>
     
     
@@ -3583,6 +4182,329 @@ The event is fired with an attached event data of the following format:</p>
             
             </td>
 
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="event:call:state-changed">call:state-changed</h4>
+    
+    
+    <p class="summary">State Changed event fires when an media modification request was successfully accepted.</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an existing call in progress in order to be able to receive this event.<br>
+The user should have initiated and accepted media modification request.<br>
+The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the called party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>state</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The current state after media modification.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
             
 
             
@@ -10368,7 +11290,7 @@ The event is fired with an attached event data of the following format:</p>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a>
-		on 2015-04-06T19:55:48-07:00 using the <a
+		on 2015-05-29T20:20:46-07:00 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>

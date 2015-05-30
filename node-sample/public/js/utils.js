@@ -468,6 +468,8 @@ function resetUI() {
     document.getElementById('btn-switch').disabled = true;
     document.getElementById('btn-mute').disabled = true;
     document.getElementById('btn-unmute').disabled = true;
+    document.getElementById('btn-upgrade').disabled = true;
+    document.getElementById('btn-downgrade').disabled = true;
     document.getElementById('btn-hangup').disabled = true;
     document.getElementById('participant').disabled = true;
     document.getElementById('btn-add-participant').disabled = true;
@@ -480,6 +482,13 @@ function enableUI() {
   document.getElementById('btn-hold').disabled = false;
   document.getElementById('btn-resume').disabled = false;
   document.getElementById('btn-move').disabled = false;
+  if ('audio' === phone.getMediaType()) {
+    document.getElementById('btn-upgrade').disabled = false;
+    document.getElementById('btn-downgrade').disabled = true;
+  } else {
+    document.getElementById('btn-upgrade').disabled = true;
+    document.getElementById('btn-downgrade').disabled = false;
+  }
   document.getElementById('btn-mute').disabled = false;
   document.getElementById('btn-unmute').disabled = false;
   document.getElementById('btn-hangup').disabled = false;
@@ -552,11 +561,7 @@ function onIncomingCall(data) {
 
   callerInfo = getCallerInfo(data.from);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    from = callerInfo.callerId;
-  } else {
-    from = phone.formatNumber(callerInfo.callerId);
-  }
+  from = callerInfo.callerId;
 
   if (phone.isCallInProgress()) {
 
@@ -590,11 +595,7 @@ function onConferenceInvite(data) {
 
   callerInfo = getCallerInfo(data.from);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    from = callerInfo.callerId;
-  } else {
-    from = phone.formatNumber(callerInfo.callerId);
-  }
+  from = callerInfo.callerId;
 
   answerBtn = '<button type="button" id="answer-button" class="btn btn-success btn-sm" onclick="join()">'
     + '<span class="glyphicon glyphicon-thumbs-up"></span></button>';
@@ -615,11 +616,7 @@ function onDialing(data) {
 
   callerInfo = getCallerInfo(data.to);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    to = callerInfo.callerId;
-  } else {
-    to = phone.formatNumber(callerInfo.callerId);
-  }
+  to = callerInfo.callerId;
 
   cancelBtn = '<button type="button" id="cancel-button" '
     + 'class="btn btn-danger btn-sm" onclick="cancel()">'
@@ -659,11 +656,7 @@ function onConnecting(data) {
 
   callerInfo = getCallerInfo(peer);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    peer = callerInfo.callerId;
-  } else {
-    peer = phone.formatNumber(callerInfo.callerId);
-  }
+  peer = callerInfo.callerId;
 
   if (undefined !== data.to) {
     cancelBtn = '<button type="button" id="cancel-button" '
@@ -691,11 +684,7 @@ function onCallConnected(data) {
 
   callerInfo = getCallerInfo(peer);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    peer = callerInfo.callerId;
-  } else {
-    peer = phone.formatNumber(callerInfo.callerId);
-  }
+  peer = callerInfo.callerId;
 
   setMessage('<h6>Connected to call ' + (data.from ? 'from ' : 'to ') + peer +
     (data.mediaType ? ". Media type: " + data.mediaType : '') +
@@ -713,6 +702,15 @@ function onCallConnected(data) {
   document.getElementById('btn-unmute').disabled = false;
   document.getElementById('btn-resume').disabled = false;
   document.getElementById('btn-move').disabled = false;
+
+  if ('audio' === phone.getMediaType()) {
+    document.getElementById('btn-upgrade').disabled = false;
+    document.getElementById('btn-downgrade').disabled = true;
+  } else {
+    document.getElementById('btn-upgrade').disabled = true;
+    document.getElementById('btn-downgrade').disabled = false;
+  }
+
 }
 
 function onCallSwitched(data) {
@@ -742,6 +740,15 @@ function onMediaEstablished() {
   document.getElementById('btn-unmute').disabled = false;
   document.getElementById('btn-resume').disabled = false;
   document.getElementById('btn-move').disabled = false;
+
+  if ('audio' === phone.getMediaType()) {
+    document.getElementById('btn-upgrade').disabled = false;
+    document.getElementById('btn-downgrade').disabled = true;
+  } else {
+    document.getElementById('btn-upgrade').disabled = true;
+    document.getElementById('btn-downgrade').disabled = false;
+  }
+
 }
 
 function onAnswering(data) {
@@ -750,11 +757,7 @@ function onAnswering(data) {
 
   callerInfo = getCallerInfo(data.from);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    from = callerInfo.callerId;
-  } else {
-    from = phone.formatNumber(callerInfo.callerId);
-  }
+  from = callerInfo.callerId;
 
   setMessage('<h6>Answering: ' + from +
     (data.mediaType ? ". Media type: " + data.mediaType : '') +
@@ -769,11 +772,7 @@ function onJoiningConference(data) {
 
   callerInfo = getCallerInfo(data.from);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    from = callerInfo.callerId;
-  } else {
-    from = phone.formatNumber(callerInfo.callerId);
-  }
+  from = callerInfo.callerId;
 
   setMessage('<h6>Joining conference initiated by: ' + from +
     (data.mediaType ? ". Media type: " + data.mediaType : '') +
@@ -839,6 +838,15 @@ function onTransferred(data) {
   setMessage('Call Transfer Successfully. Time: ' + data.timestamp);
 }
 
+function onMediaModification(data) {
+  setMessage('Call Modificaton in progress to ' + data.mediaType + '. Time: ' + data.timestamp);
+
+}
+
+function onStateChanged(data) {
+  setMessage('Call Modification Successful . State :' + data.state + '. Time: ' + data.timestamp);
+}
+
 function onCallDisconnected(data) {
   var peer,
     callerInfo,
@@ -854,11 +862,7 @@ function onCallDisconnected(data) {
 
   callerInfo = getCallerInfo(peer);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    peer = callerInfo.callerId;
-  } else {
-    peer = phone.formatNumber(callerInfo.callerId);
-  }
+  peer = callerInfo.callerId;
 
   setMessage('Call ' + (data.from ? ('from ' + peer) : ('to '  + peer)) + ' disconnected' +
     (data.message ? '. ' + data.message : '') + '. Time: ' + data.timestamp);
@@ -892,11 +896,7 @@ function onCallCanceled(data) {
 
   callerInfo = getCallerInfo(peer);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    peer = callerInfo.callerId;
-  } else {
-    peer = phone.formatNumber(callerInfo.callerId);
-  }
+  peer = callerInfo.callerId;
 
   setMessage('Call ' + (data.from ? ('from ' + peer) : ('to '  + peer)) + ' canceled.' + ' Time: ' + data.timestamp);
   resetUI();
@@ -919,59 +919,25 @@ function onCallRejected(data) {
 
   callerInfo = getCallerInfo(peer);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    peer = callerInfo.callerId;
-  } else {
-    peer = phone.formatNumber(callerInfo.callerId);
-  }
+  peer = callerInfo.callerId;
 
   setMessage('Call ' + (data.from ? ('from ' + peer) : ('to '  + peer)) + ' rejected.' + ' Time: ' + data.timestamp);
   document.getElementById('ringtone').pause();
   document.getElementById('calling-tone').pause();
 }
 
+function onCallModification(data) {
+  var acceptModButton, rejectModButton;
+  if (phone.isCallInProgress()) {
+
+    acceptModButton = '<button type="button" id="accept-mod-button" class="btn btn-success btn-sm" onclick="acceptModification()">'
+      + '<span class="glyphicon glyphicon-ok"></span></button>';
+    setMessage('<h6>Call is being  modified from ' + phone.getMediaType() + ' To ' + data.mediaType + '. Time: ' + data.timestamp + ' </h6>' + acceptModButton, 'call:incoming');
+
+  }
+}
+
 function onAddressUpdated() {
   document.getElementById("address-box").style.display = 'none';
   setMessage('Updated E911 address successfully');
 }
-
-// Checks if the passed email address is valid
-function isValidEmail(input) {
-  var atPos = input.indexOf('@'),
-    dotPos = input.lastIndexOf('.');
-  if (atPos < 1 || dotPos < atPos + 2 || dotPos + 2 >= input.length) {
-    return false;
-  }
-  return true;
-}
-
-//Can get a formatted phone number from the public API
-function cleanupCallee(callee) {
-
-  if (isValidEmail(callee)) {
-    return callee;
-  }
-
-  return phone.cleanPhoneNumber(callee);
-}
-
-function cleanupNumber() {
-  var callee = document.forms.callForm.callee.value,
-    cleanNumber;
-
-  if (isValidEmail(callee)) {
-    setMessage(callee + ' is a valid e-mail address');
-    return;
-  }
-
-  cleanNumber = cleanupCallee(callee);
-
-  //for invalid number  it will go inside the If loop
-  if (!cleanNumber) {
-    setError("The number " + callee + " cannot be recognised ");
-    return;
-  }
-
-  setMessage(phone.formatNumber(cleanNumber));
-}
-

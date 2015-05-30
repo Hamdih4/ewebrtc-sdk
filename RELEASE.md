@@ -13,7 +13,7 @@ This SDK includes the following components:
 The following features and functionality are available in the current SDK release for all three supported calling types
  (AT&T Mobile Number, Virtual Number, and Account ID):
 
-### Chrome v41
+### Chrome v43
 
 *	**Basic audio and video call management** – make, receive, answer, end, mute, unmute, hold, resume, cancel, and reject calls.
 *	**Basic audio and video conferencing** – create a conference, add and remove participants, hold, resume, mute, unmute and end conference.
@@ -34,24 +34,38 @@ The following features will be added soon:
 *	Upgrade or downgrade between audio and video
 *	DTMF (dialing) tones
 
+# v1.0.0-rc.19
 
-# v1.0.0-rc.15
+May 29, 2015
 
-April 3, 2015
-
-* **Fix:** Users are not able to login again using the same Access Token.
-* **Fix:** SDK can dial second call by putting the previous call automatically on hold.
-* **Fix:** Video stream dropped when video call is on hold for 15 minutes or more, and the call is resumed.
+* **Fix**: The returned object of `getCallerInfo()` is improperly formatted for Account ID users.
+* **Fix**: Sample app shows username encoded as a number for Account Id users.
+* **Fix**: Intermittent `ice-ufrag` error when answering call.
 
 ## Known Issues
-* Transfer features not supported in this release
-* `call:held` event is not being published when making second call.
-* Media stream may not function correctly unless IPv6 is disabled. 
-* When any user started a conference and invites a PSTN user and the user rejects the invitation. I dont get
+
+* Moving Video Call from Browser to Browser fails when in call with a provisioned Mobile Device. 
+* Transfer from Browser to a Provisioned non-VoLTE Mobile device fails with different reasons. 
+* Transfer from a provisioned Mobile Device to a Account ID fails with `External Server request timeout`. 
+* Downgrade fails after successful Call Move. 
+  * Given that Alice is logged in Browser A and Browser B
+  * And Bob is logged in a browser
+  * And both are currently in a Video call
+  * And Alice has successfully moved her call from Browser A to Browser B
+  * When Bob tries to downgrade the Video call
+  * Then the action fails with error `SVC0001:A service error has occurred. Error code is Parameter 'sdp' has invalid format.,Variables=Parameter 'sdp' has invalid format.`
+* When moving a call using `Phone.move`, the error message `Unrecognized event state: move-terminated` is printed in the browser console. The move operation is successful. 
+* When downgrading a call after successfully resuming it, the `Phone.downgrade` method fails with error message: `SVC0001:A service error has occurred. Error code is Parameter 'sdp' has invalid format.,Variables=Parameter 'sdp' has invalid format`. 
+* When holding a call after successfully downgrading it, the `Phone.hold` method fails with error message: `SVC0001:A service error has occurred. Error code is Parameter 'sdp' has invalid format.,Variables=Parameter 'sdp' has invalid format`. 
+* Downgrading muted call results in unmuted call on both sides. 
+* Recipient can resume a call that has been held by hold initiator. 
+* Transfer to a non-provsioned Mobile Device target fails while in video Call. The transfer fails with error: `There was an error transferring the call. Forbidden` 
+* Media stream may not function correctly unless IPv6 is disabled. The default behavior is to use IPv4, so the developer doesn't need to explicitly disable IPv6. 
+* When any user started a conference and invites a Mobile Device user and the user rejects the invitation. I don't get
 invitation rejected event. 
 * While using Chrome , adding Mobile Device as a participant to a conference hosted by Mobile Number
   results in one way audio with the notification `Media conference forbidden for this recipient`. 
-* When in a call between a Mobile Number user using Firefox and a PSTN user if the Mobile Number user tries to move the
+* When in a call between a Mobile Number user using Firefox and a Mobile Device user if the Mobile Number user tries to move the
   call to it's Mobile phone, then he might see the following error:
   `Could not negotiate answer SDP; cause = SDP_PARSE_FAILED | SDP Parsing Error: c= connection line not specified for
    every media level, validation failed.` 
@@ -62,7 +76,7 @@ invitation rejected event.
   * Workaround: Add a security exception by clicking `Advanced` and then click on `Proceed to 127.0.0.1 (unsafe)`
 * While using Firefox, when removing a participant from a conference you could see the following error:
  `ReferenceError: event is not defined sample.js:593`
-* While using Firefox, calling a PSTN number could result in the following errors :
+* While using Firefox, calling a Mobile Device number could result in the following errors :
   * `Renegotiation of session description is not currently supported. See Bug 840728 for status.`
     The call is established and the users can hear each other.
   * `Could not negotiate answer SDP; cause = SDP_PARSE_FAILED | SDP Parsing Error: Warning: Unrecognized attribute
@@ -96,14 +110,85 @@ invitation rejected event.
 
 ## Tested Environments
 
-* Chrome Version 41.0 for OSX v10.8.5 and Windows 8
+* Chrome Version 43.0 for OSX v10.8.5 and Windows 8
 
 **_The SDK may also work for other Operating Systems, other Browsers but is not tested or supported._**
 
 
 # Changelog
 
-# v1.0.0-rc.14
+## v1.0.0-rc.18
+
+May 22, 2015
+
+* **Fix**: Mobile Number users with VoLTE devices are unable to answer incoming calls. The call keeps ringing and eventually goes to voicemail.
+
+## v1.0.0-rc.17
+
+May 15, 2015
+
+* **Fix**: Setting global logging level to trace throws JS error while making a call.
+* **Fix**: Error during transferring the call.
+* **Fix**: Video call quality on the call holder side is extremely poor following resume from hold.
+* **Fix**: Transfer to a provisioned Phone fails when in a video call with Non-Provisioned phone.
+* **Fix**: Transferring a call fails with HTTP error code `409` when an Account ID user transfers to a Mobile Device.
+
+
+## v1.0.0-rc.16
+
+April 16, 2015
+
+* **New**: New `ATT.logManager` features
+  * `getLogLevels`: Method to get all defined log levels for log manager.
+  * `getCurrentModuleLogLevels`: Method to get the current modules with their defined log levels.
+  * `getGlobalLogLevel`: Method to get the current log level for all modules.
+  * `setGlobalLogLevel`: Method to set a log level for all the modules.
+  * `resetLogLevels`: Method to reset log levels for all modules to their defaults.
+  * `getLoggers`: Method to get log manager's list of modules.
+  * `getModuleDefaults`: Method to get the modules with defined default log levels.
+  * `createCustomLogger`: Method to create a custom logger by passing a module name.
+  * `deleteCustomLogger`: Method to delete a custom logger by passing a module name.
+* **Changed**: Changed `ATT.logManager` feature
+    * `getLogger`: Method to get the logger object by passing the module name.
+* **Removed**: Removed from `ATT.logManager`
+  * `addLoggerForModule`
+  * `configureLogger`
+  * `getLoggerByName`
+  * `logLevel`
+  * `loggerType`
+  * `LOG_LEVEL`
+  * `LOGGER_TYPE`
+* **New**: New `ATT.logManager.Logger` features
+  * `isCustomType`: Returns true if a custom Logger
+  * `setLogLevel`: Sets log level of Logger
+  * `getLogLevel`: Gets log level of Logger
+* **Removed**: Removed from `ATT.logManager.Logger`
+  * `level`
+  * `setLevel`
+  * `setType`
+  * `Type`
+* **New:** Methods to manage configuration for `RTCPeerConnection`.
+  * `getIceServers`: Function to get the current ICE servers that the SDK uses for creating peer connections.
+  * `setIceServers`: Method to set the list of ICE server that the SDK uses for creating peer connections.
+  * `resetIceServers`: Method to reset the list of ICE servers to default list for peer connection configuration.
+  * `getIceTransport`: Function to get the current ICE transport value that the SDK uses for creating peer
+ connections.
+  * `setIceTransport`: Method to set the ICE transport that the SDK uses for creating peer connections.
+  * `resetIceTransport`: Method to reset the ICE transport value to the value for peer connection configuration.
+  * `getIpv6`: Function to get the ipv6 value that the SDK uses for creating peer connections.
+  * `setIpv6`: Method to set the ipv6 value that the SDK uses for creating peer connections.
+  * `resetIpv6`: Method to reset the ipv6 to the default value for peer connection configuration.
+
+## v1.0.0-rc.15
+
+April 3, 2015
+
+* **Fix:** Users are not able to login again using the same Access Token.
+* **Fix:** SDK can dial second call by putting the previous call automatically on hold.
+* **Fix:** Video stream dropped when video call is on hold for 15 minutes or more, and the call is resumed.
+
+
+## v1.0.0-rc.14
 
 March 22, 2015
 
@@ -117,7 +202,7 @@ March 22, 2015
  * `restify-dhs` is optional, use this only if you want a stand-alone node-dhs.
 * **Fix:** `phone.logout` method will always return after cleaning session and call resources if any.
 
-# v1.0.0-rc.13
+## v1.0.0-rc.13
 
 March 6, 2015
 
@@ -136,7 +221,7 @@ March 6, 2015
 
 
 
-# v1.0.0-rc.12
+## v1.0.0-rc.12
 
 February 20, 2015
 

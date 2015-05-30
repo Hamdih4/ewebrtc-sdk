@@ -54,6 +54,10 @@
 					<ul class="dropdown-menu ">
 						
 						<li>
+							<a href="ATT.logManager.Logger.html">ATT.logManager.Logger</a>
+						</li>
+						
+						<li>
 							<a href="Phone.html">Phone</a>
 						</li>
 						
@@ -96,6 +100,14 @@
 						</li>
 						
 						<li>
+							<a href="Phone.html#event:call:media-modification">Phone#call:media-modification</a>
+						</li>
+						
+						<li>
+							<a href="Phone.html#event:call:modification-in-progress">Phone#call:modification-in-progress</a>
+						</li>
+						
+						<li>
 							<a href="Phone.html#event:call:moved">Phone#call:moved</a>
 						</li>
 						
@@ -113,6 +125,10 @@
 						
 						<li>
 							<a href="Phone.html#event:call:ringback-provided">Phone#call:ringback-provided</a>
+						</li>
+						
+						<li>
+							<a href="Phone.html#event:call:state-changed">Phone#call:state-changed</a>
 						</li>
 						
 						<li>
@@ -357,6 +373,97 @@ on the fired event</p>
         <h3 class="subsection-title">Methods</h3>
 
         <dl>
+            
+<dt>
+    <h4 class="name" id="acceptModification"><span class="type-signature"></span>acceptModification<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+    <p class="summary">AcceptModification accepts the incoming downgrade request.</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Use this function to accept downgrade request for an ongoing video Call.<br>
+This method fires Phone#call:downgrade on success and <a href="Phone.html#event:error">Phone#event:error</a> event with error codes on failure :</p>
+<p><strong>Error Codes</strong></p>
+<ul>
+<li>31000 - Failed to acceptModification as there is a active Call.</li>
+<li>31001 - Called acceptModification in an invalid state.</li>
+<li>31002 - Error during getUserMedia for downgrade Call.</li>
+</ul>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li><a href="Phone.html#event:call:modification-in-progress">Phone#call:modification-in-progress</a></li>
+    
+        <li><a href="Phone.html#event:call:state-changed">Phone#call:state-changed</a></li>
+    
+        <li><a href="Phone.html#event:error">Phone#event:error</a></li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
+phone.acceptModification();</pre>
+
+
+    
+</dd>
+
+        
             
 <dt>
     <h4 class="name" id="addCall"><span class="type-signature"></span>addCall<span class="signature">(options)</span><span class="type-signature"></span></h4>
@@ -1569,7 +1676,7 @@ phone.cancel();</pre>
         
             
 <dt>
-    <h4 class="name" id="cleanPhoneNumber"><span class="type-signature"></span>cleanPhoneNumber<span class="signature">(Input)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    <h4 class="name" id="cleanPhoneNumber"><span class="type-signature"></span>cleanPhoneNumber<span class="signature">(number)</span><span class="type-signature"> &rarr; {String}</span></h4>
     
     
     <p class="summary">Cleans a phone number.</p>
@@ -1614,7 +1721,7 @@ Note: Will ignore email formatted input</p>
 
         <tr>
             
-                <td class="name"><code>Input</code></td>
+                <td class="name"><code>number</code></td>
             
 
             <td class="type">
@@ -2081,6 +2188,99 @@ phone.dial({
         
             
 <dt>
+    <h4 class="name" id="downgrade"><span class="type-signature"></span>downgrade<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+    <p class="summary">Downgrade the current call to audio</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Use this function to downgrade the current video call to an audio call.<br>
+This method fires <a href="Phone.html#event:call:state-changed">Phone#call:state-changed</a> when successful or fires <a href="Phone.html#event:error">Phone#event:error</a> event on failure.</p>
+<p><strong>Error Codes</strong></p>
+<ul>
+<li>33000 - There is no active call to downgrade..</li>
+<li>33001 - Call is in an invalid state.</li>
+<li>33002 - Can't downgrade an Audio call.</li>
+<li>33003 - Failed to downgrade a Conference.</li>
+<li>33004 - Error during getUserMedia.</li>
+</ul>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li><a href="Phone.html#event:call:modification-in-progress">Phone#call:modification-in-progress</a></li>
+    
+        <li><a href="Phone.html#event:call:state-changed">Phone#call:state-changed</a></li>
+    
+        <li><a href="Phone.html#event:error">Phone#event:error</a></li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
+phone.downgrade();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="endConference"><span class="type-signature"></span>endConference<span class="signature">()</span><span class="type-signature"></span></h4>
     
     
@@ -2176,7 +2376,7 @@ phone.endConference();</pre>
         
             
 <dt>
-    <h4 class="name" id="formatNumber"><span class="type-signature"></span>formatNumber<span class="signature">(Input)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    <h4 class="name" id="formatNumber"><span class="type-signature"></span>formatNumber<span class="signature">(number)</span><span class="type-signature"> &rarr; {String}</span></h4>
     
     
     <p class="summary">Formats a phone number.</p>
@@ -2220,7 +2420,7 @@ phone.endConference();</pre>
 
         <tr>
             
-                <td class="name"><code>Input</code></td>
+                <td class="name"><code>number</code></td>
             
 
             <td class="type">
@@ -2580,6 +2780,300 @@ e.g.</p>
         
     <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
 var calls = phone.getCalls();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="getIceServers"><span class="type-signature"></span>getIceServers<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+    
+    
+    <p class="summary">Gets the list of ICE servers from the current peer connection configuration</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Use this function to get the current ICE servers that the SDK uses for creating peer connections</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>List of ICE servers. e.g. <code>[{ 'url': 'STUN:12.45.15.xx' }]</code></p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">String</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
+phone.getIceServers();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="getIceTransport"><span class="type-signature"></span>getIceTransport<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+    
+    
+    <p class="summary">Gets the ICE transport value from the current peer connection configuration</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Use this function to get the current ICE transport value that the SDK uses for creating peer connections</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>ICE transport. e.g. <code>all</code>, <code>none</code> or <code>relay</code></p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">String</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
+phone.getIceTransport();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="getIpv6"><span class="type-signature"></span>getIpv6<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    
+    
+    <p class="summary">Gets the ipv6 value from the current peer connection configuration</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Use this function to get the ipv6 value that the SDK uses for creating peer connections</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>IPv6. e.g. <code>true</code> or <code>false</code></p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">Boolean</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
+phone.getIpv6();</pre>
 
 
     
@@ -4236,6 +4730,231 @@ phone.removeParticipant(&#x27;johnny&#x27;);</pre>
         
             
 <dt>
+    <h4 class="name" id="resetIceServers"><span class="type-signature"></span>resetIceServers<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+    <p class="summary">Resets the ICE servers on the peer connection configuration to the defaults that SDK defines</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Use this method to reset the list of ICE servers to the default list for peer connection configuration</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
+phone.resetIceServers();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="resetIceTransport"><span class="type-signature"></span>resetIceTransport<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+    <p class="summary">Resets the ICE transport on the peer connection configuration to the default that SDK defines</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Use this method to reset the ICE transport value to the value for peer connection configuration</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
+phone.resetIceTransport();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="resetIpv6"><span class="type-signature"></span>resetIpv6<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+    <p class="summary">Resets the ipv6 value on the peer connection configuration to the default that SDK defines</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Use this method to reset the ipv6 to the default value for peer connection configuration</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
+phone.resetIpv6();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="resume"><span class="type-signature"></span>resume<span class="signature">()</span><span class="type-signature"></span></h4>
     
     
@@ -4320,6 +5039,394 @@ This method can fire <a href="Phone.html#event:error">Phone#event:error</a> even
         
     <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
 phone.resume();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setIceServers"><span class="type-signature"></span>setIceServers<span class="signature">(iceServers)</span><span class="type-signature"></span></h4>
+    
+    
+    <p class="summary">Sets the ICE servers for the peer connection configuration</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Use this method to set the list of ICE server that the SDK uses for creating peer connections</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+<p><strong>Error Codes</strong></p>
+<ul>
+<li>40000 - Invalid iceServers Array</li>
+</ul>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>iceServers</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The array of url with valid IP</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
+phone.setIceServers([{ &#x27;url&#x27;: &#x27;STUN:12.19.19.xx&#x27; }]);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setIceTransport"><span class="type-signature"></span>setIceTransport<span class="signature">(iceTransport)</span><span class="type-signature"></span></h4>
+    
+    
+    <p class="summary">Sets the ICE transport for the peer connection configuration</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Use this method to set the ICE transport that the SDK uses for creating peer connections</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+<p><strong>Error Codes</strong></p>
+<ul>
+<li>50000 - Invalid ice Transport parameters passed&quot;</li>
+<li>50001 - Passed and invalid values other then  'none','all' or 'relay' for iceTransport.</li>
+</ul>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>iceTransport</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The valid iceTransport value ('none','all' or 'relay'</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
+phone.setIceTransport(&#x27;all&#x27;);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setIpv6"><span class="type-signature"></span>setIpv6<span class="signature">(ipv6)</span><span class="type-signature"></span></h4>
+    
+    
+    <p class="summary">Sets the ipv6 value for the peer connection configuration</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Use this method to set the ipv6 value that the SDK uses for creating peer connections</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+<p><strong>Error Codes</strong></p>
+<ul>
+<li>60000 - Passed a invalid ipv6 parameter.</li>
+</ul>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>ipv6</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The valid Boolean value (true or false)</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
+phone.setIpv6(false);</pre>
 
 
     
@@ -6901,6 +8008,586 @@ The event is fired with an attached event data of the following format:</p>
         
             
 <dt>
+    <h4 class="name" id="event:call:media-modification">call:media-modification</h4>
+    
+    
+    <p class="summary">Call media-modification event gets triggered when user needs to perform an action for the incoming
+Media-modification</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>The user is in a call and gets a media modification request. <br>
+The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the called party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="event:call:modification-in-progress">call:modification-in-progress</h4>
+    
+    
+    <p class="summary">Modification-in-progress event gets fired when downgrade request was successful.</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>There should be an ongoing call where the user has initiated a downgrade request.<br>
+This event is fired in response to a successful call to <code>downgrade</code> or <code>acceptModification</code> method.<br>
+The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the called party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="event:call:moved">call:moved</h4>
     
     
@@ -8145,6 +9832,329 @@ The event is fired with an attached event data of the following format:</p>
             
             </td>
 
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="event:call:state-changed">call:state-changed</h4>
+    
+    
+    <p class="summary">State Changed event fires when an media modification request was successfully accepted.</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an existing call in progress in order to be able to receive this event.<br>
+The user should have initiated and accepted media modification request.<br>
+The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the called party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>state</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The current state after media modification.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
             
 
             
@@ -14930,7 +16940,7 @@ The event is fired with an attached event data of the following format:</p>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a>
-		on 2015-04-06T19:55:48-07:00 using the <a
+		on 2015-05-29T20:20:47-07:00 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>

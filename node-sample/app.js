@@ -175,6 +175,14 @@
   }
   console.info('#####################################################');
 
+  if (ewebrtc_domain) {
+    console.info('EWebRTC domain:');
+    console.info(ewebrtc_domain);
+  } else {
+    console.info('EWebRTC domain is NOT configured.');
+  }
+  console.info('#####################################################');
+
 //--------------------------------------------------------
 // END SECTION: Initialize configuration
 //--------------------------------------------------------

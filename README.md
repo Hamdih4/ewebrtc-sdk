@@ -4,7 +4,6 @@
 
 * `/js/ewebrtc-sdk.min.js`: JavaScript client library for the AT&T Enhanced WebRTC API
 * `/node-sample/`: Node.js Sample application
-* `/node-sample/lib`: Node.js Developer Hosted Server (DHS) Library
 * `/node-sample/public/tutorial/index.html`: AT&T Enhanced WebRTC JavaScript SDK tutorial
 * `/node-sample/public/api-docs/index.html`: JS SDK API reference documentation
 
@@ -26,23 +25,27 @@ For full instructions on deploying this SDK and sample app, see the [Enhanced We
 * Configure the Node.js sample app package.json with you app_key, app_secret, ewebrtc_domain (org domain),
   virtual_numbers_pool, oauth_callback
 * Install the Node.js sample app dependencies by running `$ npm install` in the `node-sample` directory.
-* Install the Node.js DHS library dependencies by running `$ npm install` in the `node-sample/lib` directory.
 * Start the sample application web server: Run `$ npm start` from the `node-sample` directory
-* Launch a browser to run the sample application: `https://localhost:9001/`
+* Launch a browser to run the sample application: `https://127.0.0.1:9001/`
   * When initially loading the sample app you will see the error: `NET::ERR_CERT_AUTHORITY_INVALID`
-  	* Workaround: Add a security exception by clicking `Advanced` and then click on `Proceed to localhost (unsafe)`
+  	* Workaround: Add a security exception by clicking `Advanced` and then click on `Proceed to 127.0.0.1 (unsafe)`
 
 ## System Requirements
 
 * [Node.js](http://nodejs.org/download/)
-* Google Chrome version 40.x or later, Mozilla Firefox version 33.1 (tested).
+* Google Chrome version 42.x or later (tested).
 * Node.js (quick-start deployment), available from [Nodejs.org](http://nodejs.org/download/)
-* Ruby, Java or PHP (production environment). For more information on a production deployment see [Enhanced WebRTC JavaScript SDK page](http://developer.att.com/sdks-plugins/enhanced-webrtc).  
+* Ruby, Java or PHP (production environment). For more information on a production deployment see [Enhanced WebRTC JavaScript SDK page](http://developer.att.com/sdks-plugins/enhanced-webrtc).
+
 
 # Further reading
 
 * AT&T Enhanced WebRTC JavaScript SDK configuration, deployment and samples: http://developer.att.com/sdks-plugins/enhanced-webrtc
-* DHS Library ReadMe: [`/node-sample/lib/README.md`](/node-sample/lib/README.md)
 * DHS Library Release Notes: [`/node-sample/RELEASE.md`](/node-sample/lib/RELEASE.md)
 * Sample App ReadMe: [`/node-sample/README.md`](/node-sample/README.md)
 * Sample App Release Notes: [`/node-sample/RELEASE.md`](/node-sample/RELEASE.md)
+
+## DHS Samples
+
+* AT&T Node DHS: [`ewebrtc-dhs-restify`](https://github.com/attdevsupport/ewebrtc-dhs-restify)
+* AT&T PHP DHS:[`ewebrtc-dhs-php`](https://github.com/attdevsupport/ewebrtc-dhs-php)

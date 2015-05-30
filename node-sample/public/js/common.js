@@ -14,7 +14,7 @@
   onCallRejected, onConferenceConnected, onConferenceDisconnected, onConferenceInvite, onConferenceCanceled,
   onConferenceEnded, onJoiningConference, onInvitationSent, onInviteAccepted, onInviteRejected,
   onParticipantRemoved, onConferenceDisconnecting, onConferenceHold, onConferenceResumed, onNotification,
-  onCallSwitched, onCallRingbackProvided, onTransferring, onTransferred*/
+  onCallSwitched, onCallRingbackProvided, onTransferring, onTransferred, onCallMoved, onMediaModification, onCallModification*/
 
 'use strict';
 
@@ -614,7 +614,36 @@ function answer2ndCall(localMedia, remoteMedia, action) {
   });
 }
 
-//
+// ## Operation for downgrade and acceptModification 
+// once a call is ongoing and user downgrade request was accepted successfully.
+
+// ### state change successful
+// ---------------------------------
+// Register for [**call:state-changed**](../../lib/webrtc-sdk/doc/Phone.html#event:call:state-changed) event, it is published 
+// when the user accepts the media modification 
+
+phone.on('call:state-changed', onStateChanged);
+
+// ## Operation for ongoing media modification
+// once a call is ongoing and user downgrade request was successful
+
+// ### ongoing media modification 
+// ---------------------------------
+// Register for [**call:modification-in-progress**](../../lib/webrtc-sdk/doc/Phone.html#event:call:modification-in-progress) event, it is published 
+// when the user initiates downgrade and waiting for acceptance  
+
+phone.on('call:modification-in-progress', onMediaModification);
+
+// ## Operation for incoming media-modification
+// once a call is ongoing and user gets a request to upgrade or downgrade media
+
+// ### incoming media modification 
+// ---------------------------------
+// Register for [**call:accept-modification**](../../lib/webrtc-sdk/doc/Phone.html#event:call:accept-modification) event, it is published 
+// when the user have to act on a media modification 
+
+phone.on('call:media-modification', onCallModification);
+
 // ## Operations for ongoing calls
 // Once a call is ongoing, you can perform basic operations with
 // them like muting, unmuting, holding, resuming, canceling and hanging up.
@@ -764,6 +793,12 @@ phone.on('call:transferred', onTransferred);
 function transfer() {
   // Use the [**phone.transfer**](../../lib/webrtc-sdk/doc/Phone.html#transfer) method to transfer existing call to another
   phone.transfer();
+}
+function downgrade() {
+ // ### Downgrade a video call
+// -----------------------------------------
+  // Use the [**phone.downgrade**](../../lib/webrtc-sdk/doc/Phone.html#downgrade) method to downgrade the ongoing video call.
+  phone.downgrade();
 }
 
 // ### Cancel an outgoing call
@@ -1035,3 +1070,12 @@ function getCallerInfo(callerUri) {
   // }`.
   return phone.getCallerInfo(callerUri);
 }
+
+function acceptModification() {
+// ### Accept downgrade invitation
+// -----------------------------------------
+
+  // Use the [**phone.acceptModification**](../../lib/webrtc-sdk/doc/Phone.html#acceptModification) method to accept the downgrade invitation.
+  phone.acceptModification();
+}
+
