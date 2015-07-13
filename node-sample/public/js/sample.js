@@ -2,7 +2,7 @@
 /*global ATT, console, log, loadConfiguration, loadDefaultView, clearMessage, clearError, onSessionDisconnected,
   validateAddress, associateE911Id, getE911Id, loginVirtualNumberOrAccountIdUser, loginEnhancedWebRTC,
   onError, phoneLogout, loadView, switchView, dialCall, answer, answer2ndCall,
-  hold, resume, startConference, joinConference, addParticipants, virtual_numbers,
+  hold, resume, startConference, joinConference, addParticipant, virtual_numbers,
   getParticipants, removeParticipant, move, switchCall, cleanPhoneNumber*/
 
 'use strict';
@@ -36,7 +36,7 @@ function createE911AddressId(event, form) {
       address.is_confirmed,
       function (response) {
         if (typeof response === 'string') {
-            response = JSON.parse(response);
+          response = JSON.parse(response);
         }
         loginEnhancedWebRTC(sessionData.access_token, response);
       },
@@ -288,13 +288,11 @@ function getListOfInvitees(partcpnts) {
 }
 
 function participant() {
-  var partcpnts,
-    listOfInvitees;
+  var partcpnt;
 
-  partcpnts = document.getElementById('participant').value;
-  listOfInvitees = getListOfInvitees(partcpnts);
+  partcpnt = document.getElementById('participant').value;
 
-  addParticipants(listOfInvitees);
+  addParticipant(partcpnt);
 }
 
 function showParticipants() {

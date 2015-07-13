@@ -1,12 +1,10 @@
-# AT&T Enhanced WebRTC JS SDK
+# AT&T Enhanced WebRTC JS SDK Release Notes
 
 This SDK includes the following components:
 
-* JavaScript library - a client library to consume the AT&T Enhanced WebRTC API.
-* Node.js sample application - a web app demonstrating the features of the JavaScript library and managing application
-  assets such as app key and app secret. **Please refer to `node-sample/RELEASE.md` for sample app-specific notes**.
-* DHS Library - a Node.js library for generating OAuth access tokens and E911 IDs. **Please refer to
-  `node-sample/lib/RELEASE.md` for DHS library specific notes**.
+* JavaScript library - a client library to access the AT&T Enhanced WebRTC API.
+* Node.js sample app - a Web app demonstrating the features of the JavaScript library and managing app configuration elements such as App Key and App Secret. **Please refer to `node-sample/RELEASE.md` for sample app-specific notes**.
+* Developer Hosted Server (DHS) library - a Node.js library for generating OAuth access tokens and E911 IDs. **Please refer to  `node-sample/lib/RELEASE.md` for DHS library-specific notes**.
 
 ## Features of the JavaScript library
 
@@ -16,93 +14,50 @@ The following features and functionality are available in the current SDK releas
 ### Chrome v43
 
 *	**Basic audio and video call management** – make, receive, answer, end, mute, unmute, hold, resume, cancel, and reject calls.
-*	**Basic audio and video conferencing** – create a conference, add and remove participants, hold, resume, mute, unmute and end conference.
+*	**Basic audio and video conferencing** – create a conference, add and remove participants, hold, resume, mute, unmute, and end conference.
   *	Supports dialing out to add participants.
-*	**Advanced call management** – move, add a second call, switch between two calls.
+*	**Advanced call management** – move, transfer, add a second call, switch between two calls, upgrade, downgrade, and reject upgrade requests.
   *	Audio and video calls can be moved Web-to-Web
   *	Calls can be moved from the Web to an AT&T mobile phone
 
 ### Firefox
 
-  *	**No SDK features are tested with Firefox**
+  *	**No SDK features are tested with Firefox.**
 
 ### Upcoming features
 
 The following features will be added soon:
 
-*	Firefox browser support
-*	Upgrade or downgrade between audio and video
-*	DTMF (dialing) tones
+* Firefox browser support
+* DTMF (dialing) tones
+* AT&T Mobile Number support
 
-# v1.0.0-rc.19
+# v1.0.0-rc.24
 
-May 29, 2015
+July 13, 2015
 
-* **Fix**: The returned object of `getCallerInfo()` is improperly formatted for Account ID users.
-* **Fix**: Sample app shows username encoded as a number for Account Id users.
-* **Fix**: Intermittent `ice-ufrag` error when answering call.
+* **Fix:** One way audio after hold and resume a call from the callee side.
+* **Fix:** No error thrown when trying to modify a call that's being held or in hold state.
+* **Fix:** No error thrown when trying to move a call that's being held or in hold state.
 
 ## Known Issues
 
-* Moving Video Call from Browser to Browser fails when in call with a provisioned Mobile Device. 
-* Transfer from Browser to a Provisioned non-VoLTE Mobile device fails with different reasons. 
-* Transfer from a provisioned Mobile Device to a Account ID fails with `External Server request timeout`. 
-* Downgrade fails after successful Call Move. 
-  * Given that Alice is logged in Browser A and Browser B
-  * And Bob is logged in a browser
-  * And both are currently in a Video call
-  * And Alice has successfully moved her call from Browser A to Browser B
-  * When Bob tries to downgrade the Video call
-  * Then the action fails with error `SVC0001:A service error has occurred. Error code is Parameter 'sdp' has invalid format.,Variables=Parameter 'sdp' has invalid format.`
 * When moving a call using `Phone.move`, the error message `Unrecognized event state: move-terminated` is printed in the browser console. The move operation is successful. 
-* When downgrading a call after successfully resuming it, the `Phone.downgrade` method fails with error message: `SVC0001:A service error has occurred. Error code is Parameter 'sdp' has invalid format.,Variables=Parameter 'sdp' has invalid format`. 
-* When holding a call after successfully downgrading it, the `Phone.hold` method fails with error message: `SVC0001:A service error has occurred. Error code is Parameter 'sdp' has invalid format.,Variables=Parameter 'sdp' has invalid format`. 
-* Downgrading muted call results in unmuted call on both sides. 
-* Recipient can resume a call that has been held by hold initiator. 
 * Transfer to a non-provsioned Mobile Device target fails while in video Call. The transfer fails with error: `There was an error transferring the call. Forbidden` 
+* Downgrading muted re-enables audio on both sides. 
+* Upgrading muted call re-enables audio on both sides. 
+* Switching to the background call results in no media. 
+* One way audio after hold and resume video call from the callee side. 
+* When a participant leaves a conference by using the `endConference` method, the platform does not generate
+  the necessary event to inform the host.
 * Media stream may not function correctly unless IPv6 is disabled. The default behavior is to use IPv4, so the developer doesn't need to explicitly disable IPv6. 
 * When any user started a conference and invites a Mobile Device user and the user rejects the invitation. I don't get
 invitation rejected event. 
-* While using Chrome , adding Mobile Device as a participant to a conference hosted by Mobile Number
-  results in one way audio with the notification `Media conference forbidden for this recipient`. 
-* When in a call between a Mobile Number user using Firefox and a Mobile Device user if the Mobile Number user tries to move the
-  call to it's Mobile phone, then he might see the following error:
-  `Could not negotiate answer SDP; cause = SDP_PARSE_FAILED | SDP Parsing Error: c= connection line not specified for
-   every media level, validation failed.` 
-* Error not generated by library - scenarios that would result in the user having one call and one conference are not
-  supported and thus should generate an error. 
-* When initially loading the Sample app (`https://127.0.0.1:9001`) you will see the error:
-  `NET::ERR_CERT_AUTHORITY_INVALID`. 
-  * Workaround: Add a security exception by clicking `Advanced` and then click on `Proceed to 127.0.0.1 (unsafe)`
-* While using Firefox, when removing a participant from a conference you could see the following error:
- `ReferenceError: event is not defined sample.js:593`
-* While using Firefox, calling a Mobile Device number could result in the following errors :
-  * `Renegotiation of session description is not currently supported. See Bug 840728 for status.`
-    The call is established and the users can hear each other.
-  * `Could not negotiate answer SDP; cause = SDP_PARSE_FAILED | SDP Parsing Error: Warning: Unrecognized attribute
-    (ice-mismatch) | SDP Parsing Error: c= connection line not specified for every media level, validation failed.s`.
-    The call is established but the users cannot hear each other.
-* Canceling to give consent to a Mobile Number results in redirecting the user to an access denied error page. 
-* Resuming a video conference from the participant side results in no video on both host and participant sides. 
-* A background call will auto resume if the user moves his call to another device. 
-* Switching to the background call on Chrome Windows results in no media in the call. 
-* Adding (non-provisioned) Mobile Device as a participant to a conference results in one way audio with the notification
-  `Media conference forbidden for this recipient`. 
-* Adding Account ID participant to a conference when the host is Virtual Number fails with message: `User Not Found`. 
-* List of participants is not cleared when ending a conference. 
-* `call:move-terminated` event is not fired when successfully completing `phone.move`.
-* Adding multiple participants at once using `Phone.addParticipants` method fails with error:
-  `SVC8501:MediaConference ongoing update participant operation.,Variables=`. Use `Phone.addParticipants`
-  with a single participant ID (Mobile Number, Account ID, Virtual Number) and wait for that participant to
-  successfully join (i.e., event `conference:invitation-accepted`), then invite the next participant.
-* When a participant leaves a conference by using the `endConference` method, the platform does not generate
-  the necessary event to inform the host.
-* When an Mobile Number user rejects an invitation for a conference, sometimes the event `conference:ended` will not
-  be published due to a bug at the platform level.
-* When adding a participant to a conference, sometimes the error: `The requested conference ID <id> was not found.`
-  is shown.
 * Video switching between participants is sometimes inconsistent. Turn off your microphone while the other participant
   speaks, that will switch the video to the speaking participant.
+* Adding Mobile Device as a participant to a conference results in one way audio. 
+* Error not generated by library - scenarios that would result in the user having one call and one conference are not
+  supported and thus should generate an error. 
 
 ## Notes
 
@@ -112,45 +67,86 @@ invitation rejected event.
 
 * Chrome Version 43.0 for OSX v10.8.5 and Windows 8
 
-**_The SDK may also work for other Operating Systems, other Browsers but is not tested or supported._**
+**_The SDK may also work for other operating systems and browsers but not tested or supported._**
 
 
 # Changelog
+
+## v1.0.0-rc.23
+
+July 2, 2015
+
+* **Fix:** Upgrade after downgrade doesn't work due a known issue with the underlying platform.
+* **Fix:** Moving Video Call from Browser to Browser fails when in call with a provisioned Mobile Device.
+* **Fix:** Transfer from Browser to a Provisioned non-VoLTE Mobile device fails with different reasons.
+* **Fix:** When holding a call after successfully downgrading it, the `Phone.hold` method fails with error message: `SVC0001:A service error has occurred. Error code is Parameter 'sdp' has invalid format.,Variables=Parameter 'sdp' has invalid format`.
+* **Fix:** When downgrading a call after successfully resuming it, the `Phone.downgrade` method fails with error message: `SVC0001:A service error has occurred. Error code is Parameter 'sdp' has invalid format.,Variables=Parameter 'sdp' has invalid format`.
+* **Fix:** Downgrade fails after successful Call Move.
+* **Fix:** Recipient can resume a call that has been held by hold initiator.
+
+## v1.0.0-rc.22
+
+June 12, 2015
+
+* **Fix:** Improved documentation on number format when dialing and adding participants to a conference.
+* **Fix:** Wrong video media type shown when making calls from the browser to mobile devices.
+* **New:** New method `Phone.rejectModification`. This method allows the user to reject media modification requests such as upgrade requests generated by the `Phone.upgrade` method or downgrade requests generated by the `Phone.downgrade` method.
+* **New:** Automatically reject a call modification in the sample app if it’s not accepted after 5 seconds.
+
+## v1.0.0-rc.21
+
+June 5, 2015
+
+* **Fix:** One-way audio on non-provisioned VoLTE handset following call transfer.
+
+## v1.0.0-rc.20
+
+June 2, 2015
+
+* **New:** Upgrade an audio call to video call.
+
+## v1.0.0-rc.19
+
+May 29, 2015
+
+* **Fix:** The object returned by `getCallerInfo()` is improperly formatted for Account ID users.
+* **Fix:** Sample app shows a username encoded as a number for Account ID users.
+* **Fix:** Intermittent `ice-ufrag` error when answering a call.
 
 ## v1.0.0-rc.18
 
 May 22, 2015
 
-* **Fix**: Mobile Number users with VoLTE devices are unable to answer incoming calls. The call keeps ringing and eventually goes to voicemail.
+* **Fix:** Mobile Number users with VoLTE devices are unable to answer incoming calls. The call keeps ringing and eventually goes to voicemail.
 
 ## v1.0.0-rc.17
 
 May 15, 2015
 
-* **Fix**: Setting global logging level to trace throws JS error while making a call.
-* **Fix**: Error during transferring the call.
-* **Fix**: Video call quality on the call holder side is extremely poor following resume from hold.
-* **Fix**: Transfer to a provisioned Phone fails when in a video call with Non-Provisioned phone.
-* **Fix**: Transferring a call fails with HTTP error code `409` when an Account ID user transfers to a Mobile Device.
+* **Fix:** Setting global logging level to trace generates a JavaScript error while making a call.
+* **Fix:** Error during transferring a call.
+* **Fix:** Video call quality on a call holder's side is extremely poor following resume from hold.
+* **Fix:** Transfer to a provisioned phone fails when in a video call with non-provisioned phone.
+* **Fix:** Transferring a call fails with an HTTP error code `409` when an Account ID user transfers to a mobile device.
 
 
 ## v1.0.0-rc.16
 
 April 16, 2015
 
-* **New**: New `ATT.logManager` features
-  * `getLogLevels`: Method to get all defined log levels for log manager.
+* **New:** New `ATT.logManager` features:
+  * `getLogLevels`: Method to get all defined log levels for the log manager.
   * `getCurrentModuleLogLevels`: Method to get the current modules with their defined log levels.
   * `getGlobalLogLevel`: Method to get the current log level for all modules.
   * `setGlobalLogLevel`: Method to set a log level for all the modules.
   * `resetLogLevels`: Method to reset log levels for all modules to their defaults.
-  * `getLoggers`: Method to get log manager's list of modules.
+  * `getLoggers`: Method to get the log manager's list of modules.
   * `getModuleDefaults`: Method to get the modules with defined default log levels.
   * `createCustomLogger`: Method to create a custom logger by passing a module name.
   * `deleteCustomLogger`: Method to delete a custom logger by passing a module name.
-* **Changed**: Changed `ATT.logManager` feature
+* **Changed:** Changed `ATT.logManager` feature
     * `getLogger`: Method to get the logger object by passing the module name.
-* **Removed**: Removed from `ATT.logManager`
+* **Removed:** Removed from `ATT.logManager`
   * `addLoggerForModule`
   * `configureLogger`
   * `getLoggerByName`
@@ -158,21 +154,20 @@ April 16, 2015
   * `loggerType`
   * `LOG_LEVEL`
   * `LOGGER_TYPE`
-* **New**: New `ATT.logManager.Logger` features
+* **New:** New `ATT.logManager.Logger` features:
   * `isCustomType`: Returns true if a custom Logger
   * `setLogLevel`: Sets log level of Logger
   * `getLogLevel`: Gets log level of Logger
-* **Removed**: Removed from `ATT.logManager.Logger`
+* **Removed:** Removed from `ATT.logManager.Logger`
   * `level`
   * `setLevel`
   * `setType`
   * `Type`
 * **New:** Methods to manage configuration for `RTCPeerConnection`.
   * `getIceServers`: Function to get the current ICE servers that the SDK uses for creating peer connections.
-  * `setIceServers`: Method to set the list of ICE server that the SDK uses for creating peer connections.
+  * `setIceServers`: Method to set the list of ICE servers that the SDK uses for creating peer connections.
   * `resetIceServers`: Method to reset the list of ICE servers to default list for peer connection configuration.
-  * `getIceTransport`: Function to get the current ICE transport value that the SDK uses for creating peer
- connections.
+  * `getIceTransport`: Function to get the current ICE transport value that the SDK uses for creating peer connections.
   * `setIceTransport`: Method to set the ICE transport that the SDK uses for creating peer connections.
   * `resetIceTransport`: Method to reset the ICE transport value to the value for peer connection configuration.
   * `getIpv6`: Function to get the ipv6 value that the SDK uses for creating peer connections.
@@ -183,41 +178,41 @@ April 16, 2015
 
 April 3, 2015
 
-* **Fix:** Users are not able to login again using the same Access Token.
-* **Fix:** SDK can dial second call by putting the previous call automatically on hold.
-* **Fix:** Video stream dropped when video call is on hold for 15 minutes or more, and the call is resumed.
+* **Fix:** Users cannot log in again using the same Access Token.
+* **Fix:** SDK can dial a second call by putting the previous call automatically on hold.
+* **Fix:** Video stream is dropped when A video call is on hold for 15 minutes or more before the call is resumed.
 
 
 ## v1.0.0-rc.14
 
 March 22, 2015
 
-* **New:** DHS functions are now available as public node module named  as`att-dhs`. You can use this like regular node modules.
+* **New:** DHS functions are now available as a public module named `att-dhs`. You can use this as you would a regular node module.
 * **Removed:**
- * Stand-alone node-dhs is removed. DHS functions are now available it `att-dhs` public node module. You can user these DHS functions in your own NodeJS App. An illustrative example is provided in node-sample.
- * ATT.rtc.dhs namespace is deleted, instead use migration guide for code snippets to invoke sample app DHS routes.
- * ATT.rtc.configure method is no longer needed.
+ * Stand-alone node-dhs is removed. DHS functions are now available in the `att-dhs` public module. You can use these DHS functions in your own Node.js app. An illustrative example is provided in the /node-sample/ folder.
+ * ATT.rtc.dhs namespace is deleted. Use the migration guide for code snippets to invoke sample app DHS routes.
+ * The  ATT.rtc.configure method is no longer needed.
 * **Removed:**
- * DHS routes are now in node-sample.
- * `restify-dhs` is optional, use this only if you want a stand-alone node-dhs.
-* **Fix:** `phone.logout` method will always return after cleaning session and call resources if any.
+ * DHS routes are now in /node-sample/.
+ * `restify-dhs` is optional, use this only if you want a standalone DHS.
+* **Fix:** `phone.logout` method will always return after cleaning a session and call resources, if any.
 
 ## v1.0.0-rc.13
 
 March 6, 2015
 
 * **Fix:** Call index is the same for 2 calls in phone.getCalls().
-* **New:** DHS Library: A new server side node based library to provide oAuth token and E911 Id methods
-    * This will replace a separate server for DHS
-    * The DHS specific configuration (app key/secret etc) can now be done on the sample server itself
-    * Please refer to DHS Library JsDocs and README for further information
-* **Change** The following SDK methods are changed. **Please update your web application accordingly**
+* **New:** DHS Library: A new server-side Node.js based library to provide oAuth token and E911 ID methods.
+    * This will replace a separate server for DHS.
+    * The DHS-specific configuration (e.g., app key, app secret) can now be done on the sample server itself
+    * Please refer to the DHS Library JSDocs and ReadMe for further information.
+* **Change:** The following SDK methods are changed. **Please update your Web application accordingly.**
     * ATT.rtc.dhs.createAccessToken is now ATT.rtc.createAccessToken
     * ATT.rtc.dhs.createE911Id is now ATT.rtc.createE911Id
-    * ATT.rtc.configure now has a new signature. Please refer to SDK API JsDocs for updates to this method
-* **Change** The sample app can now be launched by navigating to `https://localhost:9001`.
-    * You still need to add the security exception for `https://localhost:9001` on your browser.
-    * Please refer to the README for more information
+    * ATT.rtc.configure now has a new signature. Please refer to SDK API JSDocs for updates to this method.
+* **Change:** The sample app is now launched by navigating to `https://localhost:9001`.
+    * You still must add a security exception for `https://localhost:9001` to your browser.
+    * Please refer to the ReadMe for more information.
 
 
 
@@ -225,49 +220,48 @@ March 6, 2015
 
 February 20, 2015
 
-* **Fix:** Multiple errors (Login Failed) appear in succession are concatenating when page is not refreshed .
-* **Fix:** No audio on handset following call move.
-* **Fix:** move call unnecessarily fires call:connected and media:established events and throws js exception.
+* **Fix:** Multiple Login Failed errors appear in succession, concatenating when the page is not refreshed.
+* **Fix:** No audio on handset following a call move.
+* **Fix:** Move call unnecessarily fires call:connected and media:established events and throws a JS exception.
 
-* **New:** The Call-id in the event object will be a complete uri instead of parsed numbers or ID.
-  * Added a new method getCallerInfo(callerUri) to parse the raw URI to the return the information like callerId,
-   protocol, domain, port and other associated information.
+* **New:** The Call-id in the event object will be a complete URI instead of parsed numbers or ID.
+  * Added the new method getCallerInfo(callerUri) to parse the raw URI to the return information like callerId, protocol, domain, port, and other associated information.
 
 
 ## v1.0.0-rc.11
 
 February 6, 2015
 
-* **Fix:** Now the DHS and the Sample App use the IP address `127.0.0.1` instead of the hostname `localhost` so that the developer only has to add the SSL security exception once.
-* **Fix:** Video Camera Still on when disconnecting the Call.
-* **Fix:** Unable to uniquely track 2 calls to the same number. QC 74097.
-  * Event data associated with call/conference event now has `index` that refers to ordinal numbering of the call in the list of existing calls
-  * Public method `phone.getCalls` updated to return call `index`, `breed`, `type`, `state` and `peer`/`participants`
+* **Fix:** The DHS and the Sample App now use the IP address `127.0.0.1` instead of the hostname `localhost` so that the developer only has to add one SSL security exception.
+* **Fix:** Video camera remains on after disconnecting a call.
+* **Fix:** Unable to uniquely track two calls to the same number. QC 74097.
+  * Event data associated with a call/conference event now has `index` that refers to ordinal numbering of the call in the list of existing calls.
+  * Public method `phone.getCalls` updated to return call `index`, `breed`, `type`, `state` and `peer`/`participants`.
 * **New:** The Developer Hosted Server now uses AT&T OAuth v4.0.
 
 ## v1.0.0-rc.10
 
 January 22, 2015
 
-* **Fix:** the `Phone` object will publish an error event on invalid scenarios for second call. The second call feature only supports scenarios that would result in the user having two simple calls, one call in the background (inactive) and one call in the foreground (active). Scenarios that would result in the user having one call and one conference are not supported and thus will generate an error.
+* **Fix:** the `Phone` object will publish an error event upon invalid scenarios for a second call. The second call feature only supports simple two-call scenarios, with one call in the background (inactive) and one call in the foreground (active). Scenarios that would result in the user having one call and one conference are not supported and will generate an error.
 * **Fix:** `Phone.transfer` fails with error `Transfer terminated by Network` when the transfer target is an Account ID or Virtual Number user.
-* **Fix:** corrects various typos in log statements.
-* **Fix:** moving a call fails when the call is put on hold before invoking `Phone.move`.
-* **Change:** use short user name on `Phone` events (`event.from` and `event.to`)
+* **Fix:** Corrected various typos in log statements.
+* **Fix:** Moving a call fails when the call is put on hold before invoking `Phone.move`.
+* **Change:** Use a short user name on `Phone` events (`event.from` and `event.to`):
   * Account ID: `sip:user@domain.com` => `user`
   * Mobile Number: `sip:1234567890@domain.com` => `1234567890`
   * Virtual User: `tel:+1234567890` => `1234567890`
-* **New:** the `Phone` object will publish the `session:expired` event when the library detects that the current session has expired in the server. See the documentation for details in the payload of the event.
-* **New:** method `ATT.browser.isNetworkConnected` to check for network connectivity.
+* **New:** The `Phone` object will publish a `session:expired` event when the library detects that the current session has expired in the server. See the documentation for details in the payload of the event.
+* **New:** Method `ATT.browser.isNetworkConnected` to check for network connectivity.
 
 ## v1.0.0-rc.9
 
 December 31, 2014
 
-* Enhancement: added 'session:expired' event to the phone object
-* Enhancement: improves call establishment time.
-* Change: less verbose logging.
-* Change: provide full user name on event data for all phone events.
+* **Enhancement:** Added 'session:expired' event to the Phone object.
+* **Enhancement:** Improved call establishment time.
+* **Change:** Less verbose logging.
+* **Change:** Provided full user name on event data for all phone events.
 
 ## v1.0.0-rc.7
 
@@ -275,14 +269,14 @@ December 31, 2014
 
 #### Chrome v39
 
-*	Basic audio and video call management – make, receive, answer, end, mute, unmute, hold, resume, cancel, and reject calls
-*	Basic audio and video conferencing – create a conference, add and remove participants, hold, resume, mute, unmute and end conference
-*	Advanced call management – move, transfer, add a second call, switch between two calls
-*	Audio and video calls can be moved browser-to-browser
-*	Audio calls can be moved from the browser to an AT&T mobile phone.
+* Basic audio and video call management – make, receive, answer, end, mute, unmute, hold, resume, cancel, and reject calls
+* Basic audio and video conferencing – create a conference, add and remove participants, hold, resume, mute, unmute, and end conference
+* Advanced call management – move, transfer, add a second call, and switch between two calls
+* Audio and video calls can be moved browser-to-browser
+* Audio calls can be moved from a browser to an AT&T mobile phone.
 
 
 #### Firefox v33
 
-*	Basic audio and video call management – make, receive, answer, end, mute, unmute, hold, resume, cancel, and reject calls
-*	Basic audio and video conferencing – create a conference, add and remove participants, hold, resume, mute, unmute and end conference
+* Basic audio and video call management – make, receive, answer, end, mute, unmute, hold, resume, cancel, and reject calls
+* Basic audio and video conferencing – create a conference, add and remove participants, hold, resume, mute, unmute, and end conference

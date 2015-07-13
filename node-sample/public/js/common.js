@@ -14,7 +14,8 @@
   onCallRejected, onConferenceConnected, onConferenceDisconnected, onConferenceInvite, onConferenceCanceled,
   onConferenceEnded, onJoiningConference, onInvitationSent, onInviteAccepted, onInviteRejected,
   onParticipantRemoved, onConferenceDisconnecting, onConferenceHold, onConferenceResumed, onNotification,
-  onCallSwitched, onCallRingbackProvided, onTransferring, onTransferred, onCallMoved, onMediaModification, onCallModification*/
+  onCallSwitched, onCallRingbackProvided, onTransferring, onTransferred, onCallMoved, onMediaModification,
+  onStateChanged, onCallModification*/
 
 'use strict';
 
@@ -51,7 +52,7 @@ if (!bWebRTCSupportExists) {
 //
 //  var xhrConfig = new XMLHttpRequest();
 //  xhrConfig.open('GET', '/config');
-//  xhrConfig.onreadystatechange = function() {  
+//  xhrConfig.onreadystatechange = function() {
 //    if (xhrConfig.readyState == 4) {
 //        if (xhrConfig.status == 200) {
 //            var config = JSON.parse(xhrConfig.responseText);
@@ -82,7 +83,7 @@ if (!bWebRTCSupportExists) {
 //
 //  var xhrConfig = new XMLHttpRequest();
 //  xhrConfig.open('GET', '/config');
-//  xhrConfig.onreadystatechange = function() {  
+//  xhrConfig.onreadystatechange = function() {
 //    if (xhrConfig.readyState == 4) {
 //      if (xhrConfig.status == 200) {
 //         var config = JSON.parse(xhrConfig.responseText);
@@ -216,7 +217,7 @@ if (!bWebRTCSupportExists) {
 //  }
 //  xhrE911.send(JSON.stringify({
 //    token: accessToken,
-//    address: address, 
+//    address: address,
 //    is_confirmed: false
 //  }));
 //
@@ -614,36 +615,6 @@ function answer2ndCall(localMedia, remoteMedia, action) {
   });
 }
 
-// ## Operation for downgrade and acceptModification 
-// once a call is ongoing and user downgrade request was accepted successfully.
-
-// ### state change successful
-// ---------------------------------
-// Register for [**call:state-changed**](../../lib/webrtc-sdk/doc/Phone.html#event:call:state-changed) event, it is published 
-// when the user accepts the media modification 
-
-phone.on('call:state-changed', onStateChanged);
-
-// ## Operation for ongoing media modification
-// once a call is ongoing and user downgrade request was successful
-
-// ### ongoing media modification 
-// ---------------------------------
-// Register for [**call:modification-in-progress**](../../lib/webrtc-sdk/doc/Phone.html#event:call:modification-in-progress) event, it is published 
-// when the user initiates downgrade and waiting for acceptance  
-
-phone.on('call:modification-in-progress', onMediaModification);
-
-// ## Operation for incoming media-modification
-// once a call is ongoing and user gets a request to upgrade or downgrade media
-
-// ### incoming media modification 
-// ---------------------------------
-// Register for [**call:accept-modification**](../../lib/webrtc-sdk/doc/Phone.html#event:call:accept-modification) event, it is published 
-// when the user have to act on a media modification 
-
-phone.on('call:media-modification', onCallModification);
-
 // ## Operations for ongoing calls
 // Once a call is ongoing, you can perform basic operations with
 // them like muting, unmuting, holding, resuming, canceling and hanging up.
@@ -703,6 +674,26 @@ function resume() {
   phone.resume();
 }
 
+// ### Cancel an outgoing call
+// ---------------------------------
+function cancel() {
+  // Use the [**phone.cancel**](../../lib/webrtc-sdk/doc/Phone.html#cancel) method to cancel the outgoing call.
+  phone.cancel();
+}
+
+// ### Hangup a call
+// ---------------------------------
+// Register for [**call:disconnecting**](../../lib/webrtc-sdk/doc/Phone.html#event:call:disconnected) event, it is published
+// immediately after invoking [**phone.hangup**](../../lib/webrtc-sdk/doc/Phone.html#hangup)
+phone.on('call:disconnecting', onCallDisconnecting);
+
+function hangup() {
+  //  Use the [**phone.hangup**](../../lib/webrtc-sdk/doc/Phone.html#hangup) method to hang up the current call.
+  phone.hangup();
+}
+
+// # Advanced Call Management
+
 // ### Move a call to a different client
 // -------------------------------------
 // Use the [**phone.move**](../../lib/webrtc-sdk/doc/Phone.html#move) method to move the call to another client.
@@ -752,7 +743,7 @@ phone.on('session:call-switched', onCallSwitched);
 // -------------------------------------
 // Use the [**phone.switchCall**](../../lib/webrtc-sdk/doc/Phone.html#switchCall) method to switch between two ongoing calls/conferences.
 function switchCalls() {
-  // The foreground call/conference wil be put on hold and will be moved to background, 
+  // The foreground call/conference wil be put on hold and will be moved to background,
   // and the background call/conference will be brought to foreground.
   phone.switchCall();
 }
@@ -794,30 +785,97 @@ function transfer() {
   // Use the [**phone.transfer**](../../lib/webrtc-sdk/doc/Phone.html#transfer) method to transfer existing call to another
   phone.transfer();
 }
-function downgrade() {
- // ### Downgrade a video call
+
+// ## Changing the media in a call a.k.a. media modifications
+// ----------------------------------
+//
+// If Bob and Alice are in a call, then they may want to change their media constraints:
+// * Downgrading a call means the user wants to stop sending their video if in a video call.
+// * Upgrading a call means the user wants to start sending their video if in an audio-only call.
+
+// ### Events during media modifications
+// ---------------------------------------
+
+// Before a user can start processing media modifications they need to register to the
+// [**call:media-modification**](../../lib/webrtc-sdk/doc/Phone.html#event:call:media-modification),
+// [**call:modification-in-progress**](../../lib/webrtc-sdk/doc/Phone.html#event:call:modification-in-progress)
+// and [**call:state-changed**](../../lib/webrtc-sdk/doc/Phone.html#event:call:state-changed) events.
+
+phone.on('call:modification-in-progress', onMediaModification);
+phone.on('call:media-modification', onCallModification);
+phone.on('call:state-changed', onStateChanged);
+
+// * `call:modification-in-progress` indicates that the media modification is taking place but has not completed.
+// * `call:media-modification` is only fired for the user receiving the modification request when user consent is necessary.
+// * `call:state-changed` is fired for both users when the modification is complete.
+
+// ### Downgrade a video call
 // -----------------------------------------
-  // Use the [**phone.downgrade**](../../lib/webrtc-sdk/doc/Phone.html#downgrade) method to downgrade the ongoing video call.
+// If Bob and Alice are in a video call, then Alice can disable her video and start sending only her audio.
+function downgrade() {
+  // In order to stop sending her video Alice can use the
+  // [**phone.downgrade**](../../lib/webrtc-sdk/doc/Phone.html#downgrade) method.
   phone.downgrade();
+
+  // At this point Bob will receive the `call:media-modification` event and may be promted to 
+  // accept or reject depending on the current state of his media.
+  //
+  // If the downgrade is successfull, then:
+  // * Bob and Alice will receive a [**call:state-changed**](../../lib/webrtc-sdk/doc/Phone.html#event:call:state-changed)
+  // event indicating the downgrade is complete.
+  // * Alice will stop sending her video and Bob will no longer see Alice's video.
 }
 
-// ### Cancel an outgoing call
-// ---------------------------------
-function cancel() {
-  // Use the [**phone.cancel**](../../lib/webrtc-sdk/doc/Phone.html#cancel) method to cancel the outgoing call.
-  phone.cancel();
+// ### Upgrade a video call
+// -----------------------------------------
+// If Bob and Alice are in an audio-only call, then Bob can request to upgrade the call to video.
+function upgrade() {
+  // In order to start the upgrade Bob will use the
+  // [**phone.upgrade**](../../lib/webrtc-sdk/doc/Phone.html#upgrade) method.
+  phone.upgrade();
+  // At this point Alice will receive the 
+  // [**call:media-modification**](../../lib/webrtc-sdk/doc/Phone.html#event:call:media-modification) 
+  // event, which this application uses to prompt Alice for confirmation.
+  //
+  // If the upgrade is successful, then:
+  // * Bob and Alice will receive a [**call:state-changed**](../../lib/webrtc-sdk/doc/Phone.html#event:call:state-changed)
+  // * Bob will start sending his video and Alice will now see Bob's video.
+
 }
 
-// ### Hangup a call
-// ---------------------------------
-// Register for [**call:disconnecting**](../../lib/webrtc-sdk/doc/Phone.html#event:call:disconnected) event, it is published
-// immediately after invoking [**phone.hangup**](../../lib/webrtc-sdk/doc/Phone.html#hangup)
-phone.on('call:disconnecting', onCallDisconnecting);
+// ### Accepting a media modification
+// ------------------------------------
+// If Bob is in a call with Alice and he receives a media modification request
+// from from Alice, the `call:media-modification` event will fire.
+function acceptModification() {
 
-function hangup() {
-  //  Use the [**phone.hangup**](../../lib/webrtc-sdk/doc/Phone.html#hangup) method to hang up the current call.
-  phone.hangup();
+  // In order to accept the modification request, Bob can use the 
+  // [**phone.acceptModification**](../../lib/webrtc-sdk/doc/Phone.html#acceptModification) method.
+  phone.acceptModification();
+
+  // After successfully accepting the modification, then:
+  // * The `call:state-changed` event will fire for both users.
+  // * Alice will start sending her new media -- audio for a downgrade, video for an upgrade --.
+  // * Bob will update his media constraints to match those of Alice.
+  // * Accepting a media modification will make both users have the same media constraints.
 }
+
+// ### Rejecting a media modification
+// -----------------------------------------
+// If Bob is in a call with Alice and he receives a media modification request
+// from from Alice, the `call:media-modification` event will fire.
+function rejectModification() {
+  // In order to reject the modification request, Bob can use the 
+  // [**phone.rejectModification**](../../lib/webrtc-sdk/doc/Phone.html#rejectModification) method.
+  phone.rejectModification();
+
+  // After successfully rejecting the modification, then:
+  // * The `call:state-changed` event will fire for both users.
+  // * Alice will start sending her new media -- audio for a downgrade, video for an upgrade --.
+  // * Bob will not update his media constraints, he will keep sending whatever he was sending 
+  // before the media modification.
+}
+
 
 // # Conference Management
 
@@ -989,12 +1047,12 @@ phone.on('conference:invitation-accepted', onInviteAccepted);
 // event is published when the invitation is rejected by the other party.
 phone.on('conference:invitation-rejected', onInviteRejected);
 
-// Then use the [**phone.addParticipants**](../../lib/webrtc-sdk/doc/Phone.html#addParticipants) method to adds a list of participants, e.g.,
-function addParticipants(participants) {
+// Then use the [**phone.addParticipant**](../../lib/webrtc-sdk/doc/Phone.html#addParticipant) method to adds participant, e.g.,
+function addParticipant(participant) {
   // ```
-  //   phone.addParticipants(['11231231234', 'john@domain.com']);
+  //   phone.addParticipant('11231231234');
   // ```
-  phone.addParticipants(participants);
+  phone.addParticipant(participant);
 }
 
 // ### Removing Participants
@@ -1069,13 +1127,5 @@ function getCallerInfo(callerUri) {
   //    domain: 'icmn.api.att.com'
   // }`.
   return phone.getCallerInfo(callerUri);
-}
-
-function acceptModification() {
-// ### Accept downgrade invitation
-// -----------------------------------------
-
-  // Use the [**phone.acceptModification**](../../lib/webrtc-sdk/doc/Phone.html#acceptModification) method to accept the downgrade invitation.
-  phone.acceptModification();
 }
 

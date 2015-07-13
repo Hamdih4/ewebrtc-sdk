@@ -1,9 +1,10 @@
-# Sample DHS App for AT&T Enhanced WebRTC JavaScript SDK
+# Sample Restify DHS for AT&T Enhanced WebRTC JavaScript SDK
 
-This sample DHS app is a Node.js application for demonstrating the features of AT&T Enhanced WebRTC, and includes the following functionality:
+This server is a standalone Developer Hosted Server (DHS) using Node.js® for demonstrating the features of AT&T Enhanced WebRTC. This folder does not include the Enhanced WebRTC Sample Apps.
 
-* OAuth endpoint for Mobile Number authorization and callback
-* App configuration (app key, app secret, redirect_uri, etc.)
+For information on running the AT&T Enhanced WebRTC Sample Apps, see the [Enhanced WebRTC JavaScript SDK page](http://developer.att.com/sdks-plugins/enhanced-webrtc) on the AT&T Developer Program Web site.
+
+The Restify DHS utilizes the Restify Node.js REST framework. 
 
 ## System requirements
 
@@ -35,7 +36,7 @@ The following configuration options are located in `/app.js`:
     app_key:    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     app_secret: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     virtual_numbers_pool: ["number 1", "number 1"],
-    ewebrtc_domain: "ewebrtc-token",
+    ewebrtc_domain: "your-ewebrtc_domain.com",
     app_token_url: "https://your-app-url/tokens",
     app_e911id_url: "https://your-app-url/e911ids"
 }

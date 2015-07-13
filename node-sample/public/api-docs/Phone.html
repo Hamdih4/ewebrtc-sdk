@@ -282,11 +282,11 @@
     
     <div class="description">
         <p>The private class <code>Phone</code> cannot be accessed directly. To get an instance of the <code>Phone</code> use the
-method <code>ATT.rtc.Phone.getPhone</code>.
+method <code>ATT.rtc.Phone.getPhone</code>.<br>
 The singleton <code>Phone</code> object exposes public methods (listed below) that can be used for performing
-different call and conference related operations.
+different call and conference related operations.<br>
 The <code>Phone</code> object fires events that can be subscribed to for taking appropriate action based
-on the fired event</p>
+on the fired event.</p>
     </div>
     
 
@@ -378,20 +378,21 @@ on the fired event</p>
     <h4 class="name" id="acceptModification"><span class="type-signature"></span>acceptModification<span class="signature">()</span><span class="type-signature"></span></h4>
     
     
-    <p class="summary">AcceptModification accepts the incoming downgrade request.</p>
+    <p class="summary">Accept the incoming call modification request.</p>
     
 </dt>
 <dd>
     
     
     <div class="description">
-        <p>Use this function to accept downgrade request for an ongoing video Call.<br>
-This method fires Phone#call:downgrade on success and <a href="Phone.html#event:error">Phone#event:error</a> event with error codes on failure :</p>
+        <p>Use this function to accept a call modification request for an ongoing call.<br>
+This method fires <a href="Phone.html#event:call:modification-in-progress">Phone#call:modification-in-progress</a> initially and <a href="Phone.html#event:call:state-changed">Phone#call:state-changed</a> on success.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li>31000 - Failed to acceptModification as there is a active Call.</li>
+<li>31000 - Failed to acceptModification as there is not an active Call.</li>
 <li>31001 - Called acceptModification in an invalid state.</li>
-<li>31002 - Error during getUserMedia for downgrade Call.</li>
+<li>31002 - Error during getUserMedia for acceptModification for Call.</li>
 </ul>
     </div>
     
@@ -476,16 +477,13 @@ phone.acceptModification();</pre>
     
     
     <div class="description">
-        <p>Use this function to dial a second call, if an active call exists. You may not use this method
-if there is no existing active call.
-This method will put the active call on hold (if not already held) and then try to
-dial out the second call.
-If the second call fails, the user is switched back to the first call.
-If the second call connects and is hung-up at a later point, the user is then returned
-to the first call.
-The first call will resume automatically, after the second call ends or fails, if it was
-not put on hold explicitly (using the hold function)
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this function to dial a second call. You may not use this method if there is not an existing active call.<br>
+This method will put the active call on hold (if not already on hold) and then try to dial the second call.<br>
+If the second call fails, the user is switched back to the first call.<br>
+If the second call connects and is hung-up at a later point, the user is then returned to the first call.<br>
+The first call will resume automatically when the second call ends or fails, unless the first call was put on
+hold explicitly (using the hold function).</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error codes</strong></p>
 <ul>
 <li>27000 - Internal Error Occurred</li>
@@ -497,7 +495,7 @@ This method can fire <a href="Phone.html#event:error">Phone#event:error</a> even
 <li>27006 - Invalid SIP URI</li>
 <li>27007 - Invalid media constraints</li>
 <li>27008 - User is not logged in</li>
-<li>27009 - Can not make second call. There is no first call in progress.</li>
+<li>27009 - Cannot make second call. There is no first call in progress.</li>
 <li>27010 - Cannot make a third call.</li>
 </ul>
     </div>
@@ -601,7 +599,8 @@ This method can fire <a href="Phone.html#event:error">Phone#event:error</a> even
 
             
 
-            <td class="description last"><p>The phone number or user id of the called party (without sip or tel URI).</p></td>
+            <td class="description last"><p>The phone number <strong>(Dialing 11 digit phone numbers is required with the
+exception of special numbers like 911.)</strong> or user id of the called party (without 'sip:' or 'tel:').</p></td>
         </tr>
 
 	
@@ -696,7 +695,7 @@ This method can fire <a href="Phone.html#event:error">Phone#event:error</a> even
 
             
 
-            <td class="description last"><p><code>audio</code> or <code>video</code>. Defaults to video.</p></td>
+            <td class="description last"><p><code>audio</code> or <code>video</code>. Default is video.</p></td>
         </tr>
 
 	
@@ -781,13 +780,13 @@ This method can fire <a href="Phone.html#event:error">Phone#event:error</a> even
     <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Add a video call with an Mobile Number User
 var phone = ATT.rtc.Phone.getPhone();
 phone.addCall({
-  destination: &#x27;1231231234&#x27;, &#x2F;&#x2F;1800CALLFEDX, 1 (123) 123-1234
+  destination: &#x27;11231231234&#x27;, &#x2F;&#x2F;1800CALFEDX, 1 (123) 123-1234
   localMedia: document.getElementById(&#x27;localVideo&#x27;),
   remoteMedia: document.getElementById(&#x27;remoteVideo&#x27;),
   mediaType: &#x27;video&#x27;
 });</pre>
 
-    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Add a video call with an Mobile Number User
+    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Add a video call with an Account ID User
 var phone = ATT.rtc.Phone.getPhone();
 phone.addCall({
   destination: &#x27;john@domain.com&#x27;,
@@ -802,24 +801,24 @@ phone.addCall({
         
             
 <dt>
-    <h4 class="name" id="addParticipants"><span class="type-signature"></span>addParticipants<span class="signature">(participants)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="addParticipant"><span class="type-signature"></span>addParticipant<span class="signature">(participant)</span><span class="type-signature"></span></h4>
     
     
-    <p class="summary">Add participants to the conference</p>
+    <p class="summary">Add participant to the conference</p>
     
 </dt>
 <dd>
     
     
     <div class="description">
-        <p>Use this function to add one or more participants to the current conference
-There should be an established conference before <code>addParticipant</code> can be invoked
-Only a host side can invoke addParticipants
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this function to add participant to the current conference.<br>
+There should be an established conference before <code>addParticipant</code> can be invoked.<br>
+Only a host side can invoke addParticipant.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li>24000 - Participants parameter missing</li>
-<li>24001 - Participants is null or empty</li>
+<li>24000 - Participant parameter missing</li>
+<li>24001 - Participant is null or empty</li>
 <li>24002 - User is not logged in</li>
 <li>24003 - Conference not initiated</li>
 <li>24004 - Internal error occurred</li>
@@ -860,7 +859,7 @@ This method can fire <a href="Phone.html#event:error">Phone#event:error</a> even
 
         <tr>
             
-                <td class="name"><code>participants</code></td>
+                <td class="name"><code>participant</code></td>
             
 
             <td class="type">
@@ -876,7 +875,8 @@ This method can fire <a href="Phone.html#event:error">Phone#event:error</a> even
 
             
 
-            <td class="description last"><p>List of participant-ids</p></td>
+            <td class="description last"><p>id <strong>(Dialing 11 digit phone numbers is required with the
+exception of special numbers like 911.)</strong></p></td>
         </tr>
 
 	
@@ -946,10 +946,10 @@ This method can fire <a href="Phone.html#event:error">Phone#event:error</a> even
         <h5>Examples</h5>
         
     <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
-phone.addParticipants([&#x27;4250000001&#x27;,&#x27;4250000002&#x27;]);</pre>
+phone.addParticipant(&#x27;1231231234&#x27;);</pre>
 
     <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
-phone.addParticipants([&#x27;john@domain.com&#x27;]);</pre>
+phone.addParticipant(&#x27;user@domain.com&#x27;);</pre>
 
 
     
@@ -968,11 +968,10 @@ phone.addParticipants([&#x27;john@domain.com&#x27;]);</pre>
     
     
     <div class="description">
-        <p>Once a <a href="Phone.html#event:call:incoming">Phone#call:incoming</a> event is fired, This method can be used this method to
-answer the incoming call.
+        <p>Once a <a href="Phone.html#event:call:incoming">Phone#call:incoming</a> event is fired, this method can be used this method to answer the incoming call.<br>
 If there is an existing call in progress, this method can be used to answer the second incoming
-call by putting on hold or ending the existing call.
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+call by putting on hold or ending the existing call.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>5000 - Answer failed: No incoming call</li>
@@ -1505,9 +1504,9 @@ phone.associateAccessToken({
     
     
     <div class="description">
-        <p>Use this function to update your E911 linked address id for the current user session
-The user has to be logged in before <code>associateE911Id</code> can be invoked
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this function to update your E911 linked address id for the current user session.<br>
+The user has to be logged in before <code>associateE911Id</code> can be invoked.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>17000 - e911 parameter is missing</li>
@@ -1597,9 +1596,9 @@ phone.associateE911Id({
     
     
     <div class="description">
-        <p>Use this function to cancel the call before other party answers it.
-There should be an unestablished outgoing call before <code>cancel</code> can be called.
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this function to cancel the call before other party answers it.<br>
+There should be an unestablished outgoing call before <code>cancel</code> can be called.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p> <strong>Error Code</strong></p>
 <ul>
 <li>11000 -Cancel failed - Call has not been initiated</li>
@@ -1686,7 +1685,7 @@ phone.cancel();</pre>
     
     
     <div class="description">
-        <p>A utility method used to convert alphanumeric characters to a valid phone number.
+        <p>A utility method used to convert alphanumeric characters to a valid phone number.<br>
 Note: Will ignore email formatted input</p>
     </div>
     
@@ -1841,7 +1840,7 @@ Note: Will ignore email formatted input</p>
         <h5>Example</h5>
         
     <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
-phone.cleanPhoneNumber(&#x27;1800CALFEDE&#x27;); &#x2F;&#x2F;1800223333</pre>
+phone.cleanPhoneNumber(&#x27;1800CALFEDE&#x27;); &#x2F;&#x2F;18002253333</pre>
 
 
     
@@ -1861,8 +1860,8 @@ phone.cleanPhoneNumber(&#x27;1800CALFEDE&#x27;); &#x2F;&#x2F;1800223333</pre>
     
     <div class="description">
         <p>Use this function to dial a call to another user already logged. The call can be dialled out by
-providing the destination, call media type information and local and remote media resources.
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+providing the destination, call media type information and local and remote media resources.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p> <strong>Error Codes</strong></p>
 <ul>
 <li>4000 - Invalid phone number</li>
@@ -1978,7 +1977,8 @@ This method can fire <a href="Phone.html#event:error">Phone#event:error</a> even
 
             
 
-            <td class="description last"><p>The Phone Number or User Id of the called party (without sip or tel URI)</p></td>
+            <td class="description last"><p>The Phone Number <strong>(Dialing 11 digit phone numbers is required with the exception
+of special numbers like 911.)</strong> or User Id of the called party (without sip or tel URI)</p></td>
         </tr>
 
 	
@@ -2158,7 +2158,7 @@ This method can fire <a href="Phone.html#event:error">Phone#event:error</a> even
     <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Start video call with an Mobile Number&#x2F;Virtual Number User
 var phone = ATT.rtc.Phone.getPhone();
 phone.dial({
-  destination: &#x27;11231231234&#x27;, &#x2F;&#x2F;1800CALLFEDX, 1 (123) 123-1234
+  destination: &#x27;11231231234&#x27;, &#x2F;&#x2F;1800CALFEDX, 1 (123) 123-1234
   localMedia: document.getElementById(&#x27;localVideo&#x27;),
   remoteMedia: document.getElementById(&#x27;remoteVideo&#x27;)
 });</pre>
@@ -2191,7 +2191,7 @@ phone.dial({
     <h4 class="name" id="downgrade"><span class="type-signature"></span>downgrade<span class="signature">()</span><span class="type-signature"></span></h4>
     
     
-    <p class="summary">Downgrade the current call to audio</p>
+    <p class="summary">Downgrade the current video call to audio</p>
     
 </dt>
 <dd>
@@ -2199,7 +2199,8 @@ phone.dial({
     
     <div class="description">
         <p>Use this function to downgrade the current video call to an audio call.<br>
-This method fires <a href="Phone.html#event:call:state-changed">Phone#call:state-changed</a> when successful or fires <a href="Phone.html#event:error">Phone#event:error</a> event on failure.</p>
+This method fires <a href="Phone.html#event:call:modification-in-progress">Phone#call:modification-in-progress</a> initially and <a href="Phone.html#event:call:state-changed">Phone#call:state-changed</a> when successful.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>33000 - There is no active call to downgrade..</li>
@@ -2291,12 +2292,11 @@ phone.downgrade();</pre>
     
     
     <div class="description">
-        <p>Use this function to end an ongoing conference.
-There should be an established conference before <code>endConference</code> can be invoked.
-If a participant side invokes <code>endConference</code> he is ejected and the host is notified.
-If the host side invokes endConference all the participants are disconnected and the conference
-is closed.
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this function to end an ongoing conference.<br>
+There should be an established conference before <code>endConference</code> can be invoked.<br>
+If a participant side invokes <code>endConference</code> he is ejected and the host is notified.<br>
+If the host side invokes endConference all the participants are disconnected and the conference is closed.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>23000 - Internal error occurred</li>
@@ -2791,14 +2791,14 @@ var calls = phone.getCalls();</pre>
     <h4 class="name" id="getIceServers"><span class="type-signature"></span>getIceServers<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
     
     
-    <p class="summary">Gets the list of ICE servers from the current peer connection configuration</p>
+    <p class="summary">Gets the list of ICE servers from the current peer connection configuration.</p>
     
 </dt>
 <dd>
     
     
     <div class="description">
-        <p>Use this function to get the current ICE servers that the SDK uses for creating peer connections</p>
+        <p>Use this function to get the current ICE servers that the SDK uses for creating peer connections.</p>
     </div>
     
 
@@ -2896,7 +2896,7 @@ phone.getIceServers();</pre>
     
     
     <div class="description">
-        <p>Use this function to get the current ICE transport value that the SDK uses for creating peer connections</p>
+        <p>Use this function to get the current ICE transport value that the SDK uses for creating peer connections.</p>
     </div>
     
 
@@ -2994,7 +2994,7 @@ phone.getIceTransport();</pre>
     
     
     <div class="description">
-        <p>Use this function to get the ipv6 value that the SDK uses for creating peer connections</p>
+        <p>Use this function to get the ipv6 value that the SDK uses for creating peer connections.</p>
     </div>
     
 
@@ -3190,10 +3190,10 @@ phone.getMediaType();</pre>
     
     
     <div class="description">
-        <p>Use this function to get a list of participants active in the current conference.
-There should be an established conference before <code>getParticipants</code> can be invoked
-Only a host side can invoke <code>getParticipants</code>
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this function to get a list of participants active in the current conference.<br>
+There should be an established conference before <code>getParticipants</code> can be invoked.<br>
+Only a host side can invoke <code>getParticipants</code>.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>21000 - Conference not initiated</li>
@@ -3274,9 +3274,9 @@ phone.getParticipants();</pre>
     
     
     <div class="description">
-        <p>Use this function to hangup the current call. The other party will get disconnected
-There should be an existing established call before <code>hangup</code> can be called.
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this function to hangup the current call. The other party will be disconnected.<br>
+There should be an existing established call before <code>hangup</code> can be called.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error codes</strong></p>
 <ul>
 <li>6000 - Call is not in progress</li>
@@ -3363,10 +3363,10 @@ phone.hangup();</pre>
     
     
     <div class="description">
-        <p>Use this function to put the other party(ies) on hold.
-The other party(ies) will no longer get the media (audio and video)
-There should be an existing established call or conference before <code>hold</code> can be called.
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this function to put the other party(ies) on hold.<br>
+The other party(ies) will no longer get the media (audio and video).<br>
+There should be an existing established call or conference before <code>hold</code> can be called.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error codes</strong></p>
 <ul>
 <li>7000 - Hold failed - Call is not in progress</li>
@@ -3561,8 +3561,8 @@ phone.isCallInProgress();</pre>
     
     
     <div class="description">
-        <p>Use this method on participant side for joining an incoming conference.
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this method on participant side for joining an incoming conference.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>20000 - Internal error occurred</li>
@@ -3789,9 +3789,9 @@ phone.joinConference({
     
     
     <div class="description">
-        <p>Use this function to establish Enhanced WebRTC session so that the user can place Enhanced WebRTC calls.
-The service parameter indicates the desired service such as audio or video call
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this function to establish Enhanced WebRTC session so that the user can place Enhanced WebRTC calls.<br>
+The service parameter indicates the desired service such as audio or video call.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p> <strong>Error Codes</strong></p>
 <ul>
 <li>2001 - Missing input parameter</li>
@@ -4031,8 +4031,8 @@ phone.login({
     
     <div class="description">
         <p>Use this function to log out from Enhanced WebRTC session. As a result,
-enhanced WebRTC session will get deleted and event channel polling will be stopped.
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+enhanced WebRTC session will get deleted and event channel polling will be stopped.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p> <strong>Error Codes</strong></p>
 <ul>
 <li>3000 - Internal error occurred</li>
@@ -4112,25 +4112,25 @@ phone.logout();</pre>
     <h4 class="name" id="move"><span class="type-signature"></span>move<span class="signature">()</span><span class="type-signature"></span></h4>
     
     
-    <p class="summary">Move the current call to a different endpoint/device</p>
+    <p class="summary">Move the current call to a different endpoint/device.</p>
     
 </dt>
 <dd>
     
     
     <div class="description">
-        <p>Use this function to move the current call to another client.
-The current user should be logged in to at least two different sessions before a call
-can be moved.
-There has to be an established call before <code>move</code> can be invoked.
-All endpoints(devices) with sessions for the current user will start to ring.
-The user can choose to answer on any of the other endpoints(devices)
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this function to move the current call to another client.<br>
+The current user should be logged in to at least two different sessions before a call can be moved.<br>
+There should be an established call before <code>move</code> can be invoked.<br>
+All endpoints(devices) with sessions for the current user will start to ring.<br>
+The user can choose to answer on any of the other endpoints(devices).</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>28000 - Move failed - User is not logged in</li>
 <li>28001 - Call is not in progress</li>
-<li>28002 - Internal error occurred</li>
+<li>28002 - Move failed due to invalid state</li>
+<li>28003 - Internal error occurred</li>
 </ul>
     </div>
     
@@ -4206,9 +4206,9 @@ phone.move();</pre>
     
     
     <div class="description">
-        <p>Use this function to mute the local media for current call or conference.
-The other party(ies) will no longer receive any audio, video (if available) will continue to be received
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this function to mute the local audio for current call or conference.<br>
+The other party(ies) will no longer receive any audio. Video (if available) will continue to be received.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>9000 - Mute failed- Call is not in progress</li>
@@ -4471,8 +4471,8 @@ phone.on(&#x27;session:ready&#x27;, function (data) {
     
     
     <div class="description">
-        <p>Use this method to reject and incoming call
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this method to reject an incoming call.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p> <strong>Error Codes</strong></p>
 <ul>
 <li>12000 - Reject failed-Call has not been initiated</li>
@@ -4559,10 +4559,10 @@ phone.reject();</pre>
     
     
     <div class="description">
-        <p>Use this method to reject an incoming conference invite
-There should be an existing un-accepted conference before <code>rejectConference</code> can be called.
-Only the participant side can invoke <code>rejectConference</code>
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this method to reject an incoming conference invite.<br>
+There should be an existing un-accepted conference before <code>rejectConference</code> can be called.<br>
+Only the participant side can invoke <code>rejectConference</code>.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p> <strong> Error Codes </strong></p>
 <ul>
 <li>22000 - Internal error occurred</li>
@@ -4640,6 +4640,99 @@ phone.rejectConference();</pre>
         
             
 <dt>
+    <h4 class="name" id="rejectModification"><span class="type-signature"></span>rejectModification<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+    <p class="summary">Rejects the incoming media modification (Upgrade/Downgrade) request.</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>You can use this method after you have received the <a href="Phone.html#event:call:media-modification">Phone#call:media-modification</a>
+event which indicates an incoming media modification request.</p>
+<p>Rejecting an upgrade request when in an audio call means only the other peer will start sending
+her video. The peer that rejected will keep sending only his audio.</p>
+<p><strong>Error Codes</strong></p>
+<ul>
+<li>32000 - Failed to reject modification, there is not an active call.</li>
+<li>32001 - Failed to reject modification, there is no modification to reject.</li>
+<li>32002 - Failed to reject modification, active call is in an invalid state.</li>
+</ul>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li><a href="Phone.html#event:call:modification-in-progress">Phone#call:modification-in-progress</a></li>
+    
+        <li><a href="Phone.html#event:call:state-changed">Phone#call:state-changed</a></li>
+    
+        <li><a href="Phone.html#event:error">Phone#event:error</a></li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
+phone.rejectModification();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="removeParticipant"><span class="type-signature"></span>removeParticipant<span class="signature">()</span><span class="type-signature"></span></h4>
     
     
@@ -4650,10 +4743,10 @@ phone.rejectConference();</pre>
     
     
     <div class="description">
-        <p>Use this function to remove a participant from the current conference.
-There should be an established conference before <code>removeParticipant</code> can be invoked
-Only a host side can invoke <code>removeParticipant</code>
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this function to remove a participant from the current conference.<br>
+There should be an established conference before <code>removeParticipant</code> can be invoked.<br>
+Only a host side can invoke <code>removeParticipant</code>.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>25000 - User is not logged in</li>
@@ -4740,7 +4833,7 @@ phone.removeParticipant(&#x27;johnny&#x27;);</pre>
     
     
     <div class="description">
-        <p>Use this method to reset the list of ICE servers to the default list for peer connection configuration</p>
+        <p>Use this method to reset the list of ICE servers to the default list for peer connection configuration.</p>
     </div>
     
 
@@ -4815,7 +4908,7 @@ phone.resetIceServers();</pre>
     
     
     <div class="description">
-        <p>Use this method to reset the ICE transport value to the value for peer connection configuration</p>
+        <p>Use this method to reset the ICE transport value to the value for peer connection configuration.</p>
     </div>
     
 
@@ -4890,7 +4983,7 @@ phone.resetIceTransport();</pre>
     
     
     <div class="description">
-        <p>Use this method to reset the ipv6 to the default value for peer connection configuration</p>
+        <p>Use this method to reset the ipv6 to the default value for peer connection configuration.</p>
     </div>
     
 
@@ -4965,10 +5058,10 @@ phone.resetIpv6();</pre>
     
     
     <div class="description">
-        <p>Use this function to resume the other party(ies) that was(were) put on hold previously.
-The other party(ies) will start receiving the media (audio and video).
-There should be an existing established call or conference on hold before <code>resume</code> can be invoked.
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this function to resume the call or conference that was put on hold previously.<br>
+The other party(ies) will start receiving the media (audio and video).<br>
+There should be an existing established call or conference on hold before <code>resume</code> can be invoked.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>8000 - Resume failed - Call is not in progress</li>
@@ -5057,8 +5150,8 @@ phone.resume();</pre>
     
     
     <div class="description">
-        <p>Use this method to set the list of ICE server that the SDK uses for creating peer connections</p>
-<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this method to set the list of ICE server that the SDK uses for creating peer connections.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>40000 - Invalid iceServers Array</li>
@@ -5186,8 +5279,8 @@ phone.setIceServers([{ &#x27;url&#x27;: &#x27;STUN:12.19.19.xx&#x27; }]);</pre>
     
     
     <div class="description">
-        <p>Use this method to set the ICE transport that the SDK uses for creating peer connections</p>
-<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this method to set the ICE transport that the SDK uses for creating peer connections.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>50000 - Invalid ice Transport parameters passed&quot;</li>
@@ -5316,8 +5409,8 @@ phone.setIceTransport(&#x27;all&#x27;);</pre>
     
     
     <div class="description">
-        <p>Use this method to set the ipv6 value that the SDK uses for creating peer connections</p>
-<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this method to set the ipv6 value that the SDK uses for creating peer connections.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>60000 - Passed a invalid ipv6 parameter.</li>
@@ -5446,9 +5539,9 @@ phone.setIpv6(false);</pre>
     
     <div class="description">
         <p>Use this method to start a conference. The host can invite other users to the conference
-by adding the participant(s). Participant(s) can accept or reject an invite.
-Only a host can remove a participant from the conference and end the conference.
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+by adding the participant(s). Participant(s) can accept or reject an invite.<br>
+Only a host can remove a participant from the conference and end the conference.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>18000 - Parameters missing</li>
@@ -5733,15 +5826,13 @@ phone.startConference({
     
     
     <div class="description">
-        <p>Use this function to switch between an active call or conference and a background.
-call or conference.</p>
+        <p>Use this function to switch between an active call or conference and a background call or conference.</p>
 <p><strong>Pre-conditions</strong>
 There should be at least two established calls before <code>switchCall</code> can be invoked.</p>
 <p><strong>Post-conditions</strong>
-If the call that's being brought to the foreground was put on hold
-by calling <a href="Phone.html#hold">Phone#hold</a> then the call will be kept on hold,
-otherwise the call will be resumed automatically.
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+If the call that's being brought to the foreground was put on hold by calling <a href="Phone.html#hold">Phone#hold</a> then the call
+will be kept on hold; otherwise the call will be resumed automatically.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>30000 - Internal error occurred</li>
@@ -5829,12 +5920,12 @@ phone.switchCall();</pre>
     
     <div class="description">
         <p>Use this function to transfer an established call between a transferee and a transferrer
-to the transfer-target.
-There should be an established call that is on hold.
-There should be a second established call with transfer target.
+to the transfer-target.<br>
+There should be an established call that is on hold.<br>
+There should be a second established call with transfer target.<br>
 <code>transfer</code> will transfer the other party of the first call to the other party of the second call
-and drop the current user from the call.
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+and drop the current user from the call.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>29000 - Internal error occurred</li>
@@ -5916,9 +6007,9 @@ phone.transfer();</pre>
     
     
     <div class="description">
-        <p>Use this function to unmute the local media for current call or conference.
-The other party(ies) will start receiving audio.
-This method can fire <a href="Phone.html#event:error">Phone#event:error</a> event with errors that can have these error codes:</p>
+        <p>Use this function to unmute the local media for current call or conference.<br>
+The other party(ies) will start receiving audio.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>10000 - Unmute failed- No media stream</li>
@@ -5992,6 +6083,100 @@ phone.unmute();</pre>
     
 </dd>
 
+        
+            
+<dt>
+    <h4 class="name" id="upgrade"><span class="type-signature"></span>upgrade<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+    <p class="summary">Upgrade the current audio call to video</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Use this function to upgrade the current audio call to a video call.<br>
+This method fires <a href="Phone.html#event:call:modification-in-progress">Phone#call:modification-in-progress</a> initially and <a href="Phone.html#event:call:state-changed">Phone#call:state-changed</a> when successful.</p>
+<p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
+<p><strong>Error Codes</strong></p>
+<ul>
+<li>34000 - There is not an active call to upgrade.</li>
+<li>34001 - Error while upgrading.</li>
+<li>34002 - Cannot upgrade a Video call.</li>
+<li>34003 - Cannot upgrade a conference.</li>
+<li>34004 - Error during getUserMedia.</li>
+</ul>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li><a href="Phone.html#event:call:modification-in-progress">Phone#call:modification-in-progress</a></li>
+    
+        <li><a href="Phone.html#event:call:state-changed">Phone#call:state-changed</a></li>
+    
+        <li><a href="Phone.html#event:error">Phone#event:error</a></li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
+phone.upgrade();</pre>
+
+
+    
+</dd>
+
         </dl>
     
 
@@ -6014,10 +6199,9 @@ when an incoming call is canceled by the calling party</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished incoming or outgoing call in order to be able
-to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished incoming or outgoing call in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -6299,19 +6483,17 @@ The event is fired with an attached event data of the following format:</p>
     <h4 class="name" id="event:call:connected">call:connected</h4>
     
     
-    <p class="summary">Call connected event fires when an outgoing or incoming call is connected to
-the other party.</p>
+    <p class="summary">Call connected event fires when an outgoing or incoming call is connected to the other party.</p>
     
 </dt>
 <dd>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished outgoing or incoming call in order to be able
-to receive this event.
-This event is fired after <a href="Phone.html#event:call:connecting">Phone#call:connecting</a> has been fired.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished outgoing or incoming call in order to be able to receive this event.<br>
+This event is fired after <a href="Phone.html#event:call:connecting">Phone#call:connecting</a> has been fired.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -6624,18 +6806,16 @@ The event is fired with an attached event data of the following format:</p>
     <h4 class="name" id="event:call:connecting">call:connecting</h4>
     
     
-    <p class="summary">Call connecting event fires when an outgoing or incoming call is trying to connect to
-the other party.</p>
+    <p class="summary">Call connecting event fires when an outgoing or incoming call is trying to connect to the other party.</p>
     
 </dt>
 <dd>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished outgoing or incoming call in order to be able
-to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished outgoing or incoming call in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -6925,9 +7105,9 @@ or by the API</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an existing call in progress in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an existing call in progress in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -7214,10 +7394,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established call in order to be able to receive this event.
-This event is fired in response to a successful call to <code>hangup</code> method
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established call in order to be able to receive this event.<br>
+This event is fired in response to a successful call to <code>hangup</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -7504,11 +7684,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established outgoing or incoming call in order to be able
-to receive this event.
-This event is fired in response to a successful call to <code>hold</code> method.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established outgoing or incoming call in order to be able to receive this event.<br>
+This event is fired in response to a successful call to <code>hold</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -7795,8 +7974,8 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -8012,15 +8191,15 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <p class="summary">Call media-modification event gets triggered when user needs to perform an action for the incoming
-Media-modification</p>
+media modification</p>
     
 </dt>
 <dd>
     
     
     <div class="description">
-        <p>The user is in a call and gets a media modification request. <br>
-The event is fired with an attached event data of the following format:</p>
+        <p>The user is in a call and gets a media modification request.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -8185,7 +8364,36 @@ The event is fired with an attached event data of the following format:</p>
 
             
 
-            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+            <td class="description last"><p>The existing media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>newMediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The requested media type for the call modification (audio/video).</p></td>
         </tr>
 
 	
@@ -8302,16 +8510,31 @@ The event is fired with an attached event data of the following format:</p>
     <h4 class="name" id="event:call:modification-in-progress">call:modification-in-progress</h4>
     
     
-    <p class="summary">Modification-in-progress event gets fired when downgrade request was successful.</p>
+    <p class="summary">Transitional event to indicate that a call modification (Upgrade/Downgrade) is taking place.</p>
     
 </dt>
 <dd>
     
     
     <div class="description">
-        <p>There should be an ongoing call where the user has initiated a downgrade request.<br>
-This event is fired in response to a successful call to <code>downgrade</code> or <code>acceptModification</code> method.<br>
-The event is fired with an attached event data of the following format:</p>
+        <p>This event fires in different scenarios:</p>
+<ul>
+<li>After successfully initiating a call modification but before the modification is complete.</li>
+<li>After successfully accepting or rejecting a call modification but before the modification is complete.</li>
+</ul>
+<p>The event handler contains the code to execute when the <code>modification-in-progress</code> event is received by
+this <code>Phone</code>.</p>
+<p><strong> Example </strong></p>
+<pre><code class="lang-js">// using a named function
+phone.on('call:modification-in-progress', handler);
+
+// using an anonymous function
+phone.on('call:modification-in-progress', function (data) { ... });</code></pre>
+<p><strong>Values</strong></p>
+<ul>
+<li><code>handler</code> is the name of the user-defined function, or an anonymous declaration</li>
+<li><code>data</code> contains information about the event, it has the following structure:</li>
+</ul>
     </div>
     
 
@@ -8599,10 +8822,10 @@ or a mobile device where the user is logged in.</p>
     
     
     <div class="description">
-        <p>The user has to be logged in on atleast two devices or browsers to be able to receive this event.
+        <p>The user has to be logged in on atleast two devices or browsers to be able to receive this event.<br>
 There should be a established outgoing or incoming call and move method should be invoked in
-order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -8891,10 +9114,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established call or conference in order to be able to receive this event.
-This event is fired in response to a successful call to <code>mute</code> method
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established call or conference in order to be able to receive this event.<br>
+This event is fired in response to a successful call to <code>mute</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -9182,10 +9405,9 @@ when an incoming call is rejected by the user successfully</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished incoming or outgoing call in order to be able
-to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished incoming or outgoing call in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -9474,11 +9696,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established outgoing or incoming call in order to be able
-to receive this event.
-This event is fired in response to a successful call to <code>resume</code> method.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established outgoing or incoming call in order to be able to receive this event.<br>
+This event is fired in response to a successful call to <code>resume</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -9765,12 +9986,11 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished outgoing call in order to be able
-to receive this event.
-The called party should be able to provide early media or ringback.
-The early media or ringback starts playing automatically when this event is fired.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished outgoing call in order to be able to receive this event.<br>
+The called party should be able to provide early media or ringback.<br>
+The early media or ringback starts playing automatically when this event is fired.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -9902,8 +10122,8 @@ The event is fired with an attached event data of the following format:</p>
     <div class="description">
         <p>The user has to be logged in order to be able to receive this event.<br>
 There should be an existing call in progress in order to be able to receive this event.<br>
-The user should have initiated and accepted media modification request.<br>
-The event is fired with an attached event data of the following format:</p>
+The user should have initiated and accepted media modification request.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -10106,6 +10326,64 @@ The event is fired with an attached event data of the following format:</p>
 
         <tr>
             
+                <td class="name"><code>oldState</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The previous state of the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>newState</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The new state of the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
                 <td class="name"><code>codec</code></td>
             
 
@@ -10223,10 +10501,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established call or conference in order to be able to receive this event.
-This event is fired in response to a successful call to <code>unmute</code> method
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established call or conference in order to be able to receive this event.<br>
+This event is fired in response to a successful call to <code>unmute</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -10513,10 +10791,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished conference in order to be able to receive this event.
-This event is mainly fired participant side in response to a canceled conference.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished conference in order to be able to receive this event.<br>
+This event is mainly fired participant side in response to a canceled conference.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -10834,10 +11112,9 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished conference started by the user in order
-to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished conference started by the user in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -11036,10 +11313,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished conference in order to be able to receive this event.
-This event is fired participant-side in response to a successful call to <code>joinConference</code> method
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished conference in order to be able to receive this event.<br>
+This event is fired participant-side in response to a successful call to <code>joinConference</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -11261,9 +11538,9 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>This event fires immediately when the user invokes <code>endConference</code>
-There should be an existing conference in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>This event fires immediately when the user invokes <code>endConference</code>.<br>
+There should be an existing conference in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -11581,12 +11858,12 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established in conference in order to be able to receive this event.
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established in conference in order to be able to receive this event.<br>
 This event is mainly fired host-side or participant side in response to a successful call
-to <code>endConference</code> method.
-This event can also be fired if the conference ends due to some unexpected reason.
-The event is fired with an attached event data of the following format:</p>
+to <code>endConference</code> method.<br>
+This event can also be fired if the conference ends due to some unexpected reason.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -11904,10 +12181,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established conference in order to be able to receive this event.
-This event is fired in response to a successful call to <code>hold</code> method.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established conference in order to be able to receive this event.<br>
+This event is fired in response to a successful call to <code>hold</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -12194,10 +12471,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established conference in order to be able to receive this event.
-This event is fired host-side  when an invitation has been accepted by the participant.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established conference in order to be able to receive this event.<br>
+This event is fired host-side  when an invitation has been accepted by the participant.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -12484,8 +12761,8 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -12707,10 +12984,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established conference in order to be able to receive this event.
-This event is fired host-side  when an invitation has been rejected by the participant.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established conference in order to be able to receive this event.<br>
+This event is fired host-side  when an invitation has been rejected by the participant.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -12997,11 +13274,11 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>This event fires immediately when the host invokes <code>addParticipant(s)</code>
-There should be an existing conference before in order to be able to receive this event
-This event is fired host-side in response to a successful call to <code>addParticipant(s)</code> method
-This event is followed by <a href="Phone.html#event:conference:invitation-sent">Phone#conference:invitation-sent</a>
-The event is fired with an attached event data of the following format:</p>
+        <p>This event fires immediately when the host invokes <code>addParticipant</code>.<br>
+There should be an existing conference in order to be able to receive this event.<br>
+This event is fired host-side in response to a successful call to the <code>addParticipant</code> method.<br>
+This event is followed by <a href="Phone.html#event:conference:invitation-sent">Phone#conference:invitation-sent</a></p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -13177,10 +13454,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established conference in order to be able to receive this event.
-This event is fired host-side in response to a successful call to <code>addParticipant(s)</code> method.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established conference in order to be able to receive this event.<br>
+This event is fired host-side in response to a successful call to <code>addParticipant(s)</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -13467,11 +13744,11 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an incoming conference invitation in order to be able to receive this event.
-This event is fired participant-side in response to a successful call to <code>joinConference</code> method
-This event is followed by <a href="Phone.html#event:conference:connecting">Phone#conference:connecting</a>
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an incoming conference invitation in order to be able to receive this event.<br>
+This event is fired participant-side in response to a successful call to <code>joinConference</code> method.<br>
+This event is followed by <a href="Phone.html#event:conference:connecting">Phone#conference:connecting</a>.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -13693,10 +13970,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established conference in order to be able to receive this event.
-This event is fired host-side in response to a successful call to <code>removeParticipant</code> method
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established conference in order to be able to receive this event.<br>
+This event is fired host-side in response to a successful call to <code>removeParticipant</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -13983,11 +14260,11 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
+        <p>The user has to be logged in order to be able to receive this event.<br>
 There should be an established conference which was previously put on hold by
-the user in order to be able to receive this event.
-This event is fired in response to a successful call to <code>resume</code> method.
-The event is fired with an attached event data of the following format:</p>
+the user in order to be able to receive this event.<br>
+This event is fired in response to a successful call to <code>resume</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -14342,11 +14619,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished incoming call in order to be able
-to receive this event.
-This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:connecting</a> event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished incoming call in order to be able to receive this event.<br>
+This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:connecting</a> event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -14568,11 +14844,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished outgoing call in order to be able
-to receive this event.
-This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:connecting</a> event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished outgoing call in order to be able to receive this event.<br>
+This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:connecting</a> event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -14773,15 +15048,17 @@ The event is fired with an attached event data of the following format:</p>
     <div class="description">
         <p>The error event can be fired by the <code>Phone</code> for different reasons:</p>
 <ul>
-<li><strong>API Error</strong> - is an error at the platform (RESTful API) level. This may
+<li><p><strong>API Error</strong> - is an error at the platform (RESTful API) level. This may
 be due to invalid parameters send in an HTTP request or a request being
-send while in an inconsistent state.</li>
-<li><strong>SDK Error</strong> - is an error most likely due to an inconsistent state in the
-client JavaScript library at the browser level.</li>
+send while in an inconsistent state.</p>
+</li>
+<li><p><strong>SDK Error</strong> - is an error most likely due to an inconsistent state in the
+client JavaScript library at the browser level.</p>
+</li>
 </ul>
 <p>Sometimes different errors can be caused by the same underlying problem
-in which case a common error code is used. The next is a list of the common
-API error codes:</p>
+in which case a common error code is used.</p>
+<p>The next is a list of the common API error codes:</p>
 <p><strong>Common API Error Codes</strong></p>
 <ul>
 <li>2500 - System error occurred</li>
@@ -14794,8 +15071,8 @@ API error codes:</p>
 <li>500,502,503,504 - <method name> failed - Unable to complete requested operation</li>
 </ul>
 <p>A list of API error codes is here <a href="ATT.utils.ErrorStore.APIErrors.html">ATT.utils.ErrorStore.APIErrors</a></p>
-<p>The user has to be logged in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+<p>The user has to be logged in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -15219,8 +15496,8 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -15511,9 +15788,9 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established call or conference in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established call or conference in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -15833,11 +16110,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an <code>connected</code> incoming or outgoing call in order to be able
-to receive this event.
-This event is fired after <a href="Phone.html#event:call:connected">Phone#call:connected</a> has been fired.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an <code>connected</code> incoming or outgoing call in order to be able to receive this event.<br>
+This event is fired after <a href="Phone.html#event:call:connected">Phone#call:connected</a> has been fired.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -16124,9 +16400,9 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There needs to be two calls in context in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There needs to be two calls in context in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -16303,7 +16579,7 @@ The event is fired with an attached event data of the following format:</p>
     
     <div class="description">
         <p>The event is fired if the user logs out successfully and the enhanced webrtc session
-is deleted successfully. User can no longer make or recieve calls.</p>
+is deleted successfully. User can no longer make or receive calls.</p>
     </div>
     
 
@@ -16371,10 +16647,10 @@ is deleted successfully. User can no longer make or recieve calls.</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
+        <p>The user has to be logged in order to be able to receive this event.<br>
 This event is fired when we get '404' with 'Session id not found'
-or 'The requested session resource was not found'.
-The event is fired with an attached event data of the following format:</p>
+or 'The requested session resource was not found'.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -16799,9 +17075,8 @@ initialized and ready to make, receive calls</p>
     
     
     <div class="description">
-        <p>The event is fired if the user logs in successfully and an enhanced webrtc session
-is created successfully
-The event is fired with an attached event data of the following format:</p>
+        <p>The event is fired if the user logs in successfully and an enhanced webrtc session is created successfully.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -16940,7 +17215,7 @@ The event is fired with an attached event data of the following format:</p>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a>
-		on 2015-05-29T20:20:47-07:00 using the <a
+		on 2015-07-13T14:07:39-07:00 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>
