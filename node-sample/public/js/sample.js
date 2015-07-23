@@ -3,13 +3,13 @@
   validateAddress, associateE911Id, getE911Id, loginVirtualNumberOrAccountIdUser, loginEnhancedWebRTC,
   onError, phoneLogout, loadView, switchView, dialCall, answer, answer2ndCall,
   hold, resume, startConference, joinConference, addParticipant, virtual_numbers,
-  getParticipants, removeParticipant, move, switchCall, cleanPhoneNumber*/
+  getParticipants, removeParticipant, move, switchCall, cleanPhoneNumber, ToggleDialPad, dialpad, sendDialTone*/
 
 'use strict';
 
 var sessionData = {},
   participantsVisible = false,
-  holder;
+  holdInitiator;
 
 function loadSampleApp() {
   loadConfiguration(function () {
@@ -202,6 +202,29 @@ function showCall(event) {
   btnConf.classList.remove('active');
   that.classList.add('active');
 
+//  if (!window.dialer) {
+//    createDialPad({
+//      onPress: function (key) {
+//        console.log('a key was pressed', key);
+//      },
+//      onCallableNumber: function (number) {
+//        console.log('we have a number that seems callable', number);
+//      },
+//      onHide: function () {
+//        console.log('removed it');
+//      },
+//      onCall: function (number) {
+//        console.log('The call button was pressed', number);
+//        audioOnly = document.getElementById('callAudioOnly').checked;
+//        callee = document.getElementById('callee').value;
+//        //util method to clean phone number
+//        callee = appendDomainToAccountIDCallee(callee);
+//
+//        dialCall(callee, (audioOnly ? 'audio' : 'video'), localVideo, remoteVideo);
+//      }
+//    });
+//  }
+
   btnDial.onclick = function () {
     audioOnly = document.getElementById('callAudioOnly').checked;
     callee = document.getElementById('callee').value;
@@ -234,13 +257,26 @@ function endAndAnswer() {
   answerCall('end');
 }
 
+function showDialPad() {
+  toggleDialPad({
+    onPress: function (key) {
+      sendDTMFTone(key);
+      console.log('Key ' + key + ' was pressed');
+    },
+    onCall: function () {
+      dialpad.hide();
+      dialpad.visible = false;
+    }
+  });
+}
+
 function holdCall() {
-  holder = true;
+  holdInitiator = true;
   hold();
 }
 
 function resumeCall() {
-  holder = false;
+  holdInitiator = false;
   resume();
 }
 
@@ -264,6 +300,25 @@ function showConference(event) {
 
   that.classList.add('active');
   btnCall.classList.remove('active');
+
+//  if (!window.dialer) {
+//    createDialPad({
+//      onPress: function (key) {
+//        console.log('a key was pressed', key);
+//      },
+//      onCallableNumber: function (number) {
+//        console.log('we have a number that seems callable', number);
+//      },
+//      onHide: function () {
+//        console.log('removed it');
+//      },
+//      onCall: function (number) {
+//        console.log('The call button was pressed', number);
+//        confAudioOnly = document.getElementById('confAudioOnly').checked;
+//        startConference((confAudioOnly ? 'audio' : 'video'), localVideo, remoteVideo);
+//      }
+//    });
+//  }
 
   btnCreateConference.onclick = function () {
     confAudioOnly = document.getElementById('confAudioOnly').checked;

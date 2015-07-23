@@ -1,4 +1,5 @@
 <div class="col-sm-12 jumbotron jumbotron-video clearfix">
+ <div id="sample-dial-pad"></div>
     <div id="address-box" style="display: none"></div>
 
     <div class="form-group">
@@ -88,6 +89,9 @@
         <video id="remoteVideo" class="video-box col-xs-12  flip-horizontal"></video>
         <div class="call-actions clearfix" id="call-actions">
             <div class="col-xs-12" style="padding-left: 0">
+               <button id="btn-dialpad" type="button" class="btn btn-default btn-xs" onclick="showDialPad()">
+                   <span class="glyphicon glyphicon-dialpad"> Dialpad</span>
+                </button>
                 <button id="btn-hold" type="button" class="btn btn-default btn-xs" onclick="holdCall()" disabled>
                     <span class="glyphicon glyphicon-pause"> Hold</span>
                 </button>

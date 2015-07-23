@@ -83,12 +83,12 @@
             <div class="content"><div class='highlight'><pre><span class="hljs-comment">/*global ATT, unsupportedBrowserError, checkEnhancedWebRTCSession, addCall,
   onSessionReady, onSessionDisconnected, onSessionExpired, onAddressUpdated, onError, onWarning, onDialing,
   onIncomingCall, onConnecting, onCallConnected, onMediaEstablished, onEarlyMedia, onAnswering, onCallMuted,
-  onCallUnmuted, onCallHold, onCallResume, onCallDisconnecting, onCallDisconnected, onCallCanceled,
+  onCallUnmuted, onCallHeld, onCallResume, onCallDisconnecting, onCallDisconnected, onCallCanceled,
   onCallRejected, onConferenceConnected, onConferenceDisconnected, onConferenceInvite, onConferenceCanceled,
   onConferenceEnded, onJoiningConference, onInvitationSent, onInviteAccepted, onInviteRejected,
   onParticipantRemoved, onConferenceDisconnecting, onConferenceHold, onConferenceResumed, onNotification,
   onCallSwitched, onCallRingbackProvided, onTransferring, onTransferred, onCallMoved, onMediaModification,
-  onStateChanged, onCallModification*/</span>
+  onStateChanged, onCallModification, onToneSent, onToneSending, sendDTMFTone*/</span>
 <span class="hljs-pi">
 'use strict'</span>;
 
@@ -2002,7 +2002,7 @@ published when <a href="../api-docs/Phone.html#unmute"><strong>phone.unmute</str
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>phone.on(<span class="hljs-string">'call:held'</span>, onCallHold);
+            <div class="content"><div class='highlight'><pre>phone.on(<span class="hljs-string">'call:held'</span>, onCallHeld);
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hold</span><span class="hljs-params">()</span> </span>{</pre></div></div>
             
@@ -3803,6 +3803,237 @@ it will convert callerUri like
             
             <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">return</span> phone.getCallerInfo(callerUri);
 }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-222">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-222">&#182;</a>
+              </div>
+              <h3 id="ending-a-phone-utilities">Ending a Phone utilities</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-223">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-223">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-224">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-224">&#182;</a>
+              </div>
+              <h1 id="dtmf-dual-tone-multi-frequency-">DTMF [Dual Tone - Multi Frequency]</h1>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-225">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-225">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-226">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-226">&#182;</a>
+              </div>
+              <p>The phone object provides methods to use DTMF functionality when in a call..</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-227">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-227">&#182;</a>
+              </div>
+              <h3 id="register-for-_senddtmftone_-event">Register for <em>sendDTMFTone</em> event</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-228">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-228">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-229">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-229">&#182;</a>
+              </div>
+              <p>The <a href="../api-docs/Phone.html#event:dtmf:tone-sending"><strong>dtmf:tone-sending</strong></a> event is published
+immediately after tone request is sent.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>phone.on(<span class="hljs-string">'dtmf:tone-sending'</span>, onToneSending);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-230">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-230">&#182;</a>
+              </div>
+              <p>The <a href="../api-docs/Phone.html#event:dtmf:tone-sent"><strong>dtmf:tone-sent</strong></a> event is published immediately
+after signal is passed into streams successfully.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+phone.on(<span class="hljs-string">'dtmf:tone-sent'</span>, onToneSent);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-231">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-231">&#182;</a>
+              </div>
+              <h3 id="senddtmftone">sendDTMFTone</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-232">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-232">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sendDTMFTone</span><span class="hljs-params">(tone)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-233">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-233">&#182;</a>
+              </div>
+              <p>Once you have registered handlers for all appropriate
+events you can use the <a href="../api-docs/Phone.html#sendDTMFTone"><strong>phone.sendDTMFTone</strong></a> method on Phone to
+start send a DTMF tone.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  phone.sendDTMFTone({</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-234">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-234">&#182;</a>
+              </div>
+              <ul>
+<li>a valid dial tone [0,1,2,3,4,5,6,7,8,9,*,#]</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    input : tone,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-235">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-235">&#182;</a>
+              </div>
+              <ul>
+<li>a the intertone gap (in ms &gt; 50) [50, 60]</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    gap : <span class="hljs-number">60</span>
+  });
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-236">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-236">&#182;</a>
+              </div>
+              <h3 id="ending-a-dtmf">Ending a DTMF</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-237">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-237">&#182;</a>
+              </div>
+              
+            </div>
             
         </li>
         

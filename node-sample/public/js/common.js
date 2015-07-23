@@ -10,12 +10,12 @@
 /*global ATT, unsupportedBrowserError, checkEnhancedWebRTCSession, addCall,
   onSessionReady, onSessionDisconnected, onSessionExpired, onAddressUpdated, onError, onWarning, onDialing,
   onIncomingCall, onConnecting, onCallConnected, onMediaEstablished, onEarlyMedia, onAnswering, onCallMuted,
-  onCallUnmuted, onCallHold, onCallResume, onCallDisconnecting, onCallDisconnected, onCallCanceled,
+  onCallUnmuted, onCallHeld, onCallResume, onCallDisconnecting, onCallDisconnected, onCallCanceled,
   onCallRejected, onConferenceConnected, onConferenceDisconnected, onConferenceInvite, onConferenceCanceled,
   onConferenceEnded, onJoiningConference, onInvitationSent, onInviteAccepted, onInviteRejected,
   onParticipantRemoved, onConferenceDisconnecting, onConferenceHold, onConferenceResumed, onNotification,
   onCallSwitched, onCallRingbackProvided, onTransferring, onTransferred, onCallMoved, onMediaModification,
-  onStateChanged, onCallModification*/
+  onStateChanged, onCallModification, onToneSent, onToneSending, sendDTMFTone*/
 
 'use strict';
 
@@ -656,7 +656,7 @@ function unmute() {
 // ### Put a call on hold
 // ---------------------------------
 // Register for [**call:held**](../../lib/webrtc-sdk/doc/Phone.html#event:call:held) event, it is published when call is on hold.
-phone.on('call:held', onCallHold);
+phone.on('call:held', onCallHeld);
 
 function hold() {
   // Use the [**phone.hold**](../../lib/webrtc-sdk/doc/Phone.html#hold) method to put the current call or conference on hold.
@@ -1128,4 +1128,43 @@ function getCallerInfo(callerUri) {
   // }`.
   return phone.getCallerInfo(callerUri);
 }
+// ### Ending a Phone utilities
+// ---------------------------------
+
+
+// # DTMF [Dual Tone - Multi Frequency]
+// ---------------------------------
+
+// The phone object provides methods to use DTMF functionality when in a call..
+
+
+
+// ### Register for _sendDTMFTone_ event
+// ---------------------------------
+
+// The [**dtmf:tone-sending**](../../lib/webrtc-sdk/doc/Phone.html#event:dtmf:tone-sending) event is published
+// immediately after tone request is sent.
+phone.on('dtmf:tone-sending', onToneSending);
+
+// The [**dtmf:tone-sent**](../../lib/webrtc-sdk/doc/Phone.html#event:dtmf:tone-sent) event is published immediately
+// after signal is passed into streams successfully.
+
+phone.on('dtmf:tone-sent', onToneSent);
+
+
+// ### sendDTMFTone
+// ---------------------------------
+function sendDTMFTone(tone) {
+// Once you have registered handlers for all appropriate
+// events you can use the [**phone.sendDTMFTone**](../../lib/webrtc-sdk/doc/Phone.html#sendDTMFTone) method on Phone to
+// start send a DTMF tone.
+  phone.sendDTMFTone({
+    // - a valid dial tone [0,1,2,3,4,5,6,7,8,9,*,#]
+    input : tone,
+    // - a the intertone gap (in ms > 50) [50, 60]
+    gap : 60
+  });
+}
+// ### Ending a DTMF 
+// ---------------------------------
 

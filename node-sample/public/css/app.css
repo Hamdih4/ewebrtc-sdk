@@ -226,3 +226,10 @@ button.btn {
   -moz-transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
 }
+
+#sample-dial-pad {
+    position: absolute;
+    z-index: 1002;
+    top: 150px;
+    margin-left: 75px;
+}

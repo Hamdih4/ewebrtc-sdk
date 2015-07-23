@@ -192,6 +192,14 @@
 						</li>
 						
 						<li>
+							<a href="Phone.html#event:dtmf:tone-sending">Phone#dtmf:tone-sending</a>
+						</li>
+						
+						<li>
+							<a href="Phone.html#event:dtmf:tone-sent">Phone#dtmf:tone-sent</a>
+						</li>
+						
+						<li>
 							<a href="Phone.html#event:address-updated">Phone#event:address-updated</a>
 						</li>
 						
@@ -5065,8 +5073,8 @@ There should be an existing established call or conference on hold before <code>
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>8000 - Resume failed - Call is not in progress</li>
-<li>8001 - Call is not on hold</li>
-<li>8002 - Internal error occurred</li>
+<li>8001 - Internal error occurred</li>
+<li>8002 - Resume failed. Invalid state</li>
 <li>8508 - A media modification is in progress for the callId</li>
 </ul>
     </div>
@@ -5132,6 +5140,219 @@ There should be an existing established call or conference on hold before <code>
         
     <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
 phone.resume();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="sendDTMFTone"><span class="type-signature"></span>sendDTMFTone<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    
+    
+    <p class="summary">Sends a DTMF signal through the audio steam.</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>You can use this method to send a DTMF signal
+through the audio stream after you have established a call.</p>
+<p><strong>Error Codes</strong></p>
+<ul>
+<li>35000 - User is not logged in.</li>
+<li>35001 - There is no active call.</li>
+<li>35002 - Invalid options provided.</li>
+<li>35003 - sending dtmf tone failed due to wrong call state.</li>
+</ul>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>input</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the character that needs to be sent as a tone.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>[gap]</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the intertone gap (in ms greater then 50).</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+            </td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li><a href="Phone.html#event:dtmf:tone-sent">Phone#dtmf:tone-sent</a></li>
+    
+        <li><a href="Phone.html#event:dtmf:tone-sending">Phone#dtmf:tone-sending</a></li>
+    
+        <li><a href="Phone.html#event:error">Phone#event:error</a></li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
+phone.sendDTMFTone({input: &#x27;2&#x27;, gap : 5});</pre>
 
 
     
@@ -5283,8 +5504,7 @@ phone.setIceServers([{ &#x27;url&#x27;: &#x27;STUN:12.19.19.xx&#x27; }]);</pre>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li>50000 - Invalid ice Transport parameters passed&quot;</li>
-<li>50001 - Passed and invalid values other then  'none','all' or 'relay' for iceTransport.</li>
+<li>50000 - Invalid ice Transport parameters passed</li>
 </ul>
     </div>
     
@@ -5335,7 +5555,7 @@ phone.setIceServers([{ &#x27;url&#x27;: &#x27;STUN:12.19.19.xx&#x27; }]);</pre>
 
             
 
-            <td class="description last"><p>The valid iceTransport value ('none','all' or 'relay'</p></td>
+            <td class="description last"><p>The valid iceTransport value ('none','all' or 'relay')</p></td>
         </tr>
 
 	
@@ -5464,7 +5684,7 @@ phone.setIceTransport(&#x27;all&#x27;);</pre>
 
             
 
-            <td class="description last"><p>The valid Boolean value (true or false)</p></td>
+            <td class="description last"><p>The valid Boolean value (<code>true</code> or <code>false</code>)</p></td>
         </tr>
 
 	
@@ -5930,8 +6150,9 @@ and drop the current user from the call.</p>
 <ul>
 <li>29000 - Internal error occurred</li>
 <li>29001 - User is not logged in</li>
-<li>29002 - Transfer failed - Call is not in progress</li>
-<li>29004 - Transfer failed - There is only one call in progress</li>
+<li>29002 - Transfer failed. Call is not in progress</li>
+<li>29003 - Transfer failed. Invalid state</li>
+<li>29004 - Transfer failed. There is only one call in progress</li>
 </ul>
     </div>
     
@@ -6102,7 +6323,7 @@ This method fires <a href="Phone.html#event:call:modification-in-progress">Phone
 <p><strong>Error Codes</strong></p>
 <ul>
 <li>34000 - There is not an active call to upgrade.</li>
-<li>34001 - Error while upgrading.</li>
+<li>34001 - Upgrade failed due to invalid state.</li>
 <li>34002 - Cannot upgrade a Video call.</li>
 <li>34003 - Cannot upgrade a conference.</li>
 <li>34004 - Error during getUserMedia.</li>
@@ -14541,6 +14762,521 @@ This event is fired in response to a successful call to <code>resume</code> meth
         
             
 <dt>
+    <h4 class="name" id="event:dtmf:tone-sending">dtmf:tone-sending</h4>
+    
+    
+    <p class="summary">Tone sending event gets fired when DTMF tone request was successful.</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>The event is fired if the tone is inserted into the audio stream.</p>
+<p>The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the called party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="event:dtmf:tone-sent">dtmf:tone-sent</h4>
+    
+    
+    <p class="summary">Tone sent event gets fired when the tone is sent successfully.</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>The event is fired when the tone is passed into the audio stream successfully.</p>
+<p>The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>tone</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The tone which was inserted successfully.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the called party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Timestamp when the tone was inserted into stream.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="event:address-updated">address-updated</h4>
     
     
@@ -17215,7 +17951,7 @@ initialized and ready to make, receive calls</p>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a>
-		on 2015-07-13T14:07:39-07:00 using the <a
+		on 2015-07-23T11:08:24-07:00 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>

@@ -1,6 +1,6 @@
 /*jslint browser: true, devel: true, node: true, debug: true, todo: true, indent: 2, maxlen: 150*/
-/*global ATT, RESTClient, console, log, phone, holder, eWebRTCDomain,
-  sessionData, defaultHeaders, onError, getCallerInfo,
+/*global ATT, RESTClient, console, log, phone, holdInitiator, eWebRTCDomain,
+  sessionData, defaultHeaders, onError, getCallerInfo, Dialpad, dialer,
   loginMobileNumber, createAccessToken, associateAccessToken, createE911Id, ewebrtc_domain,
   loginEnhancedWebRTC, hideParticipants, showParticipants, acceptModification, rejectModification*/
 
@@ -8,7 +8,10 @@
 
 var buttons,
   defaultHeaders,
-  autoRejectTimer,
+  autoRejectTimer, 
+  dialpad,
+  muted = false,
+  dialerVisible = false,
   autoRejectWaitingTime = 5000;
 
 defaultHeaders = {
@@ -117,7 +120,8 @@ function setupHomeView() {
 }
 
 function formatError(errObj) {
-  var formattedError;
+  var error,
+    formattedError;
 
   if (undefined === errObj) {
     return '';
@@ -125,36 +129,37 @@ function formatError(errObj) {
 
   if (undefined !== errObj.getJson) {
     if (errObj.getJson()) {
-      errObj = errObj.getJson();
+      error = errObj.getJson();
     } else {
-      errObj = errObj.responseText;
+      error = errObj.responseText;
     }
   }
   if (undefined !== errObj.error) {
-    errObj = errObj.error;
+    error = errObj.error;
   }
-  if (undefined !== errObj.message) {
-    errObj = errObj.message;
+  if (undefined !== errObj.data) {
+    error.Message = errObj.data.message;
   }
 
-  if (undefined !== errObj.JSObject
-      || undefined !== errObj.APIError) {
-    formattedError = (errObj ? (
-      (errObj.JSObject ? "<br/>JSObject: " + errObj.JSObject : "") +
-      (errObj.JSMethod ? "<br/>JSMethod: " + errObj.JSMethod : "") +
-      (errObj.Resolution ? "<br/>Resolution: " + errObj.Resolution : "") +
-      (errObj.ErrorCode ? "<br/>Error Code: " + errObj.ErrorCode : "") +
-      (errObj.Cause ? "<br/>Cause: " + errObj.Cause : "") +
-      (errObj.ErrorMessage ? "<br/>Error Message: " + errObj.ErrorMessage : "") +
-      (errObj.PossibleCauses ? "<br/>Possible Causes: " + errObj.PossibleCauses : "") +
-      (errObj.PossibleResolution ? "<br/>Possible Resolution: " + errObj.PossibleResolution : "") +
-      (errObj.APIError ? "<br/>API Error: " + errObj.APIError : "") +
-      (errObj.ResourceMethod ? "<br/>Resource Method: " + errObj.ResourceMethod : "") +
-      (errObj.HttpStatusCode ? "<br/>Http Status Code: " + errObj.HttpStatusCode : "") +
-      (errObj.MessageId ? "<br/>MessageId: " + errObj.MessageId : "")
+  if (undefined !== error.JSObject
+      || undefined !== error.APIError) {
+    formattedError = (error ? (
+      (error.JSObject ? "<br/>JSObject: " + error.JSObject : "") +
+      (error.JSMethod ? "<br/>JSMethod: " + error.JSMethod : "") +
+      (error.Resolution ? "<br/>Resolution: " + error.Resolution : "") +
+      (error.ErrorCode ? "<br/>Error Code: " + error.ErrorCode : "") +
+      (error.Cause ? "<br/>Cause: " + error.Cause : "") +
+      (error.ErrorMessage ? "<br/>Error Message: " + error.ErrorMessage : "") +
+      (error.PossibleCauses ? "<br/>Possible Causes: " + error.PossibleCauses : "") +
+      (error.PossibleResolution ? "<br/>Possible Resolution: " + error.PossibleResolution : "") +
+      (error.APIError ? "<br/>API Error: " + error.APIError : "") +
+      (error.ResourceMethod ? "<br/>Resource Method: " + error.ResourceMethod : "") +
+      (error.HttpStatusCode ? "<br/>Http Status Code: " + error.HttpStatusCode : "") +
+      (error.MessageId ? "<br/>MessageId: " + error.MessageId : "") +
+      (error.Message ? "<br/>Message: " + error.Message : "")
     ) : '');
   } else {
-    formattedError = errObj.toString();
+    formattedError = error.toString();
   }
 
   return formattedError;
@@ -481,8 +486,10 @@ function resetUI() {
 }
 
 function enableUI() {
+  document.getElementById('btn-mute').disabled = muted;
+  document.getElementById('btn-unmute').disabled = !muted;
   document.getElementById('btn-hold').disabled = false;
-  document.getElementById('btn-resume').disabled = false;
+  document.getElementById('btn-resume').disabled = true;
   document.getElementById('btn-move').disabled = false;
   if ('audio' === phone.getMediaType()) {
     document.getElementById('btn-upgrade').disabled = false;
@@ -491,17 +498,7 @@ function enableUI() {
     document.getElementById('btn-upgrade').disabled = true;
     document.getElementById('btn-downgrade').disabled = false;
   }
-  document.getElementById('btn-mute').disabled = false;
-  document.getElementById('btn-unmute').disabled = false;
   document.getElementById('btn-hangup').disabled = false;
-}
-
-function removeClass(element) {
-  element.className.replace(/(?:^|\s)MyClass(?!\S)/g, '');
-}
-
-function addClass(element, className) {
-  element.className += ' ' + className;
 }
 
 function onError(err) {
@@ -694,25 +691,8 @@ function onCallConnected(data) {
     '. Time: ' + data.timestamp + '<h6>');
 
   document.getElementById('calling-tone').pause();
-  document.getElementById('btn-hangup').disabled = false;
 
-  //TODO: Remove this after fixing this defect.
-  //media established is not being fired the first time call is connected
-  document.getElementById('btn-hold').disabled = false;
-  document.getElementById('btn-resume').disabled = false;
-  document.getElementById('btn-mute').disabled = false;
-  document.getElementById('btn-unmute').disabled = false;
-  document.getElementById('btn-resume').disabled = false;
-  document.getElementById('btn-move').disabled = false;
-
-  if ('audio' === phone.getMediaType()) {
-    document.getElementById('btn-upgrade').disabled = false;
-    document.getElementById('btn-downgrade').disabled = true;
-  } else {
-    document.getElementById('btn-upgrade').disabled = true;
-    document.getElementById('btn-downgrade').disabled = false;
-  }
-
+  enableUI();
 }
 
 function onCallSwitched(data) {
@@ -769,23 +749,33 @@ function onJoiningConference(data) {
   document.getElementById('ringtone').pause();
 }
 
-function onCallMuted() {
+function onCallMuted(data) {
+  muted = true;
+  setMessage('Call muted. Time: ' + data.timestamp);
   document.getElementById('btn-mute').disabled = true;
   document.getElementById('btn-unmute').disabled = false;
 }
 
-function onCallUnmuted() {
+function onCallUnmuted(data) {
+  muted = false;
+  setMessage('Call umuted. Time: ' + data.timestamp);
   document.getElementById('btn-unmute').disabled = true;
   document.getElementById('btn-mute').disabled = false;
 }
 
 
 // This event callback gets invoked when a call is put on hold
-function onCallHold(data) {
-  setMessage('Call on hold. Time: ' + data.timestamp);
+function onCallHeld(data) {
   resetUI();
-  if (true === holder) {
+
+  if (holdInitiator) {
+    setMessage('Call on hold. Time: ' + data.timestamp);
+
+    document.getElementById('btn-hold').disabled = true;
     document.getElementById('btn-resume').disabled = false;
+
+  } else {
+    setMessage('Call was held. Time: ' + data.timestamp);
   }
 }
 
@@ -804,6 +794,15 @@ function onConferenceHold(data) {
 function onConferenceResumed(data) {
   setMessage('Conference resumed. Time: ' + data.timestamp);
   enableUI();
+}
+
+
+function onToneSent(data) {
+  setMessage('dtmf tone insterted.Tone: ' + data.tone + ' Time: ' + data.timestamp);
+}
+
+function onToneSending(data) {
+  setMessage('dtmf tone sending. Time: ' + data.timestamp);
 }
 
 function onCallDisconnecting(data) {
@@ -837,7 +836,12 @@ function onStateChanged(data) {
     setMessage('Call modified to ' + data.mediaType + '. Time: ' + data.timestamp);
   }
 
-  enableUI();
+  if ('connected' === data.newState) {
+    enableUI();
+  } else if ('hold' === data.newState) {
+    document.getElementById('btn-hold').disabled = true;
+    document.getElementById('btn-resume').disabled = false;
+  }
 }
 
 function onCallDisconnected(data) {
@@ -915,6 +919,7 @@ function onCallRejected(data) {
   peer = callerInfo.callerId;
 
   setMessage('Call ' + (data.from ? ('from ' + peer) : ('to '  + peer)) + ' rejected.' + ' Time: ' + data.timestamp);
+
   document.getElementById('ringtone').pause();
   document.getElementById('calling-tone').pause();
 }
@@ -973,3 +978,18 @@ function onAddressUpdated() {
   document.getElementById("address-box").style.display = 'none';
   setMessage('Updated E911 address successfully');
 }
+
+function toggleDialPad(options) {
+  if (!dialpad) {
+    dialpad = new Dialpad(options);
+  }
+
+  if (!dialpad.visible) {
+    document.getElementById('sample-dial-pad').appendChild(dialpad.render());
+    dialpad.visible = true;
+  } else {
+    dialpad.hide();
+    dialpad.visible = false;
+  }
+}
+
