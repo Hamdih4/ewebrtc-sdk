@@ -54,6 +54,10 @@
 					<ul class="dropdown-menu ">
 						
 						<li>
+							<a href="ATT.logManager.Logger.html">ATT.logManager.Logger</a>
+						</li>
+						
+						<li>
 							<a href="Phone.html">Phone</a>
 						</li>
 						
@@ -96,6 +100,14 @@
 						</li>
 						
 						<li>
+							<a href="Phone.html#event:call:media-modification">Phone#call:media-modification</a>
+						</li>
+						
+						<li>
+							<a href="Phone.html#event:call:modification-in-progress">Phone#call:modification-in-progress</a>
+						</li>
+						
+						<li>
 							<a href="Phone.html#event:call:moved">Phone#call:moved</a>
 						</li>
 						
@@ -113,6 +125,10 @@
 						
 						<li>
 							<a href="Phone.html#event:call:ringback-provided">Phone#call:ringback-provided</a>
+						</li>
+						
+						<li>
+							<a href="Phone.html#event:call:state-changed">Phone#call:state-changed</a>
 						</li>
 						
 						<li>
@@ -173,6 +189,14 @@
 						
 						<li>
 							<a href="Phone.html#event:conference:resumed">Phone#conference:resumed</a>
+						</li>
+						
+						<li>
+							<a href="Phone.html#event:dtmf:tone-sending">Phone#dtmf:tone-sending</a>
+						</li>
+						
+						<li>
+							<a href="Phone.html#event:dtmf:tone-sent">Phone#dtmf:tone-sent</a>
 						</li>
 						
 						<li>
@@ -299,6 +323,9 @@
         <h3 class="subsection-title">Classes</h3>
 
         <dl>
+            <dt><a href="ATT.logManager.Logger.html">Logger</a></dt>
+            <dd></dd>
+        
             <dt><a href="Phone.html">Phone</a></dt>
             <dd>Creates a new instance of the private class Phone.</dd>
         </dl>
@@ -345,10 +372,9 @@ when an incoming call is canceled by the calling party</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished incoming or outgoing call in order to be able
-to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished incoming or outgoing call in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -630,19 +656,17 @@ The event is fired with an attached event data of the following format:</p>
     <h4 class="name" id="event:call:connected">call:connected</h4>
     
     
-    <p class="summary">Call connected event fires when an outgoing or incoming call is connected to
-the other party.</p>
+    <p class="summary">Call connected event fires when an outgoing or incoming call is connected to the other party.</p>
     
 </dt>
 <dd>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished outgoing or incoming call in order to be able
-to receive this event.
-This event is fired after <a href="Phone.html#event:call:connecting">Phone#call:connecting</a> has been fired.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished outgoing or incoming call in order to be able to receive this event.<br>
+This event is fired after <a href="Phone.html#event:call:connecting">Phone#call:connecting</a> has been fired.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -955,18 +979,16 @@ The event is fired with an attached event data of the following format:</p>
     <h4 class="name" id="event:call:connecting">call:connecting</h4>
     
     
-    <p class="summary">Call connecting event fires when an outgoing or incoming call is trying to connect to
-the other party.</p>
+    <p class="summary">Call connecting event fires when an outgoing or incoming call is trying to connect to the other party.</p>
     
 </dt>
 <dd>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished outgoing or incoming call in order to be able
-to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished outgoing or incoming call in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -1256,9 +1278,9 @@ or by the API</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an existing call in progress in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an existing call in progress in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -1545,10 +1567,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established call in order to be able to receive this event.
-This event is fired in response to a successful call to <code>hangup</code> method
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established call in order to be able to receive this event.<br>
+This event is fired in response to a successful call to <code>hangup</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -1835,11 +1857,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established outgoing or incoming call in order to be able
-to receive this event.
-This event is fired in response to a successful call to <code>hold</code> method.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established outgoing or incoming call in order to be able to receive this event.<br>
+This event is fired in response to a successful call to <code>hold</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -2126,8 +2147,8 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -2339,6 +2360,630 @@ The event is fired with an attached event data of the following format:</p>
         
             
 <dt>
+    <h4 class="name" id="event:call:media-modification">call:media-modification</h4>
+    
+    
+    <p class="summary">Call media-modification event gets triggered when user needs to perform an action for the incoming
+media modification</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>The user is in a call and gets a media modification request.</p>
+<p>The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the called party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The existing media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>newMediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The requested media type for the call modification (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="event:call:modification-in-progress">call:modification-in-progress</h4>
+    
+    
+    <p class="summary">Transitional event to indicate that a call modification (Upgrade/Downgrade) is taking place.</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This event fires in different scenarios:</p>
+<ul>
+<li>After successfully initiating a call modification but before the modification is complete.</li>
+<li>After successfully accepting or rejecting a call modification but before the modification is complete.</li>
+</ul>
+<p>The event handler contains the code to execute when the <code>modification-in-progress</code> event is received by
+this <code>Phone</code>.</p>
+<p><strong> Example </strong></p>
+<pre><code class="lang-js">// using a named function
+phone.on('call:modification-in-progress', handler);
+
+// using an anonymous function
+phone.on('call:modification-in-progress', function (data) { ... });</code></pre>
+<p><strong>Values</strong></p>
+<ul>
+<li><code>handler</code> is the name of the user-defined function, or an anonymous declaration</li>
+<li><code>data</code> contains information about the event, it has the following structure:</li>
+</ul>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the called party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="event:call:moved">call:moved</h4>
     
     
@@ -2350,10 +2995,10 @@ or a mobile device where the user is logged in.</p>
     
     
     <div class="description">
-        <p>The user has to be logged in on atleast two devices or browsers to be able to receive this event.
+        <p>The user has to be logged in on atleast two devices or browsers to be able to receive this event.<br>
 There should be a established outgoing or incoming call and move method should be invoked in
-order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -2642,10 +3287,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established call or conference in order to be able to receive this event.
-This event is fired in response to a successful call to <code>mute</code> method
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established call or conference in order to be able to receive this event.<br>
+This event is fired in response to a successful call to <code>mute</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -2933,10 +3578,9 @@ when an incoming call is rejected by the user successfully</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished incoming or outgoing call in order to be able
-to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished incoming or outgoing call in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -3225,11 +3869,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established outgoing or incoming call in order to be able
-to receive this event.
-This event is fired in response to a successful call to <code>resume</code> method.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established outgoing or incoming call in order to be able to receive this event.<br>
+This event is fired in response to a successful call to <code>resume</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -3516,12 +4159,11 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished outgoing call in order to be able
-to receive this event.
-The called party should be able to provide early media or ringback.
-The early media or ringback starts playing automatically when this event is fired.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished outgoing call in order to be able to receive this event.<br>
+The called party should be able to provide early media or ringback.<br>
+The early media or ringback starts playing automatically when this event is fired.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -3641,6 +4283,387 @@ The event is fired with an attached event data of the following format:</p>
         
             
 <dt>
+    <h4 class="name" id="event:call:state-changed">call:state-changed</h4>
+    
+    
+    <p class="summary">State Changed event fires when an media modification request was successfully accepted.</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an existing call in progress in order to be able to receive this event.<br>
+The user should have initiated and accepted media modification request.</p>
+<p>The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the called party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>state</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The current state after media modification.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>oldState</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The previous state of the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>newState</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The new state of the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="event:call:unmuted">call:unmuted</h4>
     
     
@@ -3651,10 +4674,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established call or conference in order to be able to receive this event.
-This event is fired in response to a successful call to <code>unmute</code> method
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established call or conference in order to be able to receive this event.<br>
+This event is fired in response to a successful call to <code>unmute</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -3941,10 +4964,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished conference in order to be able to receive this event.
-This event is mainly fired participant side in response to a canceled conference.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished conference in order to be able to receive this event.<br>
+This event is mainly fired participant side in response to a canceled conference.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -4262,10 +5285,9 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished conference started by the user in order
-to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished conference started by the user in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -4464,10 +5486,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished conference in order to be able to receive this event.
-This event is fired participant-side in response to a successful call to <code>joinConference</code> method
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished conference in order to be able to receive this event.<br>
+This event is fired participant-side in response to a successful call to <code>joinConference</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -4689,9 +5711,9 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>This event fires immediately when the user invokes <code>endConference</code>
-There should be an existing conference in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>This event fires immediately when the user invokes <code>endConference</code>.<br>
+There should be an existing conference in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -5009,12 +6031,12 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established in conference in order to be able to receive this event.
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established in conference in order to be able to receive this event.<br>
 This event is mainly fired host-side or participant side in response to a successful call
-to <code>endConference</code> method.
-This event can also be fired if the conference ends due to some unexpected reason.
-The event is fired with an attached event data of the following format:</p>
+to <code>endConference</code> method.<br>
+This event can also be fired if the conference ends due to some unexpected reason.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -5332,10 +6354,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established conference in order to be able to receive this event.
-This event is fired in response to a successful call to <code>hold</code> method.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established conference in order to be able to receive this event.<br>
+This event is fired in response to a successful call to <code>hold</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -5622,10 +6644,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established conference in order to be able to receive this event.
-This event is fired host-side  when an invitation has been accepted by the participant.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established conference in order to be able to receive this event.<br>
+This event is fired host-side  when an invitation has been accepted by the participant.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -5912,8 +6934,8 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -6135,10 +7157,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established conference in order to be able to receive this event.
-This event is fired host-side  when an invitation has been rejected by the participant.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established conference in order to be able to receive this event.<br>
+This event is fired host-side  when an invitation has been rejected by the participant.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -6425,11 +7447,11 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>This event fires immediately when the host invokes <code>addParticipant(s)</code>
-There should be an existing conference before in order to be able to receive this event
-This event is fired host-side in response to a successful call to <code>addParticipant(s)</code> method
-This event is followed by <a href="Phone.html#event:conference:invitation-sent">Phone#conference:invitation-sent</a>
-The event is fired with an attached event data of the following format:</p>
+        <p>This event fires immediately when the host invokes <code>addParticipant</code>.<br>
+There should be an existing conference in order to be able to receive this event.<br>
+This event is fired host-side in response to a successful call to the <code>addParticipant</code> method.<br>
+This event is followed by <a href="Phone.html#event:conference:invitation-sent">Phone#conference:invitation-sent</a></p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -6605,10 +7627,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established conference in order to be able to receive this event.
-This event is fired host-side in response to a successful call to <code>addParticipant(s)</code> method.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established conference in order to be able to receive this event.<br>
+This event is fired host-side in response to a successful call to <code>addParticipant(s)</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -6895,11 +7917,11 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an incoming conference invitation in order to be able to receive this event.
-This event is fired participant-side in response to a successful call to <code>joinConference</code> method
-This event is followed by <a href="Phone.html#event:conference:connecting">Phone#conference:connecting</a>
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an incoming conference invitation in order to be able to receive this event.<br>
+This event is fired participant-side in response to a successful call to <code>joinConference</code> method.<br>
+This event is followed by <a href="Phone.html#event:conference:connecting">Phone#conference:connecting</a>.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -7121,10 +8143,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established conference in order to be able to receive this event.
-This event is fired host-side in response to a successful call to <code>removeParticipant</code> method
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established conference in order to be able to receive this event.<br>
+This event is fired host-side in response to a successful call to <code>removeParticipant</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -7411,11 +8433,11 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
+        <p>The user has to be logged in order to be able to receive this event.<br>
 There should be an established conference which was previously put on hold by
-the user in order to be able to receive this event.
-This event is fired in response to a successful call to <code>resume</code> method.
-The event is fired with an attached event data of the following format:</p>
+the user in order to be able to receive this event.<br>
+This event is fired in response to a successful call to <code>resume</code> method.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -7692,6 +8714,521 @@ The event is fired with an attached event data of the following format:</p>
         
             
 <dt>
+    <h4 class="name" id="event:dtmf:tone-sending">dtmf:tone-sending</h4>
+    
+    
+    <p class="summary">Tone sending event gets fired when DTMF tone request was successful.</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>The event is fired if the tone is inserted into the audio stream.</p>
+<p>The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the called party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="event:dtmf:tone-sent">dtmf:tone-sent</h4>
+    
+    
+    <p class="summary">Tone sent event gets fired when the tone is sent successfully.</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>The event is fired when the tone is passed into the audio stream successfully.</p>
+<p>The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>tone</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The tone which was inserted successfully.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the called party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Timestamp when the tone was inserted into stream.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="event:address-updated">address-updated</h4>
     
     
@@ -7770,11 +9307,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished incoming call in order to be able
-to receive this event.
-This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:connecting</a> event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished incoming call in order to be able to receive this event.<br>
+This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:connecting</a> event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -7996,11 +9532,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an unestablished outgoing call in order to be able
-to receive this event.
-This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:connecting</a> event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an unestablished outgoing call in order to be able to receive this event.<br>
+This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:connecting</a> event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -8201,15 +9736,17 @@ The event is fired with an attached event data of the following format:</p>
     <div class="description">
         <p>The error event can be fired by the <code>Phone</code> for different reasons:</p>
 <ul>
-<li><strong>API Error</strong> - is an error at the platform (RESTful API) level. This may
+<li><p><strong>API Error</strong> - is an error at the platform (RESTful API) level. This may
 be due to invalid parameters send in an HTTP request or a request being
-send while in an inconsistent state.</li>
-<li><strong>SDK Error</strong> - is an error most likely due to an inconsistent state in the
-client JavaScript library at the browser level.</li>
+send while in an inconsistent state.</p>
+</li>
+<li><p><strong>SDK Error</strong> - is an error most likely due to an inconsistent state in the
+client JavaScript library at the browser level.</p>
+</li>
 </ul>
 <p>Sometimes different errors can be caused by the same underlying problem
-in which case a common error code is used. The next is a list of the common
-API error codes:</p>
+in which case a common error code is used.</p>
+<p>The next is a list of the common API error codes:</p>
 <p><strong>Common API Error Codes</strong></p>
 <ul>
 <li>2500 - System error occurred</li>
@@ -8222,8 +9759,8 @@ API error codes:</p>
 <li>500,502,503,504 - <method name> failed - Unable to complete requested operation</li>
 </ul>
 <p>A list of API error codes is here <a href="ATT.utils.ErrorStore.APIErrors.html">ATT.utils.ErrorStore.APIErrors</a></p>
-<p>The user has to be logged in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+<p>The user has to be logged in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -8647,8 +10184,8 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -8939,9 +10476,9 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an established call or conference in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an established call or conference in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -9261,11 +10798,10 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There should be an <code>connected</code> incoming or outgoing call in order to be able
-to receive this event.
-This event is fired after <a href="Phone.html#event:call:connected">Phone#call:connected</a> has been fired.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an <code>connected</code> incoming or outgoing call in order to be able to receive this event.<br>
+This event is fired after <a href="Phone.html#event:call:connected">Phone#call:connected</a> has been fired.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -9552,9 +11088,9 @@ The event is fired with an attached event data of the following format:</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
-There needs to be two calls in context in order to be able to receive this event.
-The event is fired with an attached event data of the following format:</p>
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There needs to be two calls in context in order to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -9731,7 +11267,7 @@ The event is fired with an attached event data of the following format:</p>
     
     <div class="description">
         <p>The event is fired if the user logs out successfully and the enhanced webrtc session
-is deleted successfully. User can no longer make or recieve calls.</p>
+is deleted successfully. User can no longer make or receive calls.</p>
     </div>
     
 
@@ -9799,10 +11335,10 @@ is deleted successfully. User can no longer make or recieve calls.</p>
     
     
     <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.
+        <p>The user has to be logged in order to be able to receive this event.<br>
 This event is fired when we get '404' with 'Session id not found'
-or 'The requested session resource was not found'.
-The event is fired with an attached event data of the following format:</p>
+or 'The requested session resource was not found'.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -10227,9 +11763,8 @@ initialized and ready to make, receive calls</p>
     
     
     <div class="description">
-        <p>The event is fired if the user logs in successfully and an enhanced webrtc session
-is created successfully
-The event is fired with an attached event data of the following format:</p>
+        <p>The event is fired if the user logs in successfully and an enhanced webrtc session is created successfully.</p>
+<p>The event is fired with an attached event data of the following format:</p>
     </div>
     
 
@@ -10368,7 +11903,7 @@ The event is fired with an attached event data of the following format:</p>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a>
-		on 2015-03-22T11:25:58-07:00 using the <a
+		on 2015-07-24T13:37:25-07:00 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>

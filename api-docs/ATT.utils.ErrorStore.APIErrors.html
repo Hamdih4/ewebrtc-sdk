@@ -54,6 +54,10 @@
 					<ul class="dropdown-menu ">
 						
 						<li>
+							<a href="ATT.logManager.Logger.html">ATT.logManager.Logger</a>
+						</li>
+						
+						<li>
 							<a href="Phone.html">Phone</a>
 						</li>
 						
@@ -96,6 +100,14 @@
 						</li>
 						
 						<li>
+							<a href="Phone.html#event:call:media-modification">Phone#call:media-modification</a>
+						</li>
+						
+						<li>
+							<a href="Phone.html#event:call:modification-in-progress">Phone#call:modification-in-progress</a>
+						</li>
+						
+						<li>
 							<a href="Phone.html#event:call:moved">Phone#call:moved</a>
 						</li>
 						
@@ -113,6 +125,10 @@
 						
 						<li>
 							<a href="Phone.html#event:call:ringback-provided">Phone#call:ringback-provided</a>
+						</li>
+						
+						<li>
+							<a href="Phone.html#event:call:state-changed">Phone#call:state-changed</a>
 						</li>
 						
 						<li>
@@ -173,6 +189,14 @@
 						
 						<li>
 							<a href="Phone.html#event:conference:resumed">Phone#conference:resumed</a>
+						</li>
+						
+						<li>
+							<a href="Phone.html#event:dtmf:tone-sending">Phone#dtmf:tone-sending</a>
+						</li>
+						
+						<li>
+							<a href="Phone.html#event:dtmf:tone-sent">Phone#dtmf:tone-sent</a>
 						</li>
 						
 						<li>
@@ -252,7 +276,7 @@
 
     
         
-            <div class="description"><p>Lists the API error codes used by the AT&amp;T's Enhanced WebRTC SDK.</p></div>
+            <div class="description"><p>Lists the API error codes used by AT&amp;T's Enhanced WebRTC SDK.</p></div>
         
 
         
@@ -1682,7 +1706,7 @@
 
             
 
-            <td class="description last"><p>16508</p></td>
+            <td class="description last"><p>16507</p></td>
         </tr>
 
 	
@@ -1728,9 +1752,7 @@
 
             
 
-            <td class="description last"><ol>
-<li>Access Token is incorrect or in valid.?2. Access token is not authorized for the Enhanced WebRTC scope.</li>
-</ol></td>
+            <td class="description last"><p>Access Token is incorrect or invalid, or Access token is not authorized for the Enhanced WebRTC scope.</p></td>
         </tr>
 
 	
@@ -1776,7 +1798,7 @@
 
             
 
-            <td class="description last"><p>POL0001: A policy error occurred. For example, rate…it error, authentication and authorization errors</p></td>
+            <td class="description last"><p>POL0001: A policy error occurred. For example, rate limit error, authentication and authorization error.</p></td>
         </tr>
 
 	
@@ -2092,7 +2114,7 @@
 
             
 
-            <td class="description last"><p>POL0002: Privacy verification failed for address <address> request is refused</p></td>
+            <td class="description last"><p>POL0002: Privacy verification failed for address <code>&lt;address&gt;</code> request is refused</p></td>
         </tr>
 
 	
@@ -2724,7 +2746,7 @@
 
             
 
-            <td class="description last"><p>SVC0001: A service error has occurred. Error code is <error_explanation></p></td>
+            <td class="description last"><p>SVC0001: A service error has occurred. Error code is <code>&lt;error_explanation&gt;</code></p></td>
         </tr>
 
 	
@@ -3040,7 +3062,7 @@
 
             
 
-            <td class="description last"><p>SVC0001: A service error has occurred. Error code is <error_explanation></p></td>
+            <td class="description last"><p>SVC0001: A service error has occurred. Error code is <code>&lt;error_explanation&gt;</code></p></td>
         </tr>
 
 	
@@ -3356,7 +3378,7 @@
 
             
 
-            <td class="description last"><p>SVC0002 - Invalid input value for message part <part_name></p></td>
+            <td class="description last"><p>SVC0002 - Invalid input value for message part <code>&lt;part_name&gt;</code></p></td>
         </tr>
 
 	
@@ -3672,7 +3694,7 @@
 
             
 
-            <td class="description last"><p>SVC0003 - Invalid input value for message part <part_name>, valid values are <part_values></p></td>
+            <td class="description last"><p>SVC0003 - Invalid input value for message part <code>&lt;part_name&gt;</code>, valid values are <code>&lt;part_values&gt;</code></p></td>
         </tr>
 
 	
@@ -3942,7 +3964,7 @@
 
             
 
-            <td class="description last"><p>E911 Id is not required a parameter for this user type (account id)</p></td>
+            <td class="description last"><p>E911 Id is not a required parameter for this user type (account id)</p></td>
         </tr>
 
 	
@@ -4304,7 +4326,7 @@
 
             
 
-            <td class="description last"><p>SVC8511:Valid e911Id is mandatory for <part_value></p></td>
+            <td class="description last"><p>SVC8511:Valid e911Id is mandatory for <code>&lt;part_value&gt;</code></p></td>
         </tr>
 
 	
@@ -4913,7 +4935,7 @@
 
             
 
-            <td class="description last"><p>In case user abruptly closed the application, called to expire the token and receive new token.</p></td>
+            <td class="description last"><p>In case the user abruptly closed the application, expire the token and retrieve new token.</p></td>
         </tr>
 
 	
@@ -5568,7 +5590,7 @@
 
             
 
-            <td class="description last"><p>POL0002:Privacy verification failed for address <address> request is refused</p></td>
+            <td class="description last"><p>POL0002:Privacy verification failed for address <code>&lt;address&gt;</code> request is refused</p></td>
         </tr>
 
 	
@@ -6108,7 +6130,7 @@
 
             
 
-            <td class="description last"><p>2501</p></td>
+            <td class="description last"><p>2511</p></td>
         </tr>
 
 	
@@ -6177,7 +6199,7 @@
 
             
 
-            <td class="description last"><p>End user needs to provide consent to get provisioned.</p></td>
+            <td class="description last"><p>End user needs to provide consent to be provisioned.</p></td>
         </tr>
 
 	
@@ -6470,8 +6492,9 @@
 
             
 
-            <td class="description last"><p>For virtual number and account id users: Since virtual number is assigned to a
-specific user. Max number of sessions is defined by the network.</p></td>
+            <td class="description last"><p>For virtual number and account id users: Since virtual numbers and account ids
+are assigned to a specific user, the max number of sessions may be exceeded if more than one user is accessing
+them. The max number of sessions is defined by the network.</p></td>
         </tr>
 
 	
@@ -8413,7 +8436,7 @@ specific user. Max number of sessions is defined by the network.</p></td>
 
             
 
-            <td class="description last"><p>SVC8501: Call <callid> in progress</p></td>
+            <td class="description last"><p>SVC8501: Call <code>&lt;callid&gt;</code> in progress</p></td>
         </tr>
 
 	
@@ -8729,7 +8752,7 @@ specific user. Max number of sessions is defined by the network.</p></td>
 
             
 
-            <td class="description last"><p>SVC8501: Call <callid> in progress</p></td>
+            <td class="description last"><p>SVC8501: Call <code>&lt;callid&gt;</code> in progress</p></td>
         </tr>
 
 	
@@ -9045,7 +9068,7 @@ specific user. Max number of sessions is defined by the network.</p></td>
 
             
 
-            <td class="description last"><p>SVC8501: Call <callid> in progress</p></td>
+            <td class="description last"><p>SVC8501: Call <code>&lt;callid&gt;</code> in progress</p></td>
         </tr>
 
 	
@@ -9183,7 +9206,7 @@ specific user. Max number of sessions is defined by the network.</p></td>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a>
-		on 2015-03-22T11:25:58-07:00 using the <a
+		on 2015-07-24T13:37:25-07:00 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>
