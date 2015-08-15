@@ -14,14 +14,14 @@
     
 <!-- Step 1: HTML Phone Objects UI -->
 <p>
-<button id="configureButton" onclick="configurePhone()">Create Phone Objects</button>
-<button id="configureSuccessButton" hidden disabled>Phone Objects Created Successfully</button>
+<button id="createPhoneObjectButton" onclick="createPhoneObject()">Create Phone Object</button>
+<button id="createPhoneSuccessButton" hidden disabled>Phone Object Created Successfully</button>
 </p>
     
 <!-- Step 2a: HTML Login and Logout UI -->
 <p>
-<input type="text" id="loginInput" placeholder="Example: alice or bob" size="30" hidden></input>
-<button id="loginButton" onclick="login()" hidden>Account ID Login</button>
+<input type="text" id="loginInput" placeholder="Example: alice or bob" size="30" hidden>
+<button id="loginButton" onclick="createAccessToken()" hidden>Account ID Login</button>
 <button id="logoutButton" onclick="logout()" hidden>Logout</button>
 </p>
 
@@ -41,7 +41,7 @@
 
 <!-- Step 12: HTML Add Participant UI -->
 <p>
-<input type="text" id="callToInput" placeholder="Account ID/Telephone" hidden></input>
+<input type="text" id="callToInput" placeholder="Account ID/Telephone" hidden>
 <button id="addParticipantButton" onclick="addParticipant()" hidden>Add Participant alice@yourdomain.com or 1234567890</button>
 <button id="invitationSentButton" hidden>Invitation Sent</button>
 <button id="invitationAcceptedButton" hidden>Invitation Accepted</button>
@@ -51,22 +51,36 @@
 <!-- JavaScript will go here -->  
 
 <!-- Step 1b: Configure Phone Objects and Register Events-->
-<script type="text/javascript" src="/js/ewebrtc-sdk.min.js"></script>   
+
+<script type ="text/javascript" src="/js/ewebrtc-sdk.min.js"></script>   
 <script type="text/javascript">
-      
+    
+var phone, accessToken, myDHS, myDHSURL = 'https://127.0.0.1:9001';
+    
+//Get DHS Configuration Information
+var xhrConfig = new XMLHttpRequest();
+xhrConfig.open('GET', myDHSURL + "/config/");
+xhrConfig.onreadystatechange = function() {
+    if (xhrConfig.readyState == 4) {
+        if (xhrConfig.status == 200) {
+            console.log(xhrConfig.responseText);
+            myDHS = JSON.parse(xhrConfig.responseText);
+        } else {
+            console.log(xhrConfig.responseText);
+        }
+    }
+}
+xhrConfig.send();  
+    
 function onError(data) {
     console.log(data.error);
 }
-    
-function configurePhone() {
-    var phone = ATT.rtc.configure(getPhone);
-}      
-    
-function getPhone() {
+
+function createPhoneObject() {
     phone = ATT.rtc.Phone.getPhone();
-    registerEvents (); 
-    configureButton.hidden = true;
-    configureSuccessButton.hidden = false;
+    registerEvents();
+    createPhoneObjectButton.hidden = true;
+    createPhoneSuccessButton.hidden = false;
     loginInput.hidden = false; // Added in Step 2
     loginButton.hidden = false; // Added in Step 2
 }
@@ -98,27 +112,35 @@ function onSessionDisconnected() {
     callToInput.hidden = true; // Added in Step 12
 }
        
-function login() {
-    ATT.rtc.dhs.createAccessToken({
-        app_scope: 'ACCOUNT_ID',
-        success: associateAccessToken,
-        error: onError
-    });
-}
-
-function associateAccessToken(tokenHolder) {
-    ATT.rtc.associateAccessToken({
-        userId: loginInput.value,
-        token: tokenHolder.access_token,
-        success: function () {
-            phone.login({token: tokenHolder.access_token});
-        },
-        error: onError
-    });
+function createAccessToken() {
+    var xhrToken = new XMLHttpRequest();
+        xhrToken.open('POST', myDHS.app_token_url);
+        xhrToken.setRequestHeader("Content-Type", "application/json");
+        xhrToken.onreadystatechange = function() {
+            if (xhrToken.readyState == 4) {
+                if (xhrToken.status == 200) {
+                    console.log(xhrToken.responseText);
+                    accessToken = (JSON.parse(xhrToken.responseText));
+                    associateAccessToken();
+                } else {
+                    console.log(xhrToken.responseText);
+                }
+            }
+        }
+        xhrToken.send(JSON.stringify({app_scope: "ACCOUNT_ID"}));
 }
     
-function logout() {
-    phone.logout();
+function associateAccessToken() {
+    phone.associateAccessToken({
+        userId: loginInput.value,
+        token: accessToken.access_token,
+        success: login,
+        error: onError
+    }); 
+}
+
+function login() {
+    phone.login({token: accessToken.access_token});
 }
         
 // Step 11b: Start Conference
@@ -129,6 +151,10 @@ function onConferenceConnected () {
         callToInput.hidden = false;             // Added in Step 12
         addParticipantButton.hidden = false;    // Added in Step 12
     }                                           // Added in Step 12
+}
+
+function logout() {
+    phone.logout();
 }
     
 function onConferenceEnded () {
@@ -191,7 +217,7 @@ function onConferenceJoining() {
 }
         
 function addParticipant() {
-    phone.addParticipants([callToInput.value]);
+    phone.addParticipant(callToInput.value);
 }
     
 function onJoinConference() {
@@ -234,7 +260,7 @@ function onConferenceJoining() {
 }
         
 function addParticipant() {
-    phone.addParticipants([callToInput.value]);
+    phone.addParticipant(callToInput.value);
 }
     
 function onJoinConference() {

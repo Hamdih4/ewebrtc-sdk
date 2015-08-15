@@ -1,56 +1,61 @@
 /*jslint browser: true, devel: true, node: true, debug: true, todo: true, indent: 2, maxlen: 150*/
-/*global ATT, RESTClient, console, log, phone, holder, eWebRTCDomain,
-  sessionData, env_config, defaultHeaders, onError, getCallerInfo,
-  loginMobileNumber, createAccessToken, associateAccessToken, createE911Id,
-  loginEnhancedWebRTC, hideParticipants, showParticipants*/
+/*global ATT, RESTClient, console, log, loadConfiguration, phone, eWebRTCDomain, currentConferenceHost,
+ sessionData, defaultHeaders, onError, getCallerInfo, Dialpad, dialer,
+ loginMobileNumber, createAccessToken, associateAccessToken, createE911Id, ewebrtc_domain,
+ loginEnhancedWebRTC, hideParticipants, showParticipants, acceptModification, rejectModification*/
 
 'use strict';
 
 var buttons,
-  defaultHeaders;
+  defaultHeaders,
+  autoRejectTimer,
+  muted = false,
+  currentCallType = null,
+  autoRejectWaitingTime = 10000;
 
 defaultHeaders = {
   'Content-Type': 'application/json',
   'Accept': 'application/json'
 };
 
-function unsupportedBrowserError() {
-  var viewDiv = document.getElementById('view'),
-    errorText = 'The web browser does not support Enhanced WebRTC. Please use latest Chrome or Firefox';
+function setCaretPosition(elemId, caretPos) {
+  var elem,
+    range;
 
-  if (viewDiv) {
-    viewDiv.innerHTML = errorText;
-  } else {
-    alert(errorText);
+  elem = document.getElementById(elemId);
+
+  if (elem !== null) {
+    if (elem.createTextRange) {
+      range = elem.createTextRange();
+      range.move('character', caretPos);
+      range.select();
+    } else {
+      if (elem.selectionStart) {
+        elem.focus();
+        elem.setSelectionRange(caretPos, caretPos);
+      } else {
+        elem.focus();
+      }
+    }
   }
-  return new Error(errorText);
 }
 
 // all the ajax request passes via this method it sets Callbacks and other parameters
 // it takes args as a parameter it contains end url details
 /**
  * @param args
- * ajax Call for UI change and for DHS  all
+ * ajax Call for sample app
  */
 function ajaxRequest(args) {
   var rc = new ATT.RESTClient({
-    method : args.method || 'GET',
-    url : args.url,
+    method: args.method || 'GET',
+    url: args.url,
     data: args.data,
-    headers : args.headers || defaultHeaders,
-    success : args.success,
+    headers: args.headers || defaultHeaders,
+    success: args.success,
     error: args.error || onError
   });
   rc.ajax();
-}
-
-function loadConfiguration(callback) {
-  ajaxRequest({
-    url: '/configuration',
-    success: function (response) {
-      callback(response.getJson());
-    }
-  });
 }
 
 function clearSessionData() {
@@ -84,7 +89,7 @@ function clearMessage() {
 
 function setError(errText) {
   var errMsgDiv = document.getElementById("errormessage"),
-    closeMessage =  '<button id="btn-msg-close" type="button" class="btn btn-default btn-xs" onclick="clearError()">x</button>';
+    closeMessage = '<button id="btn-msg-close" type="button" class="btn btn-default btn-xs" onclick="clearError()">x</button>';
   if (!errMsgDiv) {
     return;
   }
@@ -94,7 +99,7 @@ function setError(errText) {
 
 function setMessage(msg, cls) {
   var messageDiv = document.getElementById('message'),
-    closeMessage =  '<button id="btn-msg-close" type="button"'
+    closeMessage = '<button id="btn-msg-close" type="button"'
       + 'class="btn btn-default btn-xs" onclick="clearMessage()">x</button>',
     oldMsgs = '<div class="old-msgs">' + messageDiv.innerHTML + '</div>';
 
@@ -106,6 +111,57 @@ function setMessage(msg, cls) {
   clearError();
   messageDiv.innerHTML = '';
   messageDiv.innerHTML = '<div class="clearfix msg ' + cls + '">' + msg + '</div><hr>' + oldMsgs + closeMessage;
+}
+
+function setCallInfo(msg) {
+  var messageDiv = document.getElementById('call-info');
+
+  messageDiv.innerHTML = msg;
+}
+
+function clearCallInfo() {
+  setCallInfo('');
+}
+
+function setBackgroundCallInfo(msg) {
+  var messageDiv = document.getElementById('background-call-info');
+
+  messageDiv.innerHTML = msg;
+}
+
+function clearBackgroundCallInfo() {
+  setBackgroundCallInfo('');
+}
+
+function formatError(error) {
+  if (undefined === error) {
+    return 'Unknown error occurred';
+  }
+
+  // String error
+  if ('object' !== typeof error) {
+    return error.toString();
+  }
+
+  // Error object errors
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  // SDK errors
+  return ((error.ErrorCode ? "<br/>Error Code: " + error.ErrorCode : "") +
+      (error.JSObject ? "<br/>JSObject: " + error.JSObject : "") +
+      (error.JSMethod ? "<br/>JSMethod: " + error.JSMethod : "") +
+      (error.ResourceMethod ? "<br/>Resource Method: " + error.ResourceMethod : "") +
+      (error.ErrorMessage ? "<br/>Error Message: " + error.ErrorMessage : "") +
+      (error.APIError ? "<br/>API Error: " + error.APIError : "") +
+      (error.Cause ? "<br/>Cause: " + error.Cause : "") +
+      (error.PossibleCauses ? "<br/>Possible Causes: " + error.PossibleCauses : "") +
+      (error.AdditionalInformation ? "<br/>Additional Information: " + error.AdditionalInformation : "") +
+      (error.Resolution ? "<br/>Resolution: " + error.Resolution : "") +
+      (error.PossibleResolution ? "<br/>Possible Resolution: " + error.PossibleResolution : "") +
+      (error.HttpStatusCode ? "<br/>Http Status Code: " + error.HttpStatusCode : "") +
+      (error.MessageId ? "<br/>MessageId: " + error.MessageId : ""));
 }
 
 function setupHomeView() {
@@ -120,51 +176,8 @@ function setupHomeView() {
     callActions.style.opacity = '0';
   });
 
-  document.getElementById('callee').value =  '@' + env_config.ewebrtc_domain;
-}
-
-function formatError(errObj) {
-  var formattedError;
-
-  if (undefined === errObj) {
-    return '';
-  }
-
-  if (undefined !== errObj.getJson) {
-    if (errObj.getJson()) {
-      errObj = errObj.getJson();
-    } else {
-      errObj = errObj.responseText;
-    }
-  }
-  if (undefined !== errObj.error) {
-    errObj = errObj.error;
-  }
-  if (undefined !== errObj.message) {
-    errObj = errObj.message;
-  }
-
-  if (undefined !== errObj.JSObject
-      || undefined !== errObj.APIError) {
-    formattedError = (errObj ? (
-      (errObj.JSObject ? "<br/>JSObject: " + errObj.JSObject : "") +
-      (errObj.JSMethod ? "<br/>JSMethod: " + errObj.JSMethod : "") +
-      (errObj.Resolution ? "<br/>Resolution: " + errObj.Resolution : "") +
-      (errObj.ErrorCode ? "<br/>Error Code: " + errObj.ErrorCode : "") +
-      (errObj.Cause ? "<br/>Cause: " + errObj.Cause : "") +
-      (errObj.ErrorMessage ? "<br/>Error Message: " + errObj.ErrorMessage : "") +
-      (errObj.PossibleCauses ? "<br/>Possible Causes: " + errObj.PossibleCauses : "") +
-      (errObj.PossibleResolution ? "<br/>Possible Resolution: " + errObj.PossibleResolution : "") +
-      (errObj.APIError ? "<br/>API Error: " + errObj.APIError : "") +
-      (errObj.ResourceMethod ? "<br/>Resource Method: " + errObj.ResourceMethod : "") +
-      (errObj.HttpStatusCode ? "<br/>Http Status Code: " + errObj.HttpStatusCode : "") +
-      (errObj.MessageId ? "<br/>MessageId: " + errObj.MessageId : "")
-    ) : '');
-  } else {
-    formattedError = errObj.toString();
-  }
-
-  return formattedError;
+  document.getElementById('destination').value = '@' + ewebrtc_domain;
+  setCaretPosition('destination', 0);
 }
 
 function createView(view, data, response) {
@@ -181,7 +194,10 @@ function createView(view, data, response) {
   }
 
   div = document.createElement('div');
-  div.innerHTML = response.responseText;
+
+  if (response) {
+    div.innerHTML = response.responseText;
+  }
 
   viewDiv.innerHTML = '';
   viewDiv.appendChild(div);
@@ -229,8 +245,6 @@ function createView(view, data, response) {
 }
 
 function loadView(view, success) {
-  log('Loading ' + view + ' page');
-
   // The ajaxRequest method takes url and the callback to be called on success error
   ajaxRequest({
     url: 'views/' + view + '.html',
@@ -291,14 +305,37 @@ function loadDefaultView() {
   }
 }
 
+function unsupportedBrowserError() {
+  var error = new Error('The web browser does not support Enhanced WebRTC. Please use a supported version of' +
+      ' Chrome or Firefox. For more information on supported browsers, use method ATT.browser.getBrowserSupport');
+
+  onError(error);
+
+  createView('login');
+
+  return error;
+}
+
+function loadSampleApp() {
+  try {
+    loadConfiguration(function () {
+      // load the default view into the browser
+      loadDefaultView();
+    });
+  } catch (err) {
+    onError(err);
+  }
+}
+
 function getE911Id(address, is_confirmed, success, error) {
   createAccessToken('E911',
     null,
-    function (data) {
+    function (response) {
       try {
+        var data = response;
         createE911Id(data.access_token, address, is_confirmed, success, error);
-      } catch (error) {
-        onError(error);
+      } catch (err) {
+        error(err);
       }
     },
     error);
@@ -311,13 +348,11 @@ function accessTokenSuccess(data) {
       throw 'No create token response data received';
     }
 
-    log(JSON.stringify(data));
-
     if (data.user_type === 'MOBILE_NUMBER' ||
         data.user_type === 'VIRTUAL_NUMBER') {
       switchView('address');
     } else { // Account ID
-      // if no error after login to dhs, create web rtc session
+      // if access token obtained successfully, create web rtc session
       loginEnhancedWebRTC(data.access_token);
     }
   } catch (err) {
@@ -328,11 +363,19 @@ function accessTokenSuccess(data) {
 function login(userType, authCode, userName) {
   createAccessToken(userType,
     authCode,
-    function (data) {
+    function (response) {
+      //TODO remove this after fixinf the DHS
+      if (typeof response === 'string') {
+        response = JSON.parse(response);
+        if (typeof response === 'string') {
+          response = JSON.parse(response);
+        }
+      }
+      var data = response;
       data.user_type = userType;
 
       if (userType !== 'MOBILE_NUMBER') { // VIRTUAL_NUMBER and ACCOUNT_ID
-        data.user_name = userType === 'VIRTUAL_NUMBER' ? userName : userName + '@' + env_config.ewebrtc_domain;
+        data.user_name = userType === 'VIRTUAL_NUMBER' ? userName : userName + '@' + ewebrtc_domain;
 
         ATT.utils.extend(sessionData, data); // save token/user data locally
 
@@ -371,25 +414,28 @@ function loginMobileNumber(args) {
   login('MOBILE_NUMBER', args.code);
 }
 
+function loginUser(userType, userName) {
+  try {
+    if (!userType) {
+      throw new Error('User type is required to login a user');
+    }
+    if (!userName) {
+      throw new Error('User name is required to login a ' + userType + ' user');
+    }
+
+    login(userType, null, userName);
+
+  } catch (err) {
+    onError(err);
+  }
+}
+
 function loginVirtualNumberOrAccountIdUser(event, form, userType) {
   if (event) {
     event.preventDefault();
   }
 
-  var username;
-
-  username = form.username.value;
-
-  try {
-    if (!username) {
-      throw new Error('User name is required in to login a ' + userType + ' user');
-    }
-
-    login(userType, null, username);
-
-  } catch (err) {
-    onError(err);
-  }
+  loginUser(userType, form.username.value);
 }
 
 function validateAddress(form) {
@@ -407,7 +453,7 @@ function validateAddress(form) {
         display: 'First Name',
         required: true
       },
-      'last_name' : {
+      'last_name': {
         display: 'Last Name',
         required: true
       },
@@ -443,7 +489,7 @@ function validateAddress(form) {
     if (e.type !== 'button' && e.type !== 'submit') {
       if (addressFormat.hasOwnProperty(e.name)) {
         if (addressFormat[e.name].required === true && !e.value) {
-          throw addressFormat[e.name].display + ' is a required field';
+          throw new Error(addressFormat[e.name].display + ' is a required field');
         }
         address.base[e.name] = e.value;
       } else if (e.type === 'checkbox') {
@@ -454,51 +500,74 @@ function validateAddress(form) {
   return address;
 }
 
+function callExists() {
+  return phone.isCallInProgress();
+}
+
 function resetUI() {
   document.getElementById('ringtone').pause();
   document.getElementById('calling-tone').pause();
 
-  if (0 === phone.getCalls().length) {
-    document.getElementById('btn-hold').disabled = true;
+  // No calls or conferences
+  document.getElementById('btn-mute').disabled = true;
+  document.getElementById('btn-unmute').disabled = true;
+  document.getElementById('btn-hold').disabled = true;
+  document.getElementById('btn-resume').disabled = true;
+  document.getElementById('btn-upgrade').disabled = true;
+  document.getElementById('btn-downgrade').disabled = true;
+  document.getElementById('btn-hangup').disabled = true;
+  document.getElementById('btn-add-participant').disabled = true;
+  document.getElementById('btn-participants-list').disabled = true;
+  document.getElementById('panel-participants').display = 'none';
+  document.getElementById('btn-move').disabled = true;
+  document.getElementById('btn-transfer').disabled = true;
+  document.getElementById('btn-switch').disabled = true;
+
+  // 1 or more calls or conferences
+  if (0 < phone.getCalls().length) {
+    document.getElementById('btn-mute').disabled = muted;
+    document.getElementById('btn-unmute').disabled = !muted;
+    document.getElementById('btn-hold').disabled = false;
     document.getElementById('btn-resume').disabled = true;
-    document.getElementById('btn-move').disabled = true;
-    document.getElementById('btn-switch').disabled = true;
-    document.getElementById('btn-mute').disabled = true;
-    document.getElementById('btn-unmute').disabled = true;
-    document.getElementById('btn-hangup').disabled = true;
-    document.getElementById('participant').disabled = true;
-    document.getElementById('btn-add-participant').disabled = true;
-    document.getElementById('btn-end-conference').disabled = true;
-    document.getElementById('btn-participants-list').disabled = true;
+    document.getElementById('btn-hangup').disabled = false;
+
+    // 1 or more calls
+    if ('call' === currentCallType) {
+      document.getElementById('btn-move').disabled = false;
+
+      // video call
+      document.getElementById('btn-upgrade').disabled = true;
+      document.getElementById('btn-downgrade').disabled = false;
+
+      // audio call
+      if ('audio' === phone.getMediaType()) {
+        document.getElementById('btn-upgrade').disabled = false;
+        document.getElementById('btn-downgrade').disabled = true;
+      }
+    }
+
+    // 1 or more conferences
+    if ('conference' === currentCallType && currentConferenceHost) {
+      document.getElementById('btn-add-participant').disabled = false;
+      document.getElementById('btn-participants-list').disabled = false;
+    }
+
+    // 2 calls or conferences
+    if (1 < phone.getCalls().length) {
+
+      // 2 calls
+      if ('call' === currentCallType) {
+        document.getElementById('btn-transfer').disabled = false;
+      }
+
+      document.getElementById('btn-switch').disabled = false;
+    }
+
   }
 }
 
-function enableUI() {
-  document.getElementById('btn-hold').disabled = false;
-  document.getElementById('btn-resume').disabled = false;
-  document.getElementById('btn-move').disabled = false;
-  document.getElementById('btn-mute').disabled = false;
-  document.getElementById('btn-unmute').disabled = false;
-  document.getElementById('btn-hangup').disabled = false;
-}
-
-function removeClass(element) {
-  element.className.replace(/(?:^|\s)MyClass(?!\S)/g, '');
-}
-
-function addClass(element, className) {
-  element.className += ' ' + className;
-}
-
-function onError(err) {
-  var errObj = err;
-
-  if ('object' === typeof errObj) {
-    errObj = formatError(errObj);
-  }
-  errObj = errObj.toString();
-
-  setError(errObj);
+function onError(error) {
+  setError(formatError(error));
 }
 
 function onWarning(data) {
@@ -513,10 +582,10 @@ function onSessionReady(data) {
 }
 
 function onNotification(data) {
-  if (!phone.isCallInProgress()) {
-    resetUI();
+  if (callExists()) {
+    setMessage('Notification: ' + data.message, 'warning');
   }
-  setMessage('Notification: ' + data.message, 'warning');
+  resetUI();
 }
 
 function onSessionDisconnected() {
@@ -535,8 +604,17 @@ function onSessionExpired() {
   });
 }
 
+function onGatewayUnreachable() {
+  setMessage('Currently the gateway is unreachable. Please try again.');
+}
+
 function checkEnhancedWebRTCSession() {
   return sessionData.sessionId;
+}
+
+function onAddressUpdated() {
+  document.getElementById("address-box").style.display = 'none';
+  setMessage('Updated E911 address successfully');
 }
 
 function onIncomingCall(data) {
@@ -549,13 +627,9 @@ function onIncomingCall(data) {
 
   callerInfo = getCallerInfo(data.from);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    from = callerInfo.callerId;
-  } else {
-    from = phone.formatNumber(callerInfo.callerId);
-  }
+  from = callerInfo.callerId;
 
-  if (phone.isCallInProgress()) {
+  if (callExists()) {
 
     endAnswerBtn = '<button type="button" id="end-answer-button" class="btn btn-success btn-sm" onclick="endAndAnswer()">'
       + '<span class="glyphicon glyphicon-remove"></span></button>';
@@ -583,23 +657,34 @@ function onConferenceInvite(data) {
   var from,
     callerInfo,
     answerBtn,
-    rejectBtn;
+    rejectBtn,
+    endAnswerBtn,
+    holdAnswerBtn;
 
   callerInfo = getCallerInfo(data.from);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    from = callerInfo.callerId;
+  from = callerInfo.callerId;
+
+  if (phone.isCallInProgress()) {
+    endAnswerBtn = '<button type="button" id="end-answer-button" class="btn btn-success btn-sm" onclick="endAndJoin()">'
+      + '<span class="glyphicon glyphicon-remove"></span></button>';
+    holdAnswerBtn = '<button type="button" id="hold-answer-button" class="btn btn-success btn-sm" onclick="holdAndJoin()">'
+      + '<span class="glyphicon glyphicon-pause"></span></button>';
+    rejectBtn = '<button type="button" id="reject-button" class="btn btn-danger btn-sm" onclick="reject()">' +
+      '<span class="glyphicon glyphicon-thumbs-down"></span></button>';
+    setMessage('<h6>Invitation to join conference from: ' + from + (data.mediaType ? '. Media type: '
+      + data.mediaType : '') + '. Time: ' + data.timestamp + '</h6>' + holdAnswerBtn + endAnswerBtn + rejectBtn,
+      'conference:invitation-received');
   } else {
-    from = phone.formatNumber(callerInfo.callerId);
+    answerBtn = '<button type="button" id="answer-button" class="btn btn-success btn-sm" onclick="join()">'
+      + '<span class="glyphicon glyphicon-thumbs-up"></span></button>';
+    rejectBtn = '<button type="button" id="reject-button" class="btn btn-danger btn-sm" onclick="rejectConference()">' +
+      '<span class="glyphicon glyphicon-thumbs-down"></span></button>';
+
+    setMessage('<h6>Invitation to join conference from: ' + from + (data.mediaType ? '. Media type: '
+      + data.mediaType : '') + '. Time: ' + data.timestamp + '</h6>' + answerBtn + rejectBtn,
+      'conference:invitation-received');
   }
-
-  answerBtn = '<button type="button" id="answer-button" class="btn btn-success btn-sm" onclick="join()">'
-    + '<span class="glyphicon glyphicon-thumbs-up"></span></button>';
-  rejectBtn = '<button type="button" id="reject-button" class="btn btn-danger btn-sm" onclick="rejectConference()">' +
-    '<span class="glyphicon glyphicon-thumbs-down"></span></button>';
-
-  setMessage('<h6>Invitation to join conference from: ' + from + (data.mediaType ? '. Media type: '
-    + data.mediaType : '') + '. Time: ' + data.timestamp + '</h6>' +  answerBtn + rejectBtn, 'call:incoming');
 
   document.getElementById('ringtone').play();
 }
@@ -612,11 +697,7 @@ function onDialing(data) {
 
   callerInfo = getCallerInfo(data.to);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    to = callerInfo.callerId;
-  } else {
-    to = phone.formatNumber(callerInfo.callerId);
-  }
+  to = callerInfo.callerId;
 
   cancelBtn = '<button type="button" id="cancel-button" '
     + 'class="btn btn-danger btn-sm" onclick="cancel()">'
@@ -625,25 +706,7 @@ function onDialing(data) {
   setMessage('<h6>Dialing: ' + to
     + (data.mediaType ? '. Media type: ' + data.mediaType : '')
     + '. Time: ' + data.timestamp + '</h6>'
-    +  cancelBtn, 'call-dialing');
-}
-
-function onInvitationSent() {
-  setMessage('Invitation sent...');
-}
-
-function onInviteAccepted() {
-  setMessage('Invite accepted.');
-}
-
-function onInviteRejected() {
-  setMessage('Invite rejected.');
-  resetUI();
-}
-
-function onParticipantRemoved() {
-  hideParticipants();
-  showParticipants();
+    + cancelBtn, 'call-dialing');
 }
 
 // This event callback gets invoked when an outgoing call flow is initiated and the call state is changed to connecting state
@@ -652,19 +715,11 @@ function onConnecting(data) {
     callerInfo,
     cancelBtn;
 
-  if (undefined !== data.from) {
-    peer = data.from;
-  } else if (undefined !== data.to) {
-    peer = data.to;
-  }
+  peer = data.from || data.to;
 
   callerInfo = getCallerInfo(peer);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    peer = callerInfo.callerId;
-  } else {
-    peer = phone.formatNumber(callerInfo.callerId);
-  }
+  peer = callerInfo.callerId;
 
   if (undefined !== data.to) {
     cancelBtn = '<button type="button" id="cancel-button" '
@@ -675,12 +730,12 @@ function onConnecting(data) {
   setMessage('<h6>Connecting to: ' + peer
     + (data.mediaType ? '. Media type: ' + data.mediaType : '')
     + '. Time: ' + data.timestamp + '</h6>'
-    +  (cancelBtn || ''), 'call:connecting');
+    + (cancelBtn || ''), 'call:connecting');
 
   document.getElementById('calling-tone').play();
 }
 
-function onCallRingbackProvided() {
+function onCallRingBackProvided() {
   document.getElementById('calling-tone').pause();
 }
 
@@ -688,74 +743,53 @@ function onCallConnected(data) {
   var peer,
     callerInfo;
 
+  currentCallType = data.callType;
+
   peer = data.from || data.to;
 
   callerInfo = getCallerInfo(peer);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    peer = callerInfo.callerId;
-  } else {
-    peer = phone.formatNumber(callerInfo.callerId);
-  }
+  peer = callerInfo.callerId;
 
   setMessage('<h6>Connected to call ' + (data.from ? 'from ' : 'to ') + peer +
     (data.mediaType ? ". Media type: " + data.mediaType : '') +
     (data.downgrade ? '. (Downgraded from video)' : '') +
     '. Time: ' + data.timestamp + '<h6>');
 
-  document.getElementById('calling-tone').pause();
-  document.getElementById('btn-hangup').disabled = false;
+  setCallInfo('In ' + data.mediaType + ' ' + currentCallType + ' ' + data.index + ' with ' + peer + ' started by ' + (data.from ? 'them' : 'you'));
 
-  //TODO: Remove this after fixing this defect.
-  //media established is not being fired the first time call is connected
-  document.getElementById('btn-hold').disabled = false;
-  document.getElementById('btn-resume').disabled = false;
-  document.getElementById('btn-mute').disabled = false;
-  document.getElementById('btn-unmute').disabled = false;
-  document.getElementById('btn-resume').disabled = false;
-  document.getElementById('btn-move').disabled = false;
-}
-
-function onCallSwitched(data) {
-  setMessage('<h6>Switched call: from ' + data.from + ' to ' + data.to +
-    '. Time: ' + data.timestamp + '<h6>');
-  document.getElementById('btn-switch').disabled = false;
-  document.getElementById('btn-transfer').disabled = false;
+  resetUI();
 }
 
 function onConferenceConnected(data) {
-  setMessage('In conference. ' +
-    (data.mediaType ? ". Media type: " + data.mediaType : '') +
-    '. Time: ' + data.timestamp + '<h6>');
+  var peer;
 
-  document.getElementById('calling-tone').pause();
-  document.getElementById('participant').disabled = false;
-  document.getElementById('btn-add-participant').disabled = false;
-  document.getElementById('btn-end-conference').disabled = false;
-  document.getElementById('btn-participants-list').disabled = false;
+  currentCallType = data.callType;
+
+  if (data.from) {
+    peer = getCallerInfo(data.from).callerId;
+  }
+
+  setMessage('<h6>In conference. Media type: ' + data.mediaType + '. Time: ' + data.timestamp + '</h6>');
+
+  setCallInfo('In ' + data.mediaType + ' ' + currentCallType + ' ' + data.index + (peer ? ' with ' + peer : '') +
+    ' started by ' + (data.from ? 'them' : 'you'));
+
+  resetUI();
 }
 
 // This event callback gets invoked when an outgoing call flow is initiated and the call state is changed to call established state
 function onMediaEstablished() {
-  document.getElementById('btn-hold').disabled = false;
-  document.getElementById('btn-resume').disabled = false;
-  document.getElementById('btn-mute').disabled = false;
-  document.getElementById('btn-unmute').disabled = false;
-  document.getElementById('btn-resume').disabled = false;
-  document.getElementById('btn-move').disabled = false;
+  resetUI();
 }
 
 function onAnswering(data) {
   var from,
     callerInfo;
 
-  callerInfo = getCallerInfo(from);
+  callerInfo = getCallerInfo(data.from);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    from = callerInfo.callerId;
-  } else {
-    from = phone.formatNumber(callerInfo.callerId);
-  }
+  from = callerInfo.callerId;
 
   setMessage('<h6>Answering: ' + from +
     (data.mediaType ? ". Media type: " + data.mediaType : '') +
@@ -764,17 +798,55 @@ function onAnswering(data) {
   document.getElementById('ringtone').pause();
 }
 
+function onInvitationSent() {
+  setMessage('Invitation sent...');
+}
+
+function onInviteAccepted(data) {
+  var peer, participants = [];
+
+  if (data.participants) {
+    Object.keys(data.participants).forEach(function (participant) {
+      participants.push(getCallerInfo(participant).callerId);
+    });
+    peer = participants.join(', ');
+  }
+
+  setMessage('Invite accepted by ' + peer);
+
+  setCallInfo('In ' + data.mediaType + ' ' + currentCallType + ' ' + data.index + (peer ? ' with ' + peer : '') + ' started by you');
+}
+
+function onInviteRejected() {
+  setMessage('Invite rejected.');
+  resetUI();
+}
+
+function onParticipantRemoved(data) {
+  var peer, participants = [];
+
+  if (data.participants) {
+    Object.keys(data.participants).forEach(function (participant) {
+      participants.push(getCallerInfo(participant).callerId);
+    });
+    peer = participants.join(', ');
+  }
+
+  setMessage('Participant removed from the ' + data.callType);
+
+  setCallInfo('In ' + data.mediaType + ' ' + currentCallType + ' ' + data.index + (peer ? ' with ' + peer : '') + ' started by you');
+
+  hideParticipants();
+  showParticipants();
+}
+
 function onJoiningConference(data) {
   var from,
     callerInfo;
 
-  callerInfo = getCallerInfo(from);
+  callerInfo = getCallerInfo(data.from);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    from = callerInfo.callerId;
-  } else {
-    from = phone.formatNumber(callerInfo.callerId);
-  }
+  from = callerInfo.callerId;
 
   setMessage('<h6>Joining conference initiated by: ' + from +
     (data.mediaType ? ". Media type: " + data.mediaType : '') +
@@ -783,41 +855,32 @@ function onJoiningConference(data) {
   document.getElementById('ringtone').pause();
 }
 
-function onCallMuted() {
+function onCallMuted(data) {
+  muted = true;
+  setMessage('Call muted. Time: ' + data.timestamp);
+  resetUI();
   document.getElementById('btn-mute').disabled = true;
   document.getElementById('btn-unmute').disabled = false;
 }
 
-function onCallUnmuted() {
+function onCallUnMuted(data) {
+  muted = false;
+  setMessage('Call umuted. Time: ' + data.timestamp);
+  resetUI();
   document.getElementById('btn-unmute').disabled = true;
   document.getElementById('btn-mute').disabled = false;
 }
 
-
-// This event callback gets invoked when a call is put on hold
-function onCallHold(data) {
-  setMessage('Call on hold. Time: ' + data.timestamp);
-  resetUI();
-  if (true === holder) {
-    document.getElementById('btn-resume').disabled = false;
-  }
+function onCallHeld() {
 }
 
-// This event callback gets invoked when a call is in resumed state.
-function onCallResume(data) {
-  setMessage('Call resumed. Time: ' + data.timestamp);
-  enableUI();
+function onCallResumed() {
 }
 
-function onConferenceHold(data) {
-  setMessage('Conference on hold. Time: ' + data.timestamp);
-  document.getElementById('btn-hold').disabled = true;
-  document.getElementById('btn-resume').disabled = false;
+function onConferenceHeld() {
 }
 
-function onConferenceResumed(data) {
-  setMessage('Conference resumed. Time: ' + data.timestamp);
-  enableUI();
+function onConferenceResumed() {
 }
 
 function onCallDisconnecting(data) {
@@ -828,50 +891,183 @@ function onConferenceDisconnecting(data) {
   setMessage('Disconnecting conference. Time: ' + data.timestamp);
 }
 
-function onCallMoved(data) {
-  setMessage('Call Moved Successfully. Time: ' + data.timestamp);
-}
-
-function onTransferring(data) {
-  setMessage('Call Transfer Initiated Successfully. Time: ' + data.timestamp);
-}
-
-function onTransferred(data) {
-  setMessage('Call Transfer Successfully. Time: ' + data.timestamp);
-}
-
 function onCallDisconnected(data) {
   var peer,
-    callerInfo,
-    allCalls;
+    callerInfo;
 
   peer = data.from || data.to;
 
-  buttons = {
-    hangup: document.getElementById('btn-hangup'),
-    resume: document.getElementById('btn-resume'),
-    switch: document.getElementById('btn-switch')
-  };
-
   callerInfo = getCallerInfo(peer);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    peer = callerInfo.callerId;
-  } else {
-    peer = phone.formatNumber(callerInfo.callerId);
-  }
+  peer = callerInfo.callerId;
 
-  setMessage('Call ' + (data.from ? ('from ' + peer) : ('to '  + peer)) + ' disconnected' +
+  setMessage('Call ' + (data.from ? ('from ' + peer) : ('to ' + peer)) + ' disconnected' +
     (data.message ? '. ' + data.message : '') + '. Time: ' + data.timestamp);
-  resetUI();
 
-  allCalls = phone.getCalls();
-
-  if (1 === allCalls.length && 'held' === allCalls[0].state) {
-    buttons.hangup.disabled = false;
-    buttons.resume.disabled = false;
-    buttons.switch.disabled = true;
+  if (data.background) {
+    clearBackgroundCallInfo();
+  } else {
+    clearCallInfo();
+    clearBackgroundCallInfo();
   }
+
+  resetUI();
+}
+
+function onConferenceEnded(data) {
+  var peer;
+
+  if (data.from) {
+    peer = getCallerInfo(data.from).callerId;
+  }
+
+  setMessage('Conference ' + data.index + ' started by ' + (peer || 'you') + ' disconnected' +
+    (data.message ? '. ' + data.message : '') + '. Time: ' + data.timestamp);
+
+  clearCallInfo();
+
+  if (data.background) {
+    clearBackgroundCallInfo();
+  } else {
+    clearCallInfo();
+    clearBackgroundCallInfo();
+  }
+
+  resetUI();
+}
+
+function onCallSwitched(data) {
+  var fromPeer,
+    toPeer,
+    fromParticipants = [],
+    toParticipants = [];
+
+  currentCallType = data.to.callType;
+
+  if (data.from) {
+    if ('conference' === data.from.callType && !data.from.to) { // background conference host
+      if (data.from.participants) {
+        Object.keys(data.from.participants).forEach(function (participant) {
+          fromParticipants.push(getCallerInfo(participant).callerId);
+        });
+
+        fromPeer = fromParticipants.join(', ');
+      }
+    } else {
+      fromPeer = data.from.from || data.from.to;
+      fromPeer = getCallerInfo(fromPeer).callerId;
+    }
+  }
+
+  if ('conference' === data.to.callType && !data.to.to) { // foreground conference host
+    if (data.to.participants) {
+      Object.keys(data.to.participants).forEach(function (participant) {
+        toParticipants.push(getCallerInfo(participant).callerId);
+      });
+
+      toPeer = toParticipants.join(', ');
+    }
+  } else {
+    toPeer = data.to.from || data.to.to;
+    toPeer = getCallerInfo(toPeer).callerId;
+  }
+
+  setMessage('<h6>Switched ' + (data.from ? ('from ' + data.from.callType + (fromPeer ? ' with ' + fromPeer : '')) : '')
+    + ' to ' + data.to.callType + (toPeer ? ' with ' + toPeer : '') + '. Time: ' + data.timestamp + '<h6>');
+
+  setCallInfo('In ' + data.to.mediaType + ' ' + data.to.callType + ' ' + data.to.index + (toPeer ? ' with ' + toPeer : '') +
+    ' started by ' + (data.to.from ? 'them' : 'you'));
+
+  if (data.from) {
+    setBackgroundCallInfo('to ' + data.from.callType + ' ' + data.from.index + (fromPeer ? ' with ' + fromPeer : '') +
+      ' started by ' + (data.from.from ? 'them' : 'you'));
+  } else {
+    clearBackgroundCallInfo();
+  }
+
+  resetUI();
+}
+
+function onCallMoved(data) {
+  setMessage('Call moved successfully. Time: ' + data.timestamp);
+
+  resetUI();
+}
+
+function onTransferring(data) {
+  setMessage('Call transfer initiated successfully. Time: ' + data.timestamp);
+}
+
+function onTransferred(data) {
+  setMessage('Call transferred successfully. Time: ' + data.timestamp);
+
+  resetUI();
+}
+
+function onModificationInProgress(data) {
+  setMessage('A call modification of type ' + data.operation + ' is in progress. Time: ' + data.timestamp);
+}
+
+function onStateChanged(data) {
+
+  if (data.background) { // don't do anything for background call state changes.
+    return;
+  }
+
+  var peer = data.from || data.to,
+    callType = 'call' === data.callType ? 'Call' : 'Conference';
+
+  if (peer !== undefined) {
+    peer = getCallerInfo(peer).callerId;
+  }
+
+  setMessage(callType + ' state changed from ' + data.oldState + ' to ' + data.newState + '. Time: ' + data.timestamp);
+
+  if ('hold' === data.operation) {            // hold
+    if ('initiator' === data.generator) {     // initiator side
+      if ('held' === data.newState) {           // one way and two way hold
+        setMessage(callType + ' to ' + peer + ' on hold. Time: ' + data.timestamp);
+        document.getElementById('btn-hold').disabled = true;
+        document.getElementById('btn-resume').disabled = false;
+      }
+    } else {                                // recvr side
+      if ('connected' === data.newState) {    // one way hold initiated by other party
+        setMessage(callType + ' is held by ' + peer + '. Time: ' + data.timestamp);
+      } else if ('held' === data.newState) {  // two way hold initiated by other party
+        setMessage(callType + ' is held by ' + peer + '. Time: ' + data.timestamp);
+      }
+    }
+  } else if ('resume' === data.operation) {   // resume
+    if ('initiator' === data.generator) {     // initiator side
+      if ('connected' === data.newState) {      // one way and two way hold resumed
+        setMessage(callType + ' to ' + peer + ' resumed. Time: ' + data.timestamp);
+        document.getElementById('btn-hold').disabled = false;
+        document.getElementById('btn-resume').disabled = true;
+      }
+    } else {                                // recvr side
+      if ('connected' === data.newState) {    // one way hold resumed by other party
+        setMessage(callType + ' is resumed by ' + peer + '. Time: ' + data.timestamp);
+      } else if ('held' === data.newState) {  // two way hold resumed by other party
+        setMessage(callType + ' is resumed by ' + peer + '. Time: ' + data.timestamp);
+      }
+    }
+  } else if ('upgrade' === data.operation) {    // upgrade
+    if ('connected' === data.newState) {
+      setMessage(callType + ' with ' + peer + ' is modified to ' + data.mediaType + '. Time: ' + data.timestamp);
+      resetUI();
+    }
+  } else if ('downgrade' === data.operation) {  // downgrade
+    if ('connected' === data.newState) {
+      setMessage(callType + ' with ' + peer + ' is modified to ' + data.mediaType + '. Time: ' + data.timestamp);
+      resetUI();
+    }
+  } else {
+    resetUI();
+  }
+
+  setCallInfo('In ' + data.mediaType + ' ' + data.callType + ' ' + data.index + (peer ? ' with ' + peer : '') +
+    ' started by ' + (data.from ? 'them' : 'you'));
+
 }
 
 function onConferenceCanceled(data) {
@@ -879,37 +1075,19 @@ function onConferenceCanceled(data) {
   resetUI();
 }
 
-function onConferenceEnded(data) {
-  setMessage('Conference ended. Time: ' + data.timestamp);
-  resetUI();
-}
-
 function onCallCanceled(data) {
   var peer,
-    callerInfo,
-    allCalls;
+    callerInfo;
 
   peer = data.from || data.to;
 
   callerInfo = getCallerInfo(peer);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    peer = callerInfo.callerId;
-  } else {
-    peer = phone.formatNumber(callerInfo.callerId);
-  }
+  peer = callerInfo.callerId;
 
-  setMessage('Call ' + (data.from ? ('from ' + peer) : ('to '  + peer)) + ' canceled.' + ' Time: ' + data.timestamp);
+  setMessage('Call ' + (data.from ? ('from ' + peer) : ('to ' + peer)) + ' canceled.' + ' Time: ' + data.timestamp);
+
   resetUI();
-
-  buttons = {
-    resume: document.getElementById('btn-resume')
-  };
-
-  allCalls = phone.getCalls();
-  if (1 === allCalls.length && 'held' === allCalls[0].state) {
-    buttons.resume.disabled = false;
-  }
 }
 
 function onCallRejected(data) {
@@ -920,59 +1098,69 @@ function onCallRejected(data) {
 
   callerInfo = getCallerInfo(peer);
 
-  if (callerInfo.callerId.indexOf('@') > -1) {
-    peer = callerInfo.callerId;
-  } else {
-    peer = phone.formatNumber(callerInfo.callerId);
-  }
+  peer = callerInfo.callerId;
 
-  setMessage('Call ' + (data.from ? ('from ' + peer) : ('to '  + peer)) + ' rejected.' + ' Time: ' + data.timestamp);
-  document.getElementById('ringtone').pause();
-  document.getElementById('calling-tone').pause();
+  setMessage('Call ' + (data.from ? ('from ' + peer) : ('to ' + peer)) + ' rejected.' + ' Time: ' + data.timestamp);
+
+  resetUI();
 }
 
-function onAddressUpdated() {
-  document.getElementById("address-box").style.display = 'none';
-  setMessage('Updated E911 address successfully');
+function autoRejectCallModification(time) {
+  autoRejectTimer = setTimeout(function () {
+    if (callExists()) {
+      rejectModification();
+      setMessage('Call modification automatically rejected!', 'warning');
+    }
+  }, time);
 }
 
-// Checks if the passed email address is valid
-function isValidEmail(input) {
-  var atPos = input.indexOf('@'),
-    dotPos = input.lastIndexOf('.');
-  if (atPos < 1 || dotPos < atPos + 2 || dotPos + 2 >= input.length) {
-    return false;
-  }
-  return true;
+function disableAutoReject() {
+  clearTimeout(autoRejectTimer);
 }
 
-//Can get a formatted phone number from the public API
-function cleanupCallee(callee) {
-
-  if (isValidEmail(callee)) {
-    return callee;
-  }
-
-  return phone.cleanPhoneNumber(callee);
+function disableTimerAndAccept() {
+  disableAutoReject();
+  acceptModification();
 }
 
-function cleanupNumber() {
-  var callee = document.forms.callForm.callee.value,
-    cleanNumber;
-
-  if (isValidEmail(callee)) {
-    setMessage(callee + ' is a valid e-mail address');
-    return;
-  }
-
-  cleanNumber = cleanupCallee(callee);
-
-  //for invalid number  it will go inside the If loop
-  if (!cleanNumber) {
-    setError("The number " + callee + " cannot be recognised ");
-    return;
-  }
-
-  setMessage(phone.formatNumber(cleanNumber));
+function disableTimerAndReject() {
+  disableAutoReject();
+  rejectModification();
 }
+
+function onMediaModification(data) {
+  var peer,
+    callerInfo,
+    acceptModButton,
+    rejectModButton;
+
+  autoRejectCallModification(autoRejectWaitingTime);
+
+  peer = data.from || data.to;
+
+  callerInfo = getCallerInfo(peer);
+
+  peer = callerInfo.callerId;
+
+  if (callExists()) {
+    acceptModButton = '<button type="button" id="accept-mod-button" class="btn btn-success btn-sm" onclick="disableTimerAndAccept()">'
+      + '<span class="glyphicon glyphicon-ok"></span></button>';
+    rejectModButton = '<button type="button" id="reject-mod-button" class="btn btn-danger btn-sm" onclick="disableTimerAndReject()">'
+      + '<span class="glyphicon glyphicon-remove"></span></button>';
+
+    setMessage('<h6><bold>' + peer + '</bold>' + ' is requesting to modify the call from ' + data.mediaType + ' to '
+      + data.newMediaType + '. Time: ' +
+      data.timestamp + ' </h6>' + acceptModButton + rejectModButton, 'call:incoming');
+
+  }
+}
+
+function onToneSent(data) {
+  setMessage('dtmf tone insterted.Tone: ' + data.tone + ' Time: ' + data.timestamp);
+}
+
+function onToneSending(data) {
+  setMessage('dtmf tone sending. Time: ' + data.timestamp);
+}
+
 

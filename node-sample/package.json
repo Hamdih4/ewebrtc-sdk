@@ -1,7 +1,7 @@
 {
 	"name": "att.webrtc.sample",
 	"version": "2.0.0-beta",
-	"description": "Enahcned WebRTC Sample Application built with AT&T Enhanced WebRTC JS SDK",
+	"description": "Enhanced WebRTC Sample Application built with AT&T Enhanced WebRTC JS SDK",
 	"homepage": "https://developer.att.com",
 	"keywords": [
 		"Enhanced WebRTC",
@@ -35,46 +35,43 @@
 		"*.prod.com:9001",
 		"*.sandbox.myapp.com:9001",
 		"0.0.0.0:9001",
+		"localhost",
 		"localhost:9001",
 		"127.0.0.1:9001"
 	],
-	"default_api_env": "prod",
+	"default_api_env": "sandbox",
 	"sandbox": {
-		"api_endpoint": "https://api.att.com",
-		"ewebrtc_uri": "/RTC/v1",
-		"app_key": "YourAppKey",
-		"app_secret": "YourAppSecret",
+		"app_key": "<your-app-key>",
+		"app_secret": "<your-app-secret>",
 		"oauth_callback": "https://127.0.0.1:9001/oauth/callback",
+		"app_token_url": "https://127.0.0.1:9001/tokens",
+		"app_e911id_url": "https://127.0.0.1:9001/e911ids",
 		"virtual_numbers_pool": [
 			"number1",
 			"number2",
 			"number3"
 		],
-		"ewebrtc_domain": "your.ewebrtc_domain.com"
+		"ewebrtc_domain": "<your-ewebrtc-domain>"
 	},
 	"prod": {
-		"api_endpoint": "https://api.att.com",
-		"ewebrtc_uri": "/RTC/v1",
-		"app_key": "YourAppKey",
-		"app_secret": "YourAppSecret",
+		"app_key": "<your-app-key>",
+		"app_secret": "<your-app-secret>",
 		"oauth_callback": "https://127.0.0.1:9001/oauth/callback",
+		"app_token_url": "https://127.0.0.1:9001/tokens",
+		"app_e911id_url": "https://127.0.0.1:9001/e911ids",
 		"virtual_numbers_pool": [
 			"number1",
 			"number2",
 			"number3"
 		],
-		"ewebrtc_domain": "your.ewebrtc_domain.com"
+		"ewebrtc_domain": "<your-ewebrtc-domain>"
 	},
 	"dependencies": {
-		"express": "~4.2.0",
-		"restify": "^2.8.5",
-		"static-favicon": "~1.0.0",
+		"att-dhs": "stable",
 		"body-parser": "~1.0.0",
-		"hjs": "~0.0.6"
-	},
-	"devDependencies": {
-		"grunt": "^0.4.5",
-		"grunt-jslint": "^1.1.12",
-		"grunt-docco": "^0.3.3"
+		"express": "~4.2.0",
+		"hjs": "~0.0.6",
+		"restify": "^2.8.5",
+		"static-favicon": "~1.0.0"
 	}
 }

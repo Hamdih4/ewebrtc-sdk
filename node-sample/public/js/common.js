@@ -7,18 +7,20 @@
 /*jslint browser: true, devel: true, node: true, debug: true, todo: true, indent: 2, maxlen: 150*/
 
 // Make JSLint aware of variables and functions that are defined in other files.
-/*global ATT, unsupportedBrowserError, checkEnhancedWebRTCSession, loadDefaultView, configureSampleApp, addCall,
+/*global ATT, unsupportedBrowserError, loadSampleApp, checkEnhancedWebRTCSession, addCall,
   onSessionReady, onSessionDisconnected, onSessionExpired, onAddressUpdated, onError, onWarning, onDialing,
   onIncomingCall, onConnecting, onCallConnected, onMediaEstablished, onEarlyMedia, onAnswering, onCallMuted,
-  onCallUnmuted, onCallHold, onCallResume, onCallDisconnecting, onCallDisconnected, onCallCanceled,
+  onCallUnMuted, onCallHeld, onCallResumed, onCallDisconnecting, onCallDisconnected, onCallCanceled,
   onCallRejected, onConferenceConnected, onConferenceDisconnected, onConferenceInvite, onConferenceCanceled,
   onConferenceEnded, onJoiningConference, onInvitationSent, onInviteAccepted, onInviteRejected,
-  onParticipantRemoved, onConferenceDisconnecting, onConferenceHold, onConferenceResumed, onNotification,
-  onCallSwitched, onCallRingbackProvided, onTransferring, onTransferred*/
+  onParticipantRemoved, onConferenceDisconnecting, onConferenceHeld, onConferenceResumed, onNotification,
+  onCallSwitched, onCallRingBackProvided, onTransferring, onTransferred, onCallMoved, onMediaModification,
+  onStateChanged, onModificationInProgress, onToneSent, onToneSending, onGatewayUnreachable*/
 
 'use strict';
 
 var phone,
+  version,
   bWebRTCSupportExists;
 
 // ### Check if the current browser has WebRTC capability
@@ -30,41 +32,198 @@ if (!bWebRTCSupportExists) {
   throw unsupportedBrowserError();
 }
 
-// ## SDK Setup
-// -----------
-// In order to make calls, you first need to setup the library
-// so that it can perform operations like create an access token and
-// e911 id. These are required for the login operation.
-function configure(options) {
-// ### Configure the SDK
+// ### Client code snippets for routes
 // ---------------------------------
-// The purpose of [**ATT.rtc.configure**](../../lib/webrtc-sdk/doc/ATT.rtc.html#configure) is to configure
-// the endpoints for creating access token and e911id. Additionally you can configure the URL for
-// Enhanced WebRTC API endpoint and the WebRTC URI.
-//```javascript
-//ATT.rtc.configure({
-//  token_endpoint: '/tokens',
-//  e911_endpoint: '/e911ids'
-//});
-//```
-// or
-//```javascript
-//ATT.rtc.configure({
-//  token_endpoint: '/tokens',
-//  e911_endpoint: '/e911ids'
-//  api_endpoint: 'https://api.att.com' // optional Enhanced WebRTC API endpoint
-//  ewebrtc_uri: '/RC/v1' // optional Enhanced WebRTC API URI
-//});
-//```
-//-----------------------------------
-  ATT.rtc.configure({
-    token_endpoint: options.token_endpoint, // e.g. '/oauth/token'
-    e911_endpoint: options.e911_endpoint, // e.g. '/e911id'
-    api_endpoint: options.api_endpoint, // e.g. 'https://api.att.com'
-    ewebrtc_uri: options.ewebrtc_uri // e.g. '/RC/v1'
-  });
-}
-
+//
+// #### Get app configuration
+//
+// **Example 1:** Getting **virtual numbers** list
+//
+// <pre>
+//  function setDropdownData(virtualNumbers) {
+//    var virtualNumbersDropdown;
+//
+//    virtualNumbersDropdown =
+//      document.getElementById("virtual-numbers");
+//
+//    for (var i=0; i < virtual_numbers.length; i++) {
+//      addOption(virtualNumberDropdown, virtualNumbers[i]);
+//    }
+//  }
+//
+//  var xhrConfig = new XMLHttpRequest();
+//  xhrConfig.open('GET', '/config');
+//  xhrConfig.onreadystatechange = function() {
+//    if (xhrConfig.readyState == 4) {
+//        if (xhrConfig.status == 200) {
+//            var config = JSON.parse(xhrConfig.responseText);
+//            virtualNumbers = config.virtual_numbers_pool;
+//            setDropdownData(virtualNumbers)
+//        } else {
+//            console.log(xhrConfig.responseText);
+//        }
+//     }
+//  }
+//  xhrConfig.send();
+//
+// </pre>
+//
+// **Example 2:** Getting domain name for **account id** users
+//
+// <pre>
+//  function displayAccountId(accountIdDomain) {
+//    var userIdElement,
+//        userId;
+//
+//    userId = document.getElementById("user-id").value;
+//    userIdElement = document.getElementById("account-id");
+//
+//    userIdElement.innerHTML = userId +
+//                              "@" + accountIdDomain;
+//  }
+//
+//  var xhrConfig = new XMLHttpRequest();
+//  xhrConfig.open('GET', '/config');
+//  xhrConfig.onreadystatechange = function() {
+//    if (xhrConfig.readyState == 4) {
+//      if (xhrConfig.status == 200) {
+//         var config = JSON.parse(xhrConfig.responseText);
+//         ewebrtc_domain = config.ewebrtc_domain;
+//         displayAccountId(ewebrtc_domain);
+//      } else {
+//         console.log(xhrConfig.responseText);
+//      }
+//    }
+//  }
+//  xhrConfig.send();
+//
+// </pre>
+//
+// #### Creating Access Token
+//
+// **Example 1:** Create access token as a **mobile number** user
+//
+// <pre>
+//  function success(data) {
+//    // do something ...
+//  }
+//
+//  function error(errorData) {
+//    // do something ...
+//  }
+//
+//  var xhrToken = new XMLHttpRequest();
+//  xhrToken.open('POST', '/tokens');
+//  xhrToken.setRequestHeader("Content-Type", "application/json");
+//  xhrToken.onreadystatechange = function() {
+//    if (xhrToken.readyState == 4) {
+//      if (xhrToken.status == 200) {
+//        success(JSON.parse(xhrToken.responseText));
+//      } else {
+//        error(xhrToken.responseText);
+//      }
+//    }
+//  }
+//  xhrToken.send(JSON.stringify({
+//    app_scope: "MOBILE_NUMBER",
+//    auth_code: "authorization_code"
+//  }));
+//
+// </pre>
+//
+// **Example 2:** Create access token as a **virtual number** user
+//
+// <pre>
+//  function success(data) {
+//    // do something ...
+//  }
+//
+//  function error(errorData) {
+//    // do something ...
+//  }
+//
+//  var xhrToken = new XMLHttpRequest();
+//  xhrToken.open('POST', '/tokens');
+//  xhrToken.setRequestHeader("Content-Type", "application/json");
+//  xhrToken.onreadystatechange = function() {
+//    if (xhrToken.readyState == 4) {
+//      if (xhrToken.status == 200) {
+//        success(JSON.parse(xhrToken.responseText));
+//      } else {
+//        error(xhrToken.responseText);
+//      }
+//    }
+//  }
+//  xhrToken.send(JSON.stringify({
+//    app_scope: "VIRTUAL_NUMBER"
+//  }));
+//
+// </pre>
+//
+// **Example 3:** Create access token as an **account id** user
+//
+// <pre>
+//  function success(data) {
+//    // do something ...
+//  }
+//
+//  function error(errorData) {
+//    // do something ...
+//  }
+//
+//  var xhrToken = new XMLHttpRequest();
+//  xhrToken.open('POST', '/tokens');
+//  xhrToken.setRequestHeader("Content-Type", "application/json");
+//  xhrToken.onreadystatechange = function() {
+//    if (xhrToken.readyState == 4) {
+//      if (xhrToken.status == 200) {
+//        success(JSON.parse(xhrToken.responseText));
+//      } else {
+//        error(xhrToken.responseText);
+//      }
+//    }
+//  }
+//  xhrToken.send(JSON.stringify({
+//    app_scope: "ACCOUNT_ID"
+//  }));
+//
+// </pre>
+//
+// #### Creating e911 id
+//
+// The e911id can only be created for **mobile number** users or **virtual number** users.
+//
+// **Example**
+//
+// <pre>
+//  function success(data) {
+//    // do something ...
+//  }
+//
+//  function error(errorData) {
+//    // do something ...
+//  }
+//
+//  var xhrE911 = new XMLHttpRequest();
+//  xhrE911.open('POST', '/e911ids');
+//  xhrE911.setRequestHeader("Content-Type", "application/json");
+//  xhrE911.onreadystatechange = function() {
+//    if (xhrE911.readyState == 4) {
+//      if (xhrE911.status == 200) {
+//        success(JSON.parse(xhrE911.responseText));
+//      } else {
+//        error(xhrE911.responseText);
+//      }
+//    }
+//  }
+//  xhrE911.send(JSON.stringify({
+//    token: accessToken,
+//    address: address,
+//    is_confirmed: false
+//  }));
+//
+// </pre>
+//
 // ## The Phone Object
 // -----------
 // Every action for Call & Conference Management is done
@@ -75,6 +234,15 @@ function configure(options) {
 // Phone object is the main interface for making a call.
 // This will be our instance of the Phone object.
 phone = ATT.rtc.Phone.getPhone();
+
+// ### Getting the SDK version number
+// -----------------------------
+// Once you have the phone object, you can use the
+// [**phone.getVersion**](../../lib/webrtc-sdk/doc/Phone.html#getVersion) method on the Phone object to get the version number
+// of the SDK.
+
+version = phone.getVersion();
+document.getElementById('version').innerHTML = version;
 
 // ## Error Handling
 // -----------------
@@ -161,27 +329,6 @@ phone.on('session:ready', onSessionReady);
 // </pre>
 phone.on('notification', onNotification);
 
-// ### Create Access Token
-// ---------------------------------
-function createAccessToken(appScope, authCode, success, error) {
-//[**ATT.rtc.createAccessToken**](../../lib/webrtc-sdk/doc/ATT.rtc.html#createAccessToken)
-// creates an access token that is needed before you can login.
-//
-// - `app_scope` is the type of access token you want to create
-//
-// - `[auth_code]` is authorization code for MOBILE_NUMBER users
-//
-// - `success` is the success callback
-//
-// - `error` is the failure callback
-  ATT.rtc.createAccessToken({
-    app_scope: appScope,
-    auth_code: authCode,
-    success: success,
-    error: error
-  });
-}
-
 // ### Associate Access Token
 // ---------------------------------
 function associateAccessToken(userId, accessToken, success, error) {
@@ -195,33 +342,9 @@ function associateAccessToken(userId, accessToken, success, error) {
 // - `success` is the success callback
 //
 // - `error` is the failure callback
-  ATT.rtc.associateAccessToken({
+  phone.associateAccessToken({
     userId: userId,
     token: accessToken,
-    success: success,
-    error: error
-  });
-}
-
-// ### Create e911 id
-// ---------------------------------
-function createE911Id(e911Token, address, is_confirmed, success, error) {
-//[**ATT.rtc.createE911Id**](../../lib/webrtc-sdk/doc/ATT.rtc.html#createE911Id)
-// associates an access token to a user id that is needed before you can login.
-//
-// - `token` is the e911 access token
-//
-// - `address` is the address that you want to create the e911 id for
-//
-// - `is_confirmed` confirm that the address exists even if not found in our database
-//
-// - `success` is the success callback
-//
-// - `error` is the failure callback
-  ATT.rtc.createE911Id({
-    token: e911Token,
-    address: address,
-    is_confirmed: is_confirmed, // On successful E911 Id creation
     success: success,
     error: error
   });
@@ -249,7 +372,6 @@ function associateE911Id(e911Id) {
 //method to update the user's e911 linked address like:
 
   phone.associateE911Id({
-    // you can get the E911 ID using the [**phone.createE911Id**](../../lib/webrtc-sdk/doc/ATT.rtc.dhs.html#createE911Id)
     e911Id: e911Id
   });
 }
@@ -264,13 +386,21 @@ phone.on('session:disconnected', onSessionDisconnected);
 
 
 
-// ## Session expired  from Enhanced WebRTC
+// ## Session expired from Enhanced WebRTC
 // ### Register for _session:expired_ event
 // ---------------------------------
 // The [**session:expired**](../../lib/webrtc-sdk/doc/Phone.html#event:session:expired) event is published
 // when session is expired in the backend.
 // This event is published to indicate that there is a session deleted from the backend due to some reason.
 phone.on('session:expired', onSessionExpired);
+
+// ## Gateway unreachable   from Enhanced WebRTC
+// ### Register for _gateway:unreachable_ event
+// ---------------------------------
+// The [**gateway:unreachable**](../../lib/webrtc-sdk/doc/Phone.html#event:gateway:unreachable) event is published
+// when gateway is unreachable.
+// This event is published to indicate the client cannot get connected to the gateway due to some reason.
+phone.on('gateway:unreachable', onGatewayUnreachable);
 
 // ### Clear the current Enhanced WebRTC session
 // ---------------------------------
@@ -317,11 +447,11 @@ phone.on('call:connecting', onConnecting);
 // **Callback function example:**
 //
 // <pre>
-// function onCallRingbackProvided(data) {
+// function onCallRingBackProvided(data) {
 //   timestamp = data.timestamp;
 // }
 // </pre>
-phone.on('call:ringback-provided', onCallRingbackProvided);
+phone.on('call:ringback-provided', onCallRingBackProvided);
 
 // ### Register for _call:connected_ event
 // ---------------------------------
@@ -386,7 +516,7 @@ phone.on('dialing', onDialing);
 // ### Dialing
 // ---------------------------------
 
-function dialCall(callee, mediaType, localMedia, remoteMedia) {
+function dial(destination, mediaType, localMedia, remoteMedia) {
 
 // Once you have registered handlers for all appropriate
 // events you can use the [**phone.dial**](../../lib/webrtc-sdk/doc/Phone.html#dial) method on Phone to start a call.
@@ -394,7 +524,7 @@ function dialCall(callee, mediaType, localMedia, remoteMedia) {
   // If there's already a call in progress
   if (phone.isCallInProgress()) {
     // handle this call with the [**phone.addCall**](../../lib/webrtc-sdk/doc/Phone.html#addCall) method
-    addCall(callee, mediaType, localMedia, remoteMedia);
+    addCall(destination, mediaType, localMedia, remoteMedia);
   } else {
     // otherwise just the [**phone.dial**](../../lib/webrtc-sdk/doc/Phone.html#dial) method. You need to pass:
     phone.dial({
@@ -405,7 +535,7 @@ function dialCall(callee, mediaType, localMedia, remoteMedia) {
       //   * `1800CALLFED`
       //   * `911`
 
-      destination: callee,
+      destination: destination,
       // - a valid call type:
       //   * `audio` for audio-only calls and
       //   * `video` for video calls
@@ -503,7 +633,6 @@ function answer2ndCall(localMedia, remoteMedia, action) {
   });
 }
 
-//
 // ## Operations for ongoing calls
 // Once a call is ongoing, you can perform basic operations with
 // them like muting, unmuting, holding, resuming, canceling and hanging up.
@@ -535,7 +664,7 @@ function mute() {
 
 // Register for [**call:unmuted**](../../lib/webrtc-sdk/doc/Phone.html#event:call:unmuted) event, it is
 // published when [**phone.unmute**](../../lib/webrtc-sdk/doc/Phone.html#unmute) is invoked.
-phone.on('call:unmuted', onCallUnmuted);
+phone.on('call:unmuted', onCallUnMuted);
 
 function unmute() {
   // Use the [**phone.unmute**](../../lib/webrtc-sdk/doc/Phone.html#unmute) method to unmute the current call
@@ -545,7 +674,7 @@ function unmute() {
 // ### Put a call on hold
 // ---------------------------------
 // Register for [**call:held**](../../lib/webrtc-sdk/doc/Phone.html#event:call:held) event, it is published when call is on hold.
-phone.on('call:held', onCallHold);
+phone.on('call:held', onCallHeld);
 
 function hold() {
   // Use the [**phone.hold**](../../lib/webrtc-sdk/doc/Phone.html#hold) method to put the current call or conference on hold.
@@ -556,12 +685,32 @@ function hold() {
 // ---------------------------------
 // Register for [**call:resumed**](../../lib/webrtc-sdk/doc/Phone.html#event:call:resumed) event, it is published when
 // [**phone.resume**](../../lib/webrtc-sdk/doc/Phone.html#resume) is invoked
-phone.on('call:resumed', onCallResume);
+phone.on('call:resumed', onCallResumed);
 
 function resume() {
   // Use the [**phone.resume**](../../lib/webrtc-sdk/doc/Phone.html#resume) method to resume the current call or conference.
   phone.resume();
 }
+
+// ### Cancel an outgoing call
+// ---------------------------------
+function cancel() {
+  // Use the [**phone.cancel**](../../lib/webrtc-sdk/doc/Phone.html#cancel) method to cancel the outgoing call.
+  phone.cancel();
+}
+
+// ### Hangup a call
+// ---------------------------------
+// Register for [**call:disconnecting**](../../lib/webrtc-sdk/doc/Phone.html#event:call:disconnected) event, it is published
+// immediately after invoking [**phone.hangup**](../../lib/webrtc-sdk/doc/Phone.html#hangup)
+phone.on('call:disconnecting', onCallDisconnecting);
+
+function hangupCall() {
+  //  Use the [**phone.hangup**](../../lib/webrtc-sdk/doc/Phone.html#hangup) method to hang up the current call.
+  phone.hangup();
+}
+
+// # Advanced Call Management
 
 // ### Move a call to a different client
 // -------------------------------------
@@ -612,7 +761,7 @@ phone.on('session:call-switched', onCallSwitched);
 // -------------------------------------
 // Use the [**phone.switchCall**](../../lib/webrtc-sdk/doc/Phone.html#switchCall) method to switch between two ongoing calls/conferences.
 function switchCalls() {
-  // The foreground call/conference wil be put on hold and will be moved to background, 
+  // The foreground call/conference wil be put on hold and will be moved to background,
   // and the background call/conference will be brought to foreground.
   phone.switchCall();
 }
@@ -655,23 +804,96 @@ function transfer() {
   phone.transfer();
 }
 
-// ### Cancel an outgoing call
-// ---------------------------------
-function cancel() {
-  // Use the [**phone.cancel**](../../lib/webrtc-sdk/doc/Phone.html#cancel) method to cancel the outgoing call.
-  phone.cancel();
+// ## Changing the media in a call a.k.a. media modifications
+// ----------------------------------
+//
+// If Bob and Alice are in a call, then they may want to change their media constraints:
+// * Downgrading a call means the user wants to stop sending their video if in a video call.
+// * Upgrading a call means the user wants to start sending their video if in an audio-only call.
+
+// ### Events during media modifications
+// ---------------------------------------
+
+// Before a user can start processing media modifications they need to register to the
+// [**call:media-modification**](../../lib/webrtc-sdk/doc/Phone.html#event:call:media-modification),
+// [**call:modification-in-progress**](../../lib/webrtc-sdk/doc/Phone.html#event:call:modification-in-progress)
+// and [**call:state-changed**](../../lib/webrtc-sdk/doc/Phone.html#event:call:state-changed) events.
+
+phone.on('call:modification-in-progress', onModificationInProgress);
+phone.on('call:media-modification', onMediaModification);
+phone.on('call:state-changed', onStateChanged);
+
+// * `call:modification-in-progress` indicates that the media modification is taking place but has not completed.
+// * `call:media-modification` is only fired for the user receiving the modification request when user consent is necessary.
+// * `call:state-changed` is fired for both users when the modification is complete.
+
+// ### Downgrade a video call
+// -----------------------------------------
+// If Bob and Alice are in a video call, then Alice can disable her video and start sending only her audio.
+function downgrade() {
+  // In order to stop sending her video Alice can use the
+  // [**phone.downgrade**](../../lib/webrtc-sdk/doc/Phone.html#downgrade) method.
+  phone.downgrade();
+
+  // At this point Bob will receive the `call:media-modification` event and may be promted to 
+  // accept or reject depending on the current state of his media.
+  //
+  // If the downgrade is successfull, then:
+  // * Bob and Alice will receive a [**call:state-changed**](../../lib/webrtc-sdk/doc/Phone.html#event:call:state-changed)
+  // event indicating the downgrade is complete.
+  // * Alice will stop sending her video and Bob will no longer see Alice's video.
 }
 
-// ### Hangup a call
-// ---------------------------------
-// Register for [**call:disconnecting**](../../lib/webrtc-sdk/doc/Phone.html#event:call:disconnected) event, it is published
-// immediately after invoking [**phone.hangup**](../../lib/webrtc-sdk/doc/Phone.html#hangup)
-phone.on('call:disconnecting', onCallDisconnecting);
+// ### Upgrade a video call
+// -----------------------------------------
+// If Bob and Alice are in an audio-only call, then Bob can request to upgrade the call to video.
+function upgrade() {
+  // In order to start the upgrade Bob will use the
+  // [**phone.upgrade**](../../lib/webrtc-sdk/doc/Phone.html#upgrade) method.
+  phone.upgrade();
+  // At this point Alice will receive the 
+  // [**call:media-modification**](../../lib/webrtc-sdk/doc/Phone.html#event:call:media-modification) 
+  // event, which this application uses to prompt Alice for confirmation.
+  //
+  // If the upgrade is successful, then:
+  // * Bob and Alice will receive a [**call:state-changed**](../../lib/webrtc-sdk/doc/Phone.html#event:call:state-changed)
+  // * Bob will start sending his video and Alice will now see Bob's video.
 
-function hangup() {
-  //  Use the [**phone.hangup**](../../lib/webrtc-sdk/doc/Phone.html#hangup) method to hang up the current call.
-  phone.hangup();
 }
+
+// ### Accepting a media modification
+// ------------------------------------
+// If Bob is in a call with Alice and he receives a media modification request
+// from from Alice, the `call:media-modification` event will fire.
+function acceptModification() {
+
+  // In order to accept the modification request, Bob can use the 
+  // [**phone.acceptModification**](../../lib/webrtc-sdk/doc/Phone.html#acceptModification) method.
+  phone.acceptModification();
+
+  // After successfully accepting the modification, then:
+  // * The `call:state-changed` event will fire for both users.
+  // * Alice will start sending her new media -- audio for a downgrade, video for an upgrade --.
+  // * Bob will update his media constraints to match those of Alice.
+  // * Accepting a media modification will make both users have the same media constraints.
+}
+
+// ### Rejecting a media modification
+// -----------------------------------------
+// If Bob is in a call with Alice and he receives a media modification request
+// from from Alice, the `call:media-modification` event will fire.
+function rejectModification() {
+  // In order to reject the modification request, Bob can use the 
+  // [**phone.rejectModification**](../../lib/webrtc-sdk/doc/Phone.html#rejectModification) method.
+  phone.rejectModification();
+
+  // After successfully rejecting the modification, then:
+  // * The `call:state-changed` event will fire for both users.
+  // * Alice will start sending her new media -- audio for a downgrade, video for an upgrade --.
+  // * Bob will not update his media constraints, he will keep sending whatever he was sending 
+  // before the media modification.
+}
+
 
 // # Conference Management
 
@@ -746,12 +968,12 @@ phone.on('conference:ended', onConferenceEnded);
 // **Callback function example:**
 //
 // <pre>
-// function onConferenceHold(data) {
+// function onConferenceHeld(data) {
 //   mediaType = data.mediaType;
 //   timestamp = data.timestamp;
 // }
 // </pre>
-phone.on('conference:held', onConferenceHold);
+phone.on('conference:held', onConferenceHeld);
 
 // ### Register for _conference:resumed_ event
 // ---------------------------------
@@ -818,6 +1040,25 @@ function joinConference(localMedia, remoteMedia) {
   });
 }
 
+// ### Joining a second conference
+// --------------
+
+// Once you have an active call or conference, you can handle a second incoming conference using the
+// [**phone.joinConference**](../../lib/webrtc-sdk/doc/Phone.html#joinConference) method.
+
+function joinSecondConference(localMedia, remoteMedia, action) {
+  // The [**phone.joinConference**](../../lib/webrtc-sdk/doc/Phone.html#joinConference) method receives:
+  phone.joinConference({
+    // - the `HTMLVideoElement` object to use for the local stream
+    localMedia: localMedia,
+    // - the `HTMLVideoElement` object to use for the remote stream.
+    remoteMedia: remoteMedia,
+    // - an optional `action` (`hold` or `end`) to indicate whether to hold or end the current call.
+    // Use [**phone.isCallInProgress**](../../lib/webrtc-sdk/doc/Phone.html#isCallInProgress) to check whether there is a call in progress.
+    action: action
+  });
+}
+
 // ## Operations during an ongoing Conference
 // As the host of a Conference you can perform basic operations with
 // them like:
@@ -843,12 +1084,12 @@ phone.on('conference:invitation-accepted', onInviteAccepted);
 // event is published when the invitation is rejected by the other party.
 phone.on('conference:invitation-rejected', onInviteRejected);
 
-// Then use the [**phone.addParticipants**](../../lib/webrtc-sdk/doc/Phone.html#addParticipants) method to adds a list of participants, e.g.,
-function addParticipants(participants) {
+// Then use the [**phone.addParticipant**](../../lib/webrtc-sdk/doc/Phone.html#addParticipant) method to adds participant, e.g.,
+function addParticipant(participant) {
   // ```
-  //   phone.addParticipants(['11231231234', 'john@domain.com']);
+  //   phone.addParticipant('11231231234');
   // ```
-  phone.addParticipants(participants);
+  phone.addParticipant(participant);
 }
 
 // ### Removing Participants
@@ -924,20 +1165,46 @@ function getCallerInfo(callerUri) {
   // }`.
   return phone.getCallerInfo(callerUri);
 }
-
-// ## configure and load the sample app
+// ### Ending a Phone utilities
 // ---------------------------------
-configureSampleApp(function (config) {
 
-  // configure the SDK
-  configure({
-    token_endpoint: '/oauth/token',
-    e911_endpoint: '/e911id',
-    api_endpoint: config.api_endpoint,
-    ewebrtc_uri: config.ewebrtc_uri
+
+// # DTMF [Dual Tone - Multi Frequency]
+// ---------------------------------
+
+// The phone object provides methods to use DTMF functionality when in a call..
+
+
+
+// ### Register for _sendDTMFTone_ event
+// ---------------------------------
+
+// The [**dtmf:tone-sending**](../../lib/webrtc-sdk/doc/Phone.html#event:dtmf:tone-sending) event is published
+// immediately after tone request is sent.
+phone.on('dtmf:tone-sending', onToneSending);
+
+// The [**dtmf:tone-sent**](../../lib/webrtc-sdk/doc/Phone.html#event:dtmf:tone-sent) event is published immediately
+// after signal is passed into streams successfully.
+
+phone.on('dtmf:tone-sent', onToneSent);
+
+
+// ### sendDTMFTone
+// ---------------------------------
+function sendDTMFTone(tone) {
+// Once you have registered handlers for all appropriate
+// events you can use the [**phone.sendDTMFTone**](../../lib/webrtc-sdk/doc/Phone.html#sendDTMFTone) method on Phone to
+// start send a DTMF tone.
+  phone.sendDTMFTone({
+    // - a valid dial tone [0,1,2,3,4,5,6,7,8,9,*,#]
+    input : tone,
+    // - a the intertone gap (in ms > 50) [50, 60]
+    gap : 60
   });
+}
+// ### Ending a DTMF 
+// ---------------------------------
 
-  // load the default view into the browser
-  loadDefaultView();
-
-});
+// ## load the sample app
+// ---------------------------------
+loadSampleApp();

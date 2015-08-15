@@ -109,7 +109,7 @@ body {
     background-color: #d3d3d3;
     padding: 10px;
     position: absolute;
-    left: -275px;
+    left: 0px;
     top: 40px;
     z-index: 10;
     min-width: 260px;
@@ -225,4 +225,24 @@ button.btn {
 .flip-horizontal {
   -moz-transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
+}
+
+.btn-dialpad {
+    width: 30%
+}
+
+.btn-dialpad-conf {
+    width: 46%
+}
+
+.btn-dialpad-conf-add {
+    width: 35%
+}
+
+.btn-dialpad-conf-participants {
+    width: 57%
+}
+
+.btn-dialpad-switch {
+    width: 94%;
 }

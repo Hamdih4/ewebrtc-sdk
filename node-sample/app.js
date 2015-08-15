@@ -80,7 +80,6 @@
     app,
     pkg,
     att,
-    route,
     http_port,
     https_port,
     cors_domains,
@@ -89,7 +88,6 @@
     privateKey,
     certificate,
     api_env,
-    api_endpoint,
     app_key,
     app_secret,
     oauth_callback,
@@ -112,41 +110,40 @@
   if (is_heroku_env) {
 
     http_port = process.env.PORT;
-    console.info('Using HTTP PORT %s', http_port);
+    console.info('Using HTTP PORT ', http_port);
 
   } else {
 
     http_port = process.env.HTTP_PORT || pkg.http_port;
-    console.info('Using HTTP PORT %s', http_port);
+    console.info('Using HTTP PORT ', http_port);
 
     https_port = process.env.HTTPS_PORT || pkg.https_port;
-    console.info('Using HTTPS PORT %s', https_port);
+    console.info('Using HTTPS PORT ', https_port);
 
   }
 
   cors_domains = process.env.CORS_DOMAINS || pkg.cors_domains;
-  console.info('Domains to add in CORS Headers: %s', cors_domains);
+  console.info('Domains to add in CORS Headers: ', cors_domains);
 
   cert_file = process.env.CERT_FILE || pkg.cert_file;
   key_file = process.env.KEY_FILE || pkg.key_file;
-  console.info('Using SSL Configuration - Certificate: %s, Key File: %s', cert_file, key_file);
+  console.info('Using SSL Configuration - Certificate: ', cert_file, 'Key File: ', key_file);
 
   api_env = process.argv[2] || process.env.API_ENV || pkg.default_api_env;
-  console.info('Using API Env : %s', api_env);
+  console.info('Using API Env : ', api_env);
 
   env_config = pkg[api_env];
+  env_config.api_env = api_env;
 
-  api_endpoint = env_config.api_endpoint;
   app_key = env_config.app_key;
   app_secret = env_config.app_secret;
   oauth_callback = env_config.oauth_callback;
   virtual_numbers_pool = env_config.virtual_numbers_pool;
   ewebrtc_domain = env_config.ewebrtc_domain;
 
-  if (!api_endpoint || !app_key || !app_secret) {
+  if (!app_key || !app_secret) {
     console.error('Insufficient App Configuration');
-    console.error('Entries api_endpoint, app_key, app_secret are mandatory');
-    console.error('Check package.json for entries under "%s" section', api_env);
+    console.error('Entries app_key, app_secret are mandatory');
     console.error('Exiting...');
     process.exit(1);
   }
@@ -154,36 +151,37 @@
   if ('YourAppKey' === app_key || 'YourAppSecret' === app_secret) {
     console.error('Invalid app_key or app_secret');
     console.error('Entries app_key or app_secret are not set');
-    console.error('Check package.json for entries under "%s" section', api_env);
     console.error('Exiting...');
     process.exit(1);
   }
 
   console.info('#####################################################');
-  console.info('Using API Environment: %s', api_env);
-  console.info('      Its Endpoint is: %s', api_endpoint);
-  console.info('        Using App Key: %s', app_key);
-  console.info('     Using App Secret: %s', app_secret);
+  console.info('        Using App Key: ', app_key);
+  console.info('     Using App Secret: ', app_secret);
   console.info('#####################################################');
 
   if (oauth_callback) {
-    console.info('   OAuth Callback URL: %s', oauth_callback);
-    console.info('#####################################################');
+    console.info('OAuth Callback URL: ', oauth_callback);
   } else {
-    console.info('OAuth callback is NOT configured. You can not use Mobile Numbers');
+    console.info('OAuth callback is NOT configured. You can not use mobile numbers');
   }
+  console.info('#####################################################');
 
   if (virtual_numbers_pool) {
-    console.info('*****Using Virtual Number Pool: %s', virtual_numbers_pool);
+    console.info('Using Virtual Number Pool:');
+    console.info(virtual_numbers_pool);
   } else {
-    console.info('Virtual numbers pool is NOT configured');
+    console.info('Virtual numbers pool is NOT configured. You can not user virtual numbers');
   }
+  console.info('#####################################################');
 
   if (ewebrtc_domain) {
-    console.info('**Using Enhanced WebRTC Domain: %s', ewebrtc_domain);
+    console.info('EWebRTC domain:');
+    console.info(ewebrtc_domain);
   } else {
-    console.info('Enhanced WebRTC domain is NOT configured');
+    console.info('EWebRTC domain is NOT configured.');
   }
+  console.info('#####################################################');
 
 //--------------------------------------------------------
 // END SECTION: Initialize configuration
@@ -204,7 +202,7 @@
     console.info('Signal SIGUSR2 received. Reopening log streams...');
   });
 
-  // ---------------------------------------------
+// ---------------------------------------------
 // BEGIN: Boiler-plate Express app set-up
 // ---------------------------------------------
 //
@@ -248,25 +246,16 @@
 // to use your App. This is also known as
 // 'AT&T Mobile Number' feature of AT&T Enhanced WebRTC API
 //
-// You don't need to include the following 3 lines
+// You don't need to include the following 5 lines
 // if you don't use that feature
 //
   att = require('./routes/att');
 
-  att.initialize(env_config);
-
-  app.use('/oauth', att.oauth);
-  app.use('/e911id', att.e911);
+  att.initialize(env_config, app);
 
 // ---------------------------------------------
 // END: CUSTOM CODE for 'AT&T Mobile Number'
 // ---------------------------------------------
-
-  route = require('./routes/route');
-
-  route.initialize(env_config);
-
-  app.use('/configuration', route.configuration);
 
 // ---------------------------------------------
 // BEGIN: Boiler-plate Express app route set-up
