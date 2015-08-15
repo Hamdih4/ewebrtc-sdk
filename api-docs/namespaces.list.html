@@ -224,6 +224,10 @@
 						</li>
 						
 						<li>
+							<a href="Phone.html#event:gateway:unreachable">Phone#gateway:unreachable</a>
+						</li>
+						
+						<li>
 							<a href="Phone.html#event:media:established">Phone#media:established</a>
 						</li>
 						
@@ -4408,37 +4412,6 @@ The user should have initiated and accepted media modification request.</p>
 
         <tr>
             
-                <td class="name"><code>state</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>The current state after media modification.</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
                 <td class="name"><code>from</code></td>
             
 
@@ -4499,6 +4472,99 @@ The user should have initiated and accepted media modification request.</p>
 
         <tr>
             
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>operation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Operation that generated the event.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>generator</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The the side(initiator/receiver) that generated the event.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
                 <td class="name"><code>oldState</code></td>
             
 
@@ -4551,37 +4617,6 @@ The user should have initiated and accepted media modification request.</p>
             
 
             <td class="description last"><p>The new state of the call.</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>codec</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>The CODECs associated with the call.</p></td>
         </tr>
 
 	
@@ -10788,6 +10823,177 @@ There should be an established call or conference in order to be able to receive
         
             
 <dt>
+    <h4 class="name" id="event:gateway:unreachable">gateway:unreachable</h4>
+    
+    
+    <p class="summary">Gateway Unreachable event fires when the client cannot connect to gateway.</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>The user has to be logged in order to be able to receive this event.<br>
+This event is fired when we get '502' or <code>503</code> with 'Cannot reach the Gateway'.</p>
+<p>The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>sessionId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The session ID associated.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="event:media:established">media:established</h4>
     
     
@@ -11390,297 +11596,13 @@ or 'The requested session resource was not found'.</p>
 
         <tr>
             
-                <td class="name"><code>error</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>Error object</p>
-                <h6>Properties</h6>
-
-<table class="props table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>JSObject</code></td>
+                <td class="name"><code>sessionId</code></td>
             
 
             <td class="type">
             
                 
 <span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>JavaScript object associated with the error</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>JSMethod</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>JavaScript method associated with the error</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>ErrorCode</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Error code associated with the error</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>ErrorMessage</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Message associated with the error</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>PossibleCauses</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Possible causes</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>PossibleResolution</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Possible resolution</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>APIError</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>API error associated with the error</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>ResourceMethod</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Resource method associated with the error</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>HttpStatusCode</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>HTTP status code associated with the error</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>MessageId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>API message id associated with the error</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-            </td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>data</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
 
 
             
@@ -11698,7 +11620,36 @@ or 'The requested session resource was not found'.</p>
 
             
 
-            <td class="description last"><p>Additional information associated with the error</p></td>
+            <td class="description last"><p>The session ID which got expired.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
         </tr>
 
 	
@@ -11903,7 +11854,7 @@ initialized and ready to make, receive calls</p>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a>
-		on 2015-07-24T13:43:53-07:00 using the <a
+		on 2015-08-14T17:09:53-07:00 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>
