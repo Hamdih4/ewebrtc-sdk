@@ -36,11 +36,15 @@
 						</li>
 						
 						<li>
-							<a href="ATT.rtc.Phone.html">ATT.rtc.Phone</a>
+							<a href="ATT.private.errorStore.APIErrors.html">ATT.private.errorStore.APIErrors</a>
 						</li>
 						
 						<li>
-							<a href="ATT.utils.ErrorStore.APIErrors.html">ATT.utils.ErrorStore.APIErrors</a>
+							<a href="ATT.private.errorStore.SDKErrors.html">ATT.private.errorStore.SDKErrors</a>
+						</li>
+						
+						<li>
+							<a href="ATT.rtc.Phone.html">ATT.rtc.Phone</a>
 						</li>
 						
 
@@ -345,11 +349,14 @@
             <dt><a href="namespaces.html#ATT.logManager"><a href="ATT.logManager.html">logManager</a></a></dt>
             <dd></dd>
         
+            <dt><a href="namespaces.html#ATT.private.errorStore.APIErrors"><a href="ATT.private.errorStore.APIErrors.html">APIErrors</a></a></dt>
+            <dd></dd>
+        
+            <dt><a href="namespaces.html#ATT.private.errorStore.SDKErrors"><a href="ATT.private.errorStore.SDKErrors.html">SDKErrors</a></a></dt>
+            <dd></dd>
+        
             <dt><a href="namespaces.html#ATT.rtc.Phone"><a href="ATT.rtc.Phone.html">Phone</a></a></dt>
             <dd>Phone API for AT&T's Enhanced WebRTC functionality.</dd>
-        
-            <dt><a href="namespaces.html#ATT.utils.ErrorStore.APIErrors"><a href="ATT.utils.ErrorStore.APIErrors.html">APIErrors</a></a></dt>
-            <dd></dd>
         </dl>
     
 
@@ -9762,7 +9769,7 @@ This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:
     <h4 class="name" id="event:error">error</h4>
     
     
-    <p class="summary">Error event fires there is an invalid behavior reported by the `Phone` object</p>
+    <p class="summary">Error event fires if there is an invalid behavior reported by the `Phone` object</p>
     
 </dt>
 <dd>
@@ -9781,19 +9788,7 @@ client JavaScript library at the browser level.</p>
 </ul>
 <p>Sometimes different errors can be caused by the same underlying problem
 in which case a common error code is used.</p>
-<p>The next is a list of the common API error codes:</p>
-<p><strong>Common API Error Codes</strong></p>
-<ul>
-<li>2500 - System error occurred</li>
-<li>2501 - Mandatory parameter is missing in the Request.</li>
-<li>2502 - Invalid values provided for a parameter in the Request.</li>
-<li>2508 - Access token is invalid.</li>
-<li>2509 - Access Token is incorrect or in valid.</li>
-<li>2510 - Not implemented</li>
-<li>2511 - User has not been provisioned for Enhanced WebRTC</li>
-<li>500,502,503,504 - <method name> failed - Unable to complete requested operation</li>
-</ul>
-<p>A list of API error codes is here <a href="ATT.utils.ErrorStore.APIErrors.html">ATT.utils.ErrorStore.APIErrors</a></p>
+<p>A list of API error codes is here <a href="ATT.private.errorStore.APIErrors.html">ATT.private.errorStore.APIErrors</a></p>
 <p>The user has to be logged in order to be able to receive this event.</p>
 <p>The event is fired with an attached event data of the following format:</p>
     </div>
@@ -9847,53 +9842,6 @@ in which case a common error code is used.</p>
 
         <tr>
             
-                <td class="name"><code>error</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>Error object</p>
-                <h6>Properties</h6>
-
-<table class="props table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
                 <td class="name"><code>JSObject</code></td>
             
 
@@ -9906,6 +9854,12 @@ in which case a common error code is used.</p>
             
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+                </td>
             
 
             
@@ -9930,6 +9884,12 @@ in which case a common error code is used.</p>
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+                </td>
+            
 
             
 
@@ -9952,6 +9912,12 @@ in which case a common error code is used.</p>
             
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+                </td>
             
 
             
@@ -9976,6 +9942,12 @@ in which case a common error code is used.</p>
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+                </td>
+            
 
             
 
@@ -9986,7 +9958,7 @@ in which case a common error code is used.</p>
 
         <tr>
             
-                <td class="name"><code>PossibleCauses</code></td>
+                <td class="name"><code>Cause</code></td>
             
 
             <td class="type">
@@ -9998,6 +9970,12 @@ in which case a common error code is used.</p>
             
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+                </td>
             
 
             
@@ -10009,7 +9987,7 @@ in which case a common error code is used.</p>
 
         <tr>
             
-                <td class="name"><code>PossibleResolution</code></td>
+                <td class="name"><code>Resolution</code></td>
             
 
             <td class="type">
@@ -10021,6 +9999,12 @@ in which case a common error code is used.</p>
             
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+                </td>
             
 
             
@@ -10045,6 +10029,14 @@ in which case a common error code is used.</p>
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
 
             
 
@@ -10067,6 +10059,14 @@ in which case a common error code is used.</p>
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
             
 
             
@@ -10091,6 +10091,14 @@ in which case a common error code is used.</p>
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
 
             
 
@@ -10114,6 +10122,14 @@ in which case a common error code is used.</p>
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
 
             
 
@@ -10121,23 +10137,16 @@ in which case a common error code is used.</p>
         </tr>
 
 	
-	</tbody>
-</table>
-
-            </td>
-        </tr>
-
-	
 
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>AdditionalInformation</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">String</span>
 
 
             
@@ -11284,6 +11293,296 @@ This event is fired after <a href="Phone.html#event:call:connected">Phone#call:c
         
             
 <dt>
+    <h4 class="name" id="event:media:established">media:established</h4>
+    
+    
+    <p class="summary">Media established event fires when audio/video media has started for a call.</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be an <code>connected</code> incoming or outgoing call in order to be able to receive this event.<br>
+This event is fired after <a href="Phone.html#event:call:connected">Phone#call:connected</a> has been fired.</p>
+<p>The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the called party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="event:session:call-switched">session:call-switched</h4>
     
     
@@ -11854,7 +12153,7 @@ initialized and ready to make, receive calls</p>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a>
-		on 2015-08-14T17:18:34-07:00 using the <a
+		on 2015-08-21T15:48:30-07:00 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>
@@ -11931,42 +12230,6 @@ initialized and ready to make, receive calls</p>
 
 
 	<!--Navigation and Symbol Display-->
-	
-	<script>
-		$( function () {
-			$( '#main' ).localScroll( {
-				offset : { top : 60 } //offset by the height of your header (give or take a few px, see what works for you)
-			} );
-			$( "dt.name" ).each( function () {
-				var $this = $( this ).find("h4");
-				var icon = $( "<i/>" ).addClass( "icon-plus-sign" ).addClass( "pull-right" ).addClass( "icon-white" );
-				var dt = $(this);
-				var children = dt.next( "dd" );
-
-				dt.prepend( icon ).css( {cursor : "pointer"} );
-				dt.addClass( "member-collapsed" ).addClass( "member" );
-
-
-				children.hide();
-
-				dt.children().on( "click", function () {
-					children = dt.next( "dd" );
-					console.debug(dt, children)
-					children.slideToggle( "fast", function () {
-
-						if ( children.is( ":visible" ) ) {
-							icon.addClass( "icon-minus-sign" ).removeClass( "icon-plus-sign" ).removeClass( "icon-white" );
-							dt.addClass( "member-open" ).animate( "member-collapsed" );
-						} else {
-							icon.addClass( "icon-plus-sign" ).removeClass( "icon-minus-sign" ).addClass( "icon-white" );
-							dt.addClass( "member-collapsed" ).removeClass( "member-open" );
-						}
-					} );
-				} );
-
-			} );
-		} );
-	</script>
 	
 
 
