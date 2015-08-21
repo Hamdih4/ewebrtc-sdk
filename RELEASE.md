@@ -30,14 +30,19 @@ The following features will be added soon:
 * Firefox browser support
 * AT&T Mobile Number support
 
-# v1.0.0
+# v1.0.1
 
-August 14, 2015
-#### Fixed Issues
-* **Fix:** Move from the callee side has one way audio video when done Twice.
-* **New:** New method `Phone.getVersion` to retrieve the SDK version.
-* **New:** New event 'gateway-unreachable' on Phone to capture '502' and '503' errors.
-* **New:** Handling conference invitations when there is an active call or conference.
+August 21, 2015
+
+* **Fix:** Standardize errors that SDK publishes
+* **Fix:** Add SDK error codes to the API docs
+* **Fix:** Add all API errors to SDK - API error dictionary.
+* **Fix:** API error not caught for SVC001 when dialing yourself as account ID user.
+* **Fix:** Publish `call:resumed` event for the party who put on hold.
+* **Fix:** Auto resume fails when dialing a second call and call was canceled or rejected.
+* **Fix:** There is no timestamp on `error` and `session:ready` events.
+* **Fix:** One way media after transferring users with video media to target users with audio media.
+* **Fix:** Callee user is not publishing `media:established` event.
 
 ## Known Issues
 
@@ -123,6 +128,16 @@ invitation rejected event.
 
 
 # Changelog
+
+# v1.0.0
+
+August 14, 2015
+
+* **Fix:** Move from the callee side has one way audio video when done Twice.
+* **New:** New method `Phone.getVersion` to retrieve the SDK version.
+* **New:** New event 'gateway-unreachable' on Phone to capture '502' and '503' errors.
+* **New:** Handling conference invitations when there is an active call or conference.
+
 
 ## v1.0.0-rc.27
 

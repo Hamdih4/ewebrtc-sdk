@@ -156,10 +156,8 @@ function formatError(error) {
       (error.ErrorMessage ? "<br/>Error Message: " + error.ErrorMessage : "") +
       (error.APIError ? "<br/>API Error: " + error.APIError : "") +
       (error.Cause ? "<br/>Cause: " + error.Cause : "") +
-      (error.PossibleCauses ? "<br/>Possible Causes: " + error.PossibleCauses : "") +
       (error.AdditionalInformation ? "<br/>Additional Information: " + error.AdditionalInformation : "") +
       (error.Resolution ? "<br/>Resolution: " + error.Resolution : "") +
-      (error.PossibleResolution ? "<br/>Possible Resolution: " + error.PossibleResolution : "") +
       (error.HttpStatusCode ? "<br/>Http Status Code: " + error.HttpStatusCode : "") +
       (error.MessageId ? "<br/>MessageId: " + error.MessageId : ""));
 }
@@ -779,7 +777,18 @@ function onConferenceConnected(data) {
 }
 
 // This event callback gets invoked when an outgoing call flow is initiated and the call state is changed to call established state
-function onMediaEstablished() {
+function onMediaEstablished(data) {
+  var msg = 'MediaEstablished.';
+
+  if (data.mediaType) {
+    msg += ' Media type: ' + data.mediaType + '.';
+  }
+
+  if (data.timestamp) {
+    msg += ' Time: ' + data.timestamp;
+  }
+
+  setMessage(msg);
   resetUI();
 }
 
