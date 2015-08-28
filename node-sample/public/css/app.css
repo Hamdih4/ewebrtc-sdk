@@ -246,3 +246,15 @@ button.btn {
 .btn-dialpad-switch {
     width: 94%;
 }
+
+.popup-box {
+    height: 100px;
+    width: 400px;
+    opacity: 2;
+    position: absolute;
+    left: 25%;
+    top: 25%;
+    background-color: #ffffff;
+    border-style: solid;
+    border-width: medium;
+}

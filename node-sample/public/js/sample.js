@@ -1,5 +1,5 @@
 /*jslint browser: true, devel: true, node: true, debug: true, todo: true, indent: 2, maxlen: 150*/
-/*global ATT, console, log, virtual_numbers, clearMessage, clearError,
+/*global ATT, console, log, virtual_numbers, clearMessage, clearError, show, hide, pauseMedia,
   onSessionDisconnected, validateAddress, associateE911Id, getE911Id, loginVirtualNumberOrAccountIdUser,
   loginEnhancedWebRTC, onError, phoneLogout, loadView, switchView, currentCallType, callExists, dial,
   answer, answer2ndCall, joinSecondConference, hold, resume, mute, unmute, upgrade, downgrade,
@@ -224,7 +224,7 @@ function dialAudio() {
 }
 
 function answerCall(action) {
-  document.getElementById('ringtone').pause();
+  pauseMedia('ringtone');
   clearMessage();
 
   var localVideo = document.getElementById('localVideo'),
@@ -246,7 +246,7 @@ function endAndAnswer() {
 }
 
 function updateConference(action) {
-  document.getElementById('ringtone').pause();
+  pauseMedia('ringtone');
   clearMessage();
 
   var localVideo = document.getElementById('localVideo'),
@@ -312,7 +312,7 @@ function startAudioConference() {
 }
 
 function join() {
-  document.getElementById('ringtone').pause();
+  pauseMedia('ringtone');
   clearMessage();
 
   var localVideo = document.getElementById('localVideo'),
@@ -342,47 +342,47 @@ function removeUser() {
 }
 
 function showParticipants() {
-  var participantsPanel,
-    participants,
+  var participants,
     participantsList,
     participant,
-    html;
+    rowDiv,
+    participantDiv,
+    span;
 
-  participantsPanel = document.getElementById('panel-participants');
   participantsList = document.getElementById('participants-list');
+
+  if (!participantsList) {
+    return;
+  }
 
   participants = getParticipants();
 
-  html = '';
+  participantsList.innerHTML = '';
 
   for (participant in participants) {
     if (participants.hasOwnProperty(participant)) {
-      html += '<div class="row">' +
-                '<div class="participant glyphicon glyphicon-user"> ' + participant + ' &nbsp; ' +
-                  '<span class="remove-participant glyphicon glyphicon-remove" onclick="removeUser()" id="' + participant + '"></span>' +
-                '</div>' +
-              '</div>';
+      rowDiv = document.createElement('div');
+      participantDiv = document.createElement('div');
+      participantDiv.className = 'participant glyphicon glyphicon-user';
+      participantDiv.innerText = participant + ' ';
+      span = document.createElement('span');
+      span.id = participant;
+      span.className = 'remove-participant glyphicon glyphicon-remove';
+      span.onclick = removeUser;
+
+      participantDiv.appendChild(span);
+      rowDiv.appendChild(participantDiv);
+      participantsList.appendChild(rowDiv);
     }
   }
 
-  if (participantsPanel
-      && participantsList) {
-    participantsList.innerHTML = html;
-
-    participantsPanel.style.display = 'block';
-    participantsVisible = true;
-  }
+  show('panel-participants');
+  participantsVisible = true;
 }
 
 function hideParticipants() {
-  var participantsPanel;
-
-  participantsPanel = document.getElementById('panel-participants');
-
-  if (participantsPanel) {
-    participantsPanel.style.display = 'none';
-    participantsVisible = false;
-  }
+  hide('panel-participants');
+  participantsVisible = false;
 }
 
 function toggleParticipants() {

@@ -30,19 +30,14 @@ The following features will be added soon:
 * Firefox browser support
 * AT&T Mobile Number support
 
-# v1.0.1
+# v1.0.2
 
-August 21, 2015
+August 28, 2015
 
-* **Fix:** Standardize errors that SDK publishes
-* **Fix:** Add SDK error codes to the API docs
-* **Fix:** Add all API errors to SDK - API error dictionary.
-* **Fix:** API error not caught for SVC001 when dialing yourself as account ID user.
-* **Fix:** Publish `call:resumed` event for the party who put on hold.
-* **Fix:** Auto resume fails when dialing a second call and call was canceled or rejected.
-* **Fix:** There is no timestamp on `error` and `session:ready` events.
-* **Fix:** One way media after transferring users with video media to target users with audio media.
-* **Fix:** Callee user is not publishing `media:established` event.
+* **Fix:** The method `phone.on` throws an error instead of publishing one.
+* **Fix:** GitHub hosted tutorial documentation links are broken.
+* **Fix:** No timestamp for error messages.
+* **Fix:** No documentation for transfer events: `call:transferring` and `call:transferred`.
 
 ## Known Issues
 
@@ -129,7 +124,21 @@ invitation rejected event.
 
 # Changelog
 
-# v1.0.0
+## v1.0.1
+
+August 21, 2015
+
+* **Fix:** Standardize errors that SDK publishes
+* **Fix:** Add SDK error codes to the API docs
+* **Fix:** Add all API errors to SDK - API error dictionary.
+* **Fix:** API error not caught for SVC001 when dialing yourself as account ID user.
+* **Fix:** Publish `call:resumed` event for the party who put on hold.
+* **Fix:** Auto resume fails when dialing a second call and call was canceled or rejected.
+* **Fix:** There is no timestamp on `error` and `session:ready` events.
+* **Fix:** One way media after transferring users with video media to target users with audio media.
+* **Fix:** Callee user on the browser is not publishing `media:established` event.
+
+## v1.0.0
 
 August 14, 2015
 

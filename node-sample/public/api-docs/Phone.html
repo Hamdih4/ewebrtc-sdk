@@ -15,275 +15,69 @@
 </head>
 
 <body>
-<div class="container-fluid">
-	<div class="navbar navbar-fixed-top navbar-inverse">
-		<div class="navbar-inner">
-			<a class="brand" href="index.html">JavaScript SDK for AT&T Enhanced WebRTC API</a>
-			<ul class="nav">
-				
-				<li class="dropdown">
-					<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b
-						class="caret"></b></a>
 
-					<ul class="dropdown-menu ">
-						
-						<li>
-							<a href="ATT.browser.html">ATT.browser</a>
-						</li>
-						
-						<li>
-							<a href="ATT.logManager.html">ATT.logManager</a>
-						</li>
-						
-						<li>
-							<a href="ATT.private.errorStore.APIErrors.html">ATT.private.errorStore.APIErrors</a>
-						</li>
-						
-						<li>
-							<a href="ATT.private.errorStore.SDKErrors.html">ATT.private.errorStore.SDKErrors</a>
-						</li>
-						
-						<li>
-							<a href="ATT.rtc.Phone.html">ATT.rtc.Phone</a>
-						</li>
-						
-
-					</ul>
-				</li>
-				
-				<li class="dropdown">
-					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
-						class="caret"></b></a>
-
-					<ul class="dropdown-menu ">
-						
-						<li>
-							<a href="ATT.logManager.Logger.html">ATT.logManager.Logger</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html">Phone</a>
-						</li>
-						
-
-					</ul>
-				</li>
-				
-				<li class="dropdown">
-					<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b
-						class="caret"></b></a>
-
-					<ul class="dropdown-menu ">
-						
-						<li>
-							<a href="Phone.html#event:call:canceled">Phone#call:canceled</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:call:connected">Phone#call:connected</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:call:connecting">Phone#call:connecting</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:call:disconnected">Phone#call:disconnected</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:call:disconnecting">Phone#call:disconnecting</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:call:held">Phone#call:held</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:call:incoming">Phone#call:incoming</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:call:media-modification">Phone#call:media-modification</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:call:modification-in-progress">Phone#call:modification-in-progress</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:call:moved">Phone#call:moved</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:call:muted">Phone#call:muted</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:call:rejected">Phone#call:rejected</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:call:resumed">Phone#call:resumed</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:call:ringback-provided">Phone#call:ringback-provided</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:call:state-changed">Phone#call:state-changed</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:call:unmuted">Phone#call:unmuted</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:conference:canceled">Phone#conference:canceled</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:conference:connected">Phone#conference:connected</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:conference:connecting">Phone#conference:connecting</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:conference:disconnecting">Phone#conference:disconnecting</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:conference:ended">Phone#conference:ended</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:conference:held">Phone#conference:held</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:conference:invitation-accepted">Phone#conference:invitation-accepted</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:conference:invitation-received">Phone#conference:invitation-received</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:conference:invitation-rejected">Phone#conference:invitation-rejected</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:conference:invitation-sending">Phone#conference:invitation-sending</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:conference:invitation-sent">Phone#conference:invitation-sent</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:conference:joining">Phone#conference:joining</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:conference:participant-removed">Phone#conference:participant-removed</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:conference:resumed">Phone#conference:resumed</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:dtmf:tone-sending">Phone#dtmf:tone-sending</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:dtmf:tone-sent">Phone#dtmf:tone-sent</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:address-updated">Phone#event:address-updated</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:answering">Phone#event:answering</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:dialing">Phone#event:dialing</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:error">Phone#event:error</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:notification">Phone#event:notification</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:warning">Phone#event:warning</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:gateway:unreachable">Phone#gateway:unreachable</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:media:established">Phone#media:established</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:session:call-switched">Phone#session:call-switched</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:session:disconnected">Phone#session:disconnected</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:session:expired">Phone#session:expired</a>
-						</li>
-						
-						<li>
-							<a href="Phone.html#event:session:ready">Phone#session:ready</a>
-						</li>
-						
-
-					</ul>
-				</li>
-				
-			</ul>
-		</div>
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">JavaScript SDK for AT&T Enhanced WebRTC API</a>
 	</div>
-
-	<div class="row-fluid">
-
-		
-		<div class="span8">
+	<div class="navbar-collapse">
+		<ul class="nav navbar-nav">
 			
-				<div id="main">
-					
+			<li class="dropdown">
+				<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="ATT.browser.html">ATT.browser</a></li><li><a href="ATT.logManager.html">ATT.logManager</a></li><li><a href="ATT.private.errorStore.APIErrors.html">ATT.private.errorStore.APIErrors</a></li><li><a href="ATT.private.errorStore.SDKErrors.html">ATT.private.errorStore.SDKErrors</a></li><li><a href="ATT.rtc.Phone.html">ATT.rtc.Phone</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="ATT.logManager.Logger.html">ATT.logManager.Logger</a></li><li><a href="Phone.html">Phone</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="Phone.html#event:call:canceled">Phone#call:canceled</a></li><li><a href="Phone.html#event:call:connected">Phone#call:connected</a></li><li><a href="Phone.html#event:call:connecting">Phone#call:connecting</a></li><li><a href="Phone.html#event:call:disconnected">Phone#call:disconnected</a></li><li><a href="Phone.html#event:call:disconnecting">Phone#call:disconnecting</a></li><li><a href="Phone.html#event:call:held">Phone#call:held</a></li><li><a href="Phone.html#event:call:incoming">Phone#call:incoming</a></li><li><a href="Phone.html#event:call:media-modification">Phone#call:media-modification</a></li><li><a href="Phone.html#event:call:modification-in-progress">Phone#call:modification-in-progress</a></li><li><a href="Phone.html#event:call:moved">Phone#call:moved</a></li><li><a href="Phone.html#event:call:muted">Phone#call:muted</a></li><li><a href="Phone.html#event:call:rejected">Phone#call:rejected</a></li><li><a href="Phone.html#event:call:resumed">Phone#call:resumed</a></li><li><a href="Phone.html#event:call:ringback-provided">Phone#call:ringback-provided</a></li><li><a href="Phone.html#event:call:state-changed">Phone#call:state-changed</a></li><li><a href="Phone.html#event:call:transferred">Phone#call:transferred</a></li><li><a href="Phone.html#event:call:transferring">Phone#call:transferring</a></li><li><a href="Phone.html#event:call:unmuted">Phone#call:unmuted</a></li><li><a href="Phone.html#event:conference:canceled">Phone#conference:canceled</a></li><li><a href="Phone.html#event:conference:connected">Phone#conference:connected</a></li><li><a href="Phone.html#event:conference:connecting">Phone#conference:connecting</a></li><li><a href="Phone.html#event:conference:disconnecting">Phone#conference:disconnecting</a></li><li><a href="Phone.html#event:conference:ended">Phone#conference:ended</a></li><li><a href="Phone.html#event:conference:held">Phone#conference:held</a></li><li><a href="Phone.html#event:conference:invitation-accepted">Phone#conference:invitation-accepted</a></li><li><a href="Phone.html#event:conference:invitation-received">Phone#conference:invitation-received</a></li><li><a href="Phone.html#event:conference:invitation-rejected">Phone#conference:invitation-rejected</a></li><li><a href="Phone.html#event:conference:invitation-sending">Phone#conference:invitation-sending</a></li><li><a href="Phone.html#event:conference:invitation-sent">Phone#conference:invitation-sent</a></li><li><a href="Phone.html#event:conference:joining">Phone#conference:joining</a></li><li><a href="Phone.html#event:conference:participant-removed">Phone#conference:participant-removed</a></li><li><a href="Phone.html#event:conference:resumed">Phone#conference:resumed</a></li><li><a href="Phone.html#event:dtmf:tone-sending">Phone#dtmf:tone-sending</a></li><li><a href="Phone.html#event:dtmf:tone-sent">Phone#dtmf:tone-sent</a></li><li><a href="Phone.html#event:address-updated">Phone#event:address-updated</a></li><li><a href="Phone.html#event:answering">Phone#event:answering</a></li><li><a href="Phone.html#event:dialing">Phone#event:dialing</a></li><li><a href="Phone.html#event:error">Phone#event:error</a></li><li><a href="Phone.html#event:notification">Phone#event:notification</a></li><li><a href="Phone.html#event:warning">Phone#event:warning</a></li><li><a href="Phone.html#event:gateway:unreachable">Phone#gateway:unreachable</a></li><li><a href="Phone.html#event:media:established">Phone#media:established</a></li><li><a href="Phone.html#event:session:call-switched">Phone#session:call-switched</a></li><li><a href="Phone.html#event:session:disconnected">Phone#session:disconnected</a></li><li><a href="Phone.html#event:session:expired">Phone#session:expired</a></li><li><a href="Phone.html#event:session:ready">Phone#session:ready</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+	</div>
+</div>
+</div>
 
+
+<div class="container">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+    		<h1 class="page-title">Class: Phone</h1>
+			
 
 	<h1 class="page-title">Class: Phone</h1>
 <section>
 
 <header>
-    <h2>
-    Phone
-    </h2>
     
-        <div class="class-description"><p>Represents the private class Phone.</p></div>
+        <h2>
+        Phone
+        </h2>
+        
+            <div class="class-description"><p>Represents the private class Phone.</p></div>
+        
     
 </header>
 
+
 <article>
     <div class="container-overview">
-    
-
     
         
 <dt>
@@ -307,6 +101,7 @@ on the fired event.</p>
     
 
     
+
     
     
     
@@ -321,6 +116,14 @@ on the fired event.</p>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -344,6 +147,8 @@ on the fired event.</p>
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -406,16 +211,17 @@ This method fires <a href="Phone.html#event:call:modification-in-progress">Phone
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4300">4300</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4301">4301</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4302">4302</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4303">4303</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4304">4304</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4300">4300</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4301">4301</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4302">4302</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4303">4303</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4304">4304</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -430,6 +236,14 @@ This method fires <a href="Phone.html#event:call:modification-in-progress">Phone
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -453,6 +267,8 @@ This method fires <a href="Phone.html#event:call:modification-in-progress">Phone
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -504,22 +320,23 @@ hold explicitly (using the hold function).</p>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3900">3900</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3901">3901</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3911">3911</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3912">3912</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3913">3913</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3921">3921</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3931">3931</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3932">3932</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3941">3941</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3951">3951</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3961">3961</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3900">3900</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3901">3901</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3911">3911</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3912">3912</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3913">3913</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3921">3921</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3931">3931</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3932">3932</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3941">3941</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3951">3951</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3961">3961</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -739,6 +556,14 @@ exception of special numbers like 911.)</strong> or user id of the called party 
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -761,6 +586,8 @@ exception of special numbers like 911.)</strong> or user id of the called party 
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -795,16 +622,16 @@ exception of special numbers like 911.)</strong> or user id of the called party 
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Add a video call with an Mobile Number User
+    <pre class="sunlight-highlight-javascript">// Add a video call with an Mobile Number User
 var phone = ATT.rtc.Phone.getPhone();
 phone.addCall({
-  destination: &#x27;11231231234&#x27;, &#x2F;&#x2F;1800CALFEDX, 1 (123) 123-1234
+  destination: &#x27;11231231234&#x27;, //1800CALFEDX, 1 (123) 123-1234
   localMedia: document.getElementById(&#x27;localVideo&#x27;),
   remoteMedia: document.getElementById(&#x27;remoteVideo&#x27;),
   mediaType: &#x27;video&#x27;
 });</pre>
 
-    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Add a video call with an Account ID User
+    <pre class="sunlight-highlight-javascript">// Add a video call with an Account ID User
 var phone = ATT.rtc.Phone.getPhone();
 phone.addCall({
   destination: &#x27;john@domain.com&#x27;,
@@ -835,18 +662,19 @@ Only a host side can invoke addParticipant.</p>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3600">3600</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3611">3611</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3612">3612</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3613">3613</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3621">3621</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3631">3631</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3641">3641</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3600">3600</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3611">3611</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3612">3612</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3613">3613</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3621">3621</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3631">3631</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3641">3641</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -912,6 +740,14 @@ exception of special numbers like 911.)</strong></p></td>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -934,6 +770,8 @@ exception of special numbers like 911.)</strong></p></td>
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -991,18 +829,19 @@ call by putting on hold or ending the existing call.</p>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2300">2300</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2301">2301</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2311">2311</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2312">2312</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2321">2321</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2331">2331</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2341">2341</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2300">2300</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2301">2301</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2311">2311</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2312">2312</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2321">2321</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2331">2331</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2341">2341</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -1190,6 +1029,14 @@ call by putting on hold or ending the existing call.</p>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -1212,6 +1059,8 @@ call by putting on hold or ending the existing call.</p>
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -1254,7 +1103,7 @@ phone.answer({
 phone.answer({
   localMedia: document.getElementById(&#x27;localVideo&#x27;),
   remoteMedia: document.getElementById(&#x27;remoteVideo&#x27;),
-  action: &#x27;hold&#x27; &#x2F;&#x2F; or &#x27;end&#x27;
+  action: &#x27;hold&#x27; // or &#x27;end&#x27;
 });</pre>
 
 
@@ -1275,6 +1124,7 @@ phone.answer({
     
 
     
+
     
     
     
@@ -1457,6 +1307,14 @@ phone.answer({
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -1484,6 +1342,8 @@ phone.answer({
     
 
     
+
+    
     
     
     
@@ -1492,7 +1352,7 @@ phone.answer({
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Associate user id &#x27;john&#x27; with token &#x27;access_token&#x27;
+    <pre class="sunlight-highlight-javascript">// Associate user id &#x27;john&#x27; with token &#x27;access_token&#x27;
 var success = function () {...},
    error = function () {...};
    phone = ATT.rtc.Phone.getPhone();
@@ -1526,15 +1386,16 @@ The user has to be logged in before <code>associateE911Id</code> can be invoked.
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2050">2050</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2051">2051</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2052">2052</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2053">2053</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2050">2050</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2051">2051</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2052">2052</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2053">2053</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -1549,6 +1410,14 @@ The user has to be logged in before <code>associateE911Id</code> can be invoked.
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -1572,6 +1441,8 @@ The user has to be logged in before <code>associateE911Id</code> can be invoked.
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -1619,14 +1490,15 @@ There should be an unestablished outgoing call before <code>cancel</code> can be
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p> <strong>Error Code</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2900">2900</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2901">2901</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2902">2902</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2900">2900</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2901">2901</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2902">2902</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -1641,6 +1513,14 @@ There should be an unestablished outgoing call before <code>cancel</code> can be
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -1664,6 +1544,8 @@ There should be an unestablished outgoing call before <code>cancel</code> can be
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -1708,12 +1590,13 @@ phone.cancel();</pre>
 Note: Will ignore email formatted input</p>
 <p> <strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3810">3810</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3810">3810</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -1778,6 +1661,14 @@ Note: Will ignore email formatted input</p>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -1800,6 +1691,8 @@ Note: Will ignore email formatted input</p>
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -1863,7 +1756,7 @@ Note: Will ignore email formatted input</p>
         <h5>Example</h5>
         
     <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
-phone.cleanPhoneNumber(&#x27;1800CALFEDE&#x27;); &#x2F;&#x2F;18002253333</pre>
+phone.cleanPhoneNumber(&#x27;1800CALFEDE&#x27;); //18002253333</pre>
 
 
     
@@ -1887,22 +1780,23 @@ providing the destination, call media type information and local and remote medi
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p> <strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2200">2200</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2201">2201</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2211">2211</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2212">2212</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2213">2213</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2221">2221</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2231">2231</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2232">2232</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2241">2241</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2251">2251</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2252">2252</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2200">2200</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2201">2201</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2211">2211</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2212">2212</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2213">2213</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2221">2221</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2231">2231</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2232">2232</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2241">2241</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2251">2251</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2252">2252</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -2122,6 +2016,14 @@ of special numbers like 911.)</strong> or User Id of the called party (without s
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -2144,6 +2046,8 @@ of special numbers like 911.)</strong> or User Id of the called party (without s
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -2178,15 +2082,15 @@ of special numbers like 911.)</strong> or User Id of the called party (without s
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Start video call with an Mobile Number&#x2F;Virtual Number User
+    <pre class="sunlight-highlight-javascript">// Start video call with an Mobile Number/Virtual Number User
 var phone = ATT.rtc.Phone.getPhone();
 phone.dial({
-  destination: &#x27;11231231234&#x27;, &#x2F;&#x2F;1800CALFEDX, 1 (123) 123-1234
+  destination: &#x27;11231231234&#x27;, //1800CALFEDX, 1 (123) 123-1234
   localMedia: document.getElementById(&#x27;localVideo&#x27;),
   remoteMedia: document.getElementById(&#x27;remoteVideo&#x27;)
 });</pre>
 
-    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Start video call with an Account ID User
+    <pre class="sunlight-highlight-javascript">// Start video call with an Account ID User
 var phone = ATT.rtc.Phone.getPhone();
 phone.dial({
   destination: &#x27;john@domain.com&#x27;,
@@ -2195,10 +2099,10 @@ phone.dial({
   mediaType: &#x27;video&#x27;
 });</pre>
 
-    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Start audio call with a special number
+    <pre class="sunlight-highlight-javascript">// Start audio call with a special number
 var phone = ATT.rtc.Phone.getPhone();
 phone.dial({
-  destination: &#x27;911&#x27;, &#x2F;&#x2F;411,611,*69,#89
+  destination: &#x27;911&#x27;, //411,611,*69,#89
   localMedia: document.getElementById(&#x27;localVideo&#x27;),
   remoteMedia: document.getElementById(&#x27;remoteVideo&#x27;),
   mediaType: &#x27;audio&#x27;
@@ -2226,17 +2130,18 @@ This method fires <a href="Phone.html#event:call:modification-in-progress">Phone
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4500">4500</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4501">4501</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4502">4502</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4503">4503</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4504">4504</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4505">4505</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4500">4500</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4501">4501</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4502">4502</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4503">4503</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4504">4504</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4505">4505</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -2251,6 +2156,14 @@ This method fires <a href="Phone.html#event:call:modification-in-progress">Phone
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -2274,6 +2187,8 @@ This method fires <a href="Phone.html#event:call:modification-in-progress">Phone
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -2323,14 +2238,15 @@ If the host side invokes endConference all the participants are disconnected and
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3500">3500</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3501">3501</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3502">3502</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3500">3500</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3501">3501</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3502">3502</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -2345,6 +2261,14 @@ If the host side invokes endConference all the participants are disconnected and
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -2368,6 +2292,8 @@ If the host side invokes endConference all the participants are disconnected and
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -2413,12 +2339,13 @@ phone.endConference();</pre>
         <p>A utility method used to to format a valid 10 digit phone number.</p>
 <p> <strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3820">3820</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3820">3820</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -2483,6 +2410,14 @@ phone.endConference();</pre>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -2505,6 +2440,8 @@ phone.endConference();</pre>
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -2547,7 +2484,7 @@ phone.endConference();</pre>
         <h5>Example</h5>
         
     <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
-phone.formatNumber(&#x27;9234567890&#x27;); &#x2F;&#x2F; 1 (923) 456-7890</pre>
+phone.formatNumber(&#x27;9234567890&#x27;); // 1 (923) 456-7890</pre>
 
 
     
@@ -2570,12 +2507,13 @@ phone.formatNumber(&#x27;9234567890&#x27;); &#x2F;&#x2F; 1 (923) 456-7890</pre>
 the information like callerId, protocol, domain, port and other associated information.</p>
 <p> <strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3830">3830</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3830">3830</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -2640,6 +2578,14 @@ the information like callerId, protocol, domain, port and other associated infor
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -2662,6 +2608,8 @@ the information like callerId, protocol, domain, port and other associated infor
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -2729,6 +2677,7 @@ phone.getCallerInfo(&#x27;sip:+1111@icmn.api.att.com&#x27;);</pre>
     
 
     
+
     
     
     
@@ -2743,6 +2692,14 @@ phone.getCallerInfo(&#x27;sip:+1111@icmn.api.att.com&#x27;);</pre>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -2766,6 +2723,8 @@ phone.getCallerInfo(&#x27;sip:+1111@icmn.api.att.com&#x27;);</pre>
 </dl>
 
     
+    
+
     
 
     
@@ -2835,6 +2794,7 @@ var calls = phone.getCalls();</pre>
     
 
     
+
     
     
     
@@ -2849,6 +2809,14 @@ var calls = phone.getCalls();</pre>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -2872,6 +2840,8 @@ var calls = phone.getCalls();</pre>
 </dl>
 
     
+    
+
     
 
     
@@ -2933,6 +2903,7 @@ phone.getIceServers();</pre>
     
 
     
+
     
     
     
@@ -2947,6 +2918,14 @@ phone.getIceServers();</pre>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -2970,6 +2949,8 @@ phone.getIceServers();</pre>
 </dl>
 
     
+    
+
     
 
     
@@ -3031,6 +3012,7 @@ phone.getIceTransport();</pre>
     
 
     
+
     
     
     
@@ -3045,6 +3027,14 @@ phone.getIceTransport();</pre>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -3068,6 +3058,8 @@ phone.getIceTransport();</pre>
 </dl>
 
     
+    
+
     
 
     
@@ -3129,6 +3121,7 @@ phone.getIpv6();</pre>
     
 
     
+
     
     
     
@@ -3143,6 +3136,14 @@ phone.getIpv6();</pre>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -3166,6 +3167,8 @@ phone.getIpv6();</pre>
 </dl>
 
     
+    
+
     
 
     
@@ -3228,14 +3231,15 @@ Only a host side can invoke <code>getParticipants</code>.</p>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3400">3400</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3401">3401</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3402">3402</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3400">3400</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3401">3401</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3402">3402</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -3250,6 +3254,14 @@ Only a host side can invoke <code>getParticipants</code>.</p>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -3273,6 +3285,8 @@ Only a host side can invoke <code>getParticipants</code>.</p>
 </dl>
 
     
+    
+
     
 
     
@@ -3311,6 +3325,7 @@ phone.getParticipants();</pre>
     
 
     
+
     
     
     
@@ -3325,6 +3340,14 @@ phone.getParticipants();</pre>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -3348,6 +3371,8 @@ phone.getParticipants();</pre>
 </dl>
 
     
+    
+
     
 
     
@@ -3409,14 +3434,15 @@ There should be an existing established call before <code>hangup</code> can be c
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2400">2400</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2401">2401</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2402">2402</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2400">2400</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2401">2401</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2402">2402</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -3431,6 +3457,14 @@ There should be an existing established call before <code>hangup</code> can be c
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -3454,6 +3488,8 @@ There should be an existing established call before <code>hangup</code> can be c
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -3500,15 +3536,16 @@ There should be an existing established call or conference before <code>hold</co
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2500">2500</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2501">2501</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2502">2502</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2503">2503</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2500">2500</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2501">2501</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2502">2502</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2503">2503</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -3523,6 +3560,14 @@ There should be an existing established call or conference before <code>hold</co
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -3546,6 +3591,8 @@ There should be an existing established call or conference before <code>hold</co
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -3591,6 +3638,7 @@ phone.hold();</pre>
     
 
     
+
     
     
     
@@ -3605,6 +3653,14 @@ phone.hold();</pre>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 	<dt class="important tag-deprecated">Deprecated:</dt>
@@ -3637,6 +3693,8 @@ phone.hold();</pre>
 </dl>
 
     
+    
+
     
 
     
@@ -3697,18 +3755,19 @@ phone.isCallInProgress();</pre>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3200">3200</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3201">3201</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3211">3211</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3212">3212</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3221">3221</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3231">3231</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3241">3241</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3200">3200</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3201">3201</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3211">3211</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3212">3212</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3221">3221</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3231">3231</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3241">3241</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -3896,6 +3955,14 @@ phone.isCallInProgress();</pre>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -3918,6 +3985,8 @@ phone.isCallInProgress();</pre>
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -3962,7 +4031,7 @@ phone.joinConference({
 phone.joinConference({
   localMedia: document.getElementById(&#x27;localVideo&#x27;),
   remoteMedia: document.getElementById(&#x27;remoteVideo&#x27;),
-  action: &#x27;hold&#x27; &#x2F;&#x2F; or &#x27;end&#x27;
+  action: &#x27;hold&#x27; // or &#x27;end&#x27;
 });</pre>
 
 
@@ -3987,15 +4056,16 @@ The service parameter indicates the desired service such as audio or video call.
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p> <strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2000">2000</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2001">2001</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2002">2002</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2003">2003</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2000">2000</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2001">2001</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2002">2002</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2003">2003</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -4153,6 +4223,14 @@ Required for Mobile Number and Virtual Number users</p></td>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -4175,6 +4253,8 @@ Required for Mobile Number and Virtual Number users</p></td>
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -4223,13 +4303,14 @@ enhanced WebRTC session will get deleted and event channel polling will be stopp
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p> <strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2100">2100</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2101">2101</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2100">2100</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2101">2101</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -4244,6 +4325,14 @@ enhanced WebRTC session will get deleted and event channel polling will be stopp
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -4267,6 +4356,8 @@ enhanced WebRTC session will get deleted and event channel polling will be stopp
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -4315,16 +4406,17 @@ The user can choose to answer on any of the other endpoints(devices).</p>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4000">4000</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4001">4001</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4002">4002</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4003">4003</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4004">4004</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4000">4000</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4001">4001</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4002">4002</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4003">4003</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4004">4004</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -4339,6 +4431,14 @@ The user can choose to answer on any of the other endpoints(devices).</p>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -4362,6 +4462,8 @@ The user can choose to answer on any of the other endpoints(devices).</p>
 </dl>
 
     
+    
+
     
 
     
@@ -4400,14 +4502,15 @@ The other party(ies) will no longer receive any audio. Video (if available) will
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2700">2700</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2701">2701</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2702">2702</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2700">2700</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2701">2701</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2702">2702</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -4422,6 +4525,14 @@ The other party(ies) will no longer receive any audio. Video (if available) will
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -4445,6 +4556,8 @@ The other party(ies) will no longer receive any audio. Video (if available) will
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -4490,6 +4603,7 @@ phone.mute();</pre>
     
 
     
+
     
     
     
@@ -4577,6 +4691,14 @@ phone.mute();</pre>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -4604,6 +4726,8 @@ phone.mute();</pre>
     
 
     
+
+    
     
     
     <h5>Throws:</h5>
@@ -4613,7 +4737,7 @@ phone.mute();</pre>
 <dl>
     <dt>
         <div class="param-desc">
-        Event 'event_name' not defined
+        <p>Event 'event_name' not defined</p>
         </div>
     </dt>
     <dt>
@@ -4641,7 +4765,7 @@ phone.mute();</pre>
         
     <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
 phone.on(&#x27;session:ready&#x27;, function (data) {
-   &#x2F;&#x2F; ... do something
+   // ... do something
 });</pre>
 
 
@@ -4665,14 +4789,15 @@ phone.on(&#x27;session:ready&#x27;, function (data) {
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p> <strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3000">3000</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3001">3001</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3002">3002</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3000">3000</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3001">3001</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3002">3002</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -4687,6 +4812,14 @@ phone.on(&#x27;session:ready&#x27;, function (data) {
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -4710,6 +4843,8 @@ phone.on(&#x27;session:ready&#x27;, function (data) {
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -4756,14 +4891,15 @@ Only the participant side can invoke <code>rejectConference</code>.</p>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p> <strong> Error Codes </strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3300">3300</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3301">3301</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3302">3302</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3300">3300</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3301">3301</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3302">3302</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -4778,6 +4914,14 @@ Only the participant side can invoke <code>rejectConference</code>.</p>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -4801,6 +4945,8 @@ Only the participant side can invoke <code>rejectConference</code>.</p>
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -4847,16 +4993,17 @@ event which indicates an incoming media modification request.</p>
 her video. The peer that rejected will keep sending only his audio.</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4400">4400</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4401">4401</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4402">4402</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4403">4403</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4404">4404</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4400">4400</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4401">4401</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4402">4402</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4403">4403</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4404">4404</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -4871,6 +5018,14 @@ her video. The peer that rejected will keep sending only his audio.</p>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -4894,6 +5049,8 @@ her video. The peer that rejected will keep sending only his audio.</p>
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -4942,15 +5099,16 @@ Only a host side can invoke <code>removeParticipant</code>.</p>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3700">3700</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3711">3711</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3721">3721</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3731">3731</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3700">3700</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3711">3711</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3721">3721</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3731">3731</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -4965,6 +5123,14 @@ Only a host side can invoke <code>removeParticipant</code>.</p>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -4988,6 +5154,8 @@ Only a host side can invoke <code>removeParticipant</code>.</p>
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -5031,6 +5199,7 @@ phone.removeParticipant(&#x27;johnny&#x27;);</pre>
     
 
     
+
     
     
     
@@ -5045,6 +5214,14 @@ phone.removeParticipant(&#x27;johnny&#x27;);</pre>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -5068,6 +5245,8 @@ phone.removeParticipant(&#x27;johnny&#x27;);</pre>
 </dl>
 
     
+    
+
     
 
     
@@ -5106,6 +5285,7 @@ phone.resetIceServers();</pre>
     
 
     
+
     
     
     
@@ -5120,6 +5300,14 @@ phone.resetIceServers();</pre>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -5143,6 +5331,8 @@ phone.resetIceServers();</pre>
 </dl>
 
     
+    
+
     
 
     
@@ -5181,6 +5371,7 @@ phone.resetIceTransport();</pre>
     
 
     
+
     
     
     
@@ -5195,6 +5386,14 @@ phone.resetIceTransport();</pre>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -5218,6 +5417,8 @@ phone.resetIceTransport();</pre>
 </dl>
 
     
+    
+
     
 
     
@@ -5257,15 +5458,16 @@ There should be an existing established call or conference on hold before <code>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2600">2600</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2601">2601</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2602">2602</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2603">2603</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2600">2600</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2601">2601</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2602">2602</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2603">2603</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -5280,6 +5482,14 @@ There should be an existing established call or conference on hold before <code>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -5303,6 +5513,8 @@ There should be an existing established call or conference on hold before <code>
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -5347,17 +5559,18 @@ phone.resume();</pre>
 through the audio stream after you have established a call.</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4700">4700</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4711">4711</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4712">4712</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4721">4721</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4731">4731</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4741">4741</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4700">4700</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4711">4711</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4712">4712</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4721">4721</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4731">4731</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4741">4741</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -5452,7 +5665,7 @@ through the audio stream after you have established a call.</p>
 
         <tr>
             
-                <td class="name"><code>[gap]</code></td>
+                <td class="name"><code>[gap</code></td>
             
 
             <td class="type">
@@ -5494,6 +5707,14 @@ through the audio stream after you have established a call.</p>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -5516,6 +5737,8 @@ through the audio stream after you have established a call.</p>
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -5562,12 +5785,13 @@ phone.sendDTMFTone({input: &#x27;2&#x27;, gap : 5});</pre>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4811">4811</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4811">4811</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -5632,6 +5856,14 @@ phone.sendDTMFTone({input: &#x27;2&#x27;, gap : 5});</pre>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -5654,6 +5886,8 @@ phone.sendDTMFTone({input: &#x27;2&#x27;, gap : 5});</pre>
 </dl>
 
     
+    
+
     
 
     
@@ -5691,12 +5925,13 @@ phone.setIceServers([{ &#x27;url&#x27;: &#x27;STUN:12.19.19.xx&#x27; }]);</pre>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4821">4821</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4821">4821</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -5761,6 +5996,14 @@ phone.setIceServers([{ &#x27;url&#x27;: &#x27;STUN:12.19.19.xx&#x27; }]);</pre>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -5783,6 +6026,8 @@ phone.setIceServers([{ &#x27;url&#x27;: &#x27;STUN:12.19.19.xx&#x27; }]);</pre>
 </dl>
 
     
+    
+
     
 
     
@@ -5820,12 +6065,13 @@ phone.setIceTransport(&#x27;all&#x27;);</pre>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4831">4831</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4831">4831</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -5890,6 +6136,14 @@ phone.setIceTransport(&#x27;all&#x27;);</pre>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -5912,6 +6166,8 @@ phone.setIceTransport(&#x27;all&#x27;);</pre>
 </dl>
 
     
+    
+
     
 
     
@@ -5951,16 +6207,17 @@ Only a host can remove a participant from the conference and end the conference.
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3100">3100</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3111">3111</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3121">3121</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3122">3122</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#3131">3131</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3100">3100</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3111">3111</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3121">3121</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3122">3122</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.3131">3131</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -6148,6 +6405,14 @@ Only a host can remove a participant from the conference and end the conference.
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -6170,6 +6435,8 @@ Only a host can remove a participant from the conference and end the conference.
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -6239,15 +6506,16 @@ will be kept on hold; otherwise the call will be resumed automatically.</p>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4200">4200</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4201">4201</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4202">4202</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4203">4203</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4200">4200</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4201">4201</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4202">4202</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4203">4203</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -6262,6 +6530,14 @@ will be kept on hold; otherwise the call will be resumed automatically.</p>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -6285,6 +6561,8 @@ will be kept on hold; otherwise the call will be resumed automatically.</p>
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -6332,17 +6610,18 @@ and drop the current user from the call.</p>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4100">4100</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4101">4101</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4102">4102</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4103">4103</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4104">4104</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4105">4105</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4100">4100</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4101">4101</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4102">4102</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4103">4103</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4104">4104</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4105">4105</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -6357,6 +6636,14 @@ and drop the current user from the call.</p>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -6380,6 +6667,8 @@ and drop the current user from the call.</p>
 </dl>
 
     
+    
+
     
 
     
@@ -6418,14 +6707,15 @@ The other party(ies) will start receiving audio.</p>
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2800">2800</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2801">2801</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#2802">2802</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2800">2800</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2801">2801</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.2802">2802</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -6440,6 +6730,14 @@ The other party(ies) will start receiving audio.</p>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -6463,6 +6761,8 @@ The other party(ies) will start receiving audio.</p>
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -6508,17 +6808,18 @@ This method fires <a href="Phone.html#event:call:modification-in-progress">Phone
 <p>This method can fire <a href="Phone.html#event:error">Phone#event:error</a> that can have these error codes:</p>
 <p><strong>Error Codes</strong></p>
 <ul>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4600">4600</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4601">4601</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4602">4602</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4603">4603</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4604">4604</a></li>
-<li><a href="ATT.private.errorStore.SDKErrors.html#4605">4605</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4600">4600</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4601">4601</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4602">4602</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4603">4603</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4604">4604</a></li>
+<li><a href="ATT.private.errorStore.SDKErrors.html#.4605">4605</a></li>
 </ul>
     </div>
     
 
     
+
     
     
     
@@ -6533,6 +6834,14 @@ This method fires <a href="Phone.html#event:call:modification-in-progress">Phone
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -6556,6 +6865,8 @@ This method fires <a href="Phone.html#event:call:modification-in-progress">Phone
 </dl>
 
     
+    
+
     
     <h5>Fires:</h5>
     <ul>
@@ -6614,6 +6925,8 @@ There should be an unestablished incoming or outgoing call in order to be able t
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -6623,7 +6936,6 @@ There should be an unestablished incoming or outgoing call in order to be able t
 
             </li>
         </ul>
-    
     
     
     
@@ -6850,6 +7162,14 @@ There should be an unestablished incoming or outgoing call in order to be able t
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -6872,6 +7192,8 @@ There should be an unestablished incoming or outgoing call in order to be able t
 </dl>
 
     
+    
+
     
 
     
@@ -6906,6 +7228,8 @@ This event is fired after <a href="Phone.html#event:call:connecting">Phone#call:
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -6915,7 +7239,6 @@ This event is fired after <a href="Phone.html#event:call:connecting">Phone#call:
 
             </li>
         </ul>
-    
     
     
     
@@ -7173,6 +7496,14 @@ This event is fired after <a href="Phone.html#event:call:connecting">Phone#call:
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -7195,6 +7526,8 @@ This event is fired after <a href="Phone.html#event:call:connecting">Phone#call:
 </dl>
 
     
+    
+
     
 
     
@@ -7228,6 +7561,8 @@ There should be an unestablished outgoing or incoming call in order to be able t
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -7237,7 +7572,6 @@ There should be an unestablished outgoing or incoming call in order to be able t
 
             </li>
         </ul>
-    
     
     
     
@@ -7464,6 +7798,14 @@ There should be an unestablished outgoing or incoming call in order to be able t
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -7486,6 +7828,8 @@ There should be an unestablished outgoing or incoming call in order to be able t
 </dl>
 
     
+    
+
     
 
     
@@ -7520,6 +7864,8 @@ There should be an existing call in progress in order to be able to receive this
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -7529,7 +7875,6 @@ There should be an existing call in progress in order to be able to receive this
 
             </li>
         </ul>
-    
     
     
     
@@ -7754,6 +8099,14 @@ There should be an existing call in progress in order to be able to receive this
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -7776,6 +8129,8 @@ There should be an existing call in progress in order to be able to receive this
 </dl>
 
     
+    
+
     
 
     
@@ -7810,6 +8165,8 @@ This event is fired in response to a successful call to <code>hangup</code> meth
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -7819,7 +8176,6 @@ This event is fired in response to a successful call to <code>hangup</code> meth
 
             </li>
         </ul>
-    
     
     
     
@@ -8044,6 +8400,14 @@ This event is fired in response to a successful call to <code>hangup</code> meth
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -8066,6 +8430,8 @@ This event is fired in response to a successful call to <code>hangup</code> meth
 </dl>
 
     
+    
+
     
 
     
@@ -8100,6 +8466,8 @@ This event is fired in response to a successful call to <code>hold</code> method
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -8109,7 +8477,6 @@ This event is fired in response to a successful call to <code>hold</code> method
 
             </li>
         </ul>
-    
     
     
     
@@ -8334,6 +8701,14 @@ This event is fired in response to a successful call to <code>hold</code> method
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -8356,6 +8731,8 @@ This event is fired in response to a successful call to <code>hold</code> method
 </dl>
 
     
+    
+
     
 
     
@@ -8388,6 +8765,8 @@ This event is fired in response to a successful call to <code>hold</code> method
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -8397,7 +8776,6 @@ This event is fired in response to a successful call to <code>hold</code> method
 
             </li>
         </ul>
-    
     
     
     
@@ -8557,6 +8935,14 @@ This event is fired in response to a successful call to <code>hold</code> method
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -8579,6 +8965,8 @@ This event is fired in response to a successful call to <code>hold</code> method
 </dl>
 
     
+    
+
     
 
     
@@ -8612,6 +9000,8 @@ media modification</p>
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -8621,7 +9011,6 @@ media modification</p>
 
             </li>
         </ul>
-    
     
     
     
@@ -8877,6 +9266,14 @@ media modification</p>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -8899,6 +9296,8 @@ media modification</p>
 </dl>
 
     
+    
+
     
 
     
@@ -8933,17 +9332,18 @@ media modification</p>
 <p>The event handler contains the code to execute when the <code>modification-in-progress</code> event is received by
 this <code>Phone</code>.</p>
 <p><strong> Example </strong></p>
-<pre><code class="lang-js">// using a named function
+<pre class="prettyprint source lang-js"><code>// using a named function
 phone.on('call:modification-in-progress', handler);
 
 // using an anonymous function
-phone.on('call:modification-in-progress', function (data) { ... });</code></pre>
-<p><strong>Values</strong></p>
+phone.on('call:modification-in-progress', function (data) { ... });</code></pre><p><strong>Values</strong></p>
 <ul>
 <li><code>handler</code> is the name of the user-defined function, or an anonymous declaration</li>
 <li><code>data</code> contains information about the event, it has the following structure:</li>
 </ul>
     </div>
+    
+
     
 
     
@@ -8956,7 +9356,6 @@ phone.on('call:modification-in-progress', function (data) { ... });</code></pre>
 
             </li>
         </ul>
-    
     
     
     
@@ -9181,6 +9580,14 @@ phone.on('call:modification-in-progress', function (data) { ... });</code></pre>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -9203,6 +9610,8 @@ phone.on('call:modification-in-progress', function (data) { ... });</code></pre>
 </dl>
 
     
+    
+
     
 
     
@@ -9238,6 +9647,8 @@ order to be able to receive this event.</p>
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -9247,7 +9658,6 @@ order to be able to receive this event.</p>
 
             </li>
         </ul>
-    
     
     
     
@@ -9474,6 +9884,14 @@ order to be able to receive this event.</p>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -9496,6 +9914,8 @@ order to be able to receive this event.</p>
 </dl>
 
     
+    
+
     
 
     
@@ -9530,6 +9950,8 @@ This event is fired in response to a successful call to <code>mute</code> method
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -9539,7 +9961,6 @@ This event is fired in response to a successful call to <code>mute</code> method
 
             </li>
         </ul>
-    
     
     
     
@@ -9764,6 +10185,14 @@ This event is fired in response to a successful call to <code>mute</code> method
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -9786,6 +10215,8 @@ This event is fired in response to a successful call to <code>mute</code> method
 </dl>
 
     
+    
+
     
 
     
@@ -9820,6 +10251,8 @@ There should be an unestablished incoming or outgoing call in order to be able t
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -9829,7 +10262,6 @@ There should be an unestablished incoming or outgoing call in order to be able t
 
             </li>
         </ul>
-    
     
     
     
@@ -10056,6 +10488,14 @@ There should be an unestablished incoming or outgoing call in order to be able t
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -10078,6 +10518,8 @@ There should be an unestablished incoming or outgoing call in order to be able t
 </dl>
 
     
+    
+
     
 
     
@@ -10112,6 +10554,8 @@ This event is fired in response to a successful call to <code>resume</code> meth
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -10121,7 +10565,6 @@ This event is fired in response to a successful call to <code>resume</code> meth
 
             </li>
         </ul>
-    
     
     
     
@@ -10346,6 +10789,14 @@ This event is fired in response to a successful call to <code>resume</code> meth
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -10368,6 +10819,8 @@ This event is fired in response to a successful call to <code>resume</code> meth
 </dl>
 
     
+    
+
     
 
     
@@ -10403,6 +10856,8 @@ The early media or ringback starts playing automatically when this event is fire
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -10412,7 +10867,6 @@ The early media or ringback starts playing automatically when this event is fire
 
             </li>
         </ul>
-    
     
     
     
@@ -10480,6 +10934,14 @@ The early media or ringback starts playing automatically when this event is fire
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -10502,6 +10964,8 @@ The early media or ringback starts playing automatically when this event is fire
 </dl>
 
     
+    
+
     
 
     
@@ -10536,6 +11000,8 @@ The user should have initiated and accepted media modification request.</p>
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -10545,7 +11011,6 @@ The user should have initiated and accepted media modification request.</p>
 
             </li>
         </ul>
-    
     
     
     
@@ -10892,6 +11357,14 @@ The user should have initiated and accepted media modification request.</p>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -10914,6 +11387,549 @@ The user should have initiated and accepted media modification request.</p>
 </dl>
 
     
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="event:call:transferred">call:transferred</h4>
+    
+    
+    <p class="summary">Call transferred event fires when a call has been transferred by the transferrer party</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be at least two  calls in progress in order to be able to receive this event.<br>
+The user has to initiate transfer to be able to receive this event.<br>
+The call should be transferred successfully to be to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party for incoming calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="event:call:transferring">call:transferring</h4>
+    
+    
+    <p class="summary">Call transferring event fires when a call is being transferred by the transferrer party</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>The user has to be logged in order to be able to receive this event.<br>
+There should be at least two  calls in progress in order to be able to receive this event.<br>
+The user has to initiate transfer to be able to receive this event.</p>
+<p>The event is fired with an attached event data of the following format:</p>
+    </div>
+    
+
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	<h5 class="subsection-title">Properties:</h5>
+
+	<dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>from</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The phone number/id of the calling party for incoming calls.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The media type of the call (audio/video).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>codec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The CODECs associated with the call.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+	
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
     
 
     
@@ -10948,6 +11964,8 @@ This event is fired in response to a successful call to <code>unmute</code> meth
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -10957,7 +11975,6 @@ This event is fired in response to a successful call to <code>unmute</code> meth
 
             </li>
         </ul>
-    
     
     
     
@@ -11182,6 +12199,14 @@ This event is fired in response to a successful call to <code>unmute</code> meth
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -11204,6 +12229,8 @@ This event is fired in response to a successful call to <code>unmute</code> meth
 </dl>
 
     
+    
+
     
 
     
@@ -11238,6 +12265,8 @@ This event is mainly fired participant side in response to a canceled conference
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -11247,7 +12276,6 @@ This event is mainly fired participant side in response to a canceled conference
 
             </li>
         </ul>
-    
     
     
     
@@ -11503,6 +12531,14 @@ This event is mainly fired participant side in response to a canceled conference
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -11525,6 +12561,8 @@ This event is mainly fired participant side in response to a canceled conference
 </dl>
 
     
+    
+
     
 
     
@@ -11558,6 +12596,8 @@ There should be an unestablished conference started by the user in order to be a
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -11567,7 +12607,6 @@ There should be an unestablished conference started by the user in order to be a
 
             </li>
         </ul>
-    
     
     
     
@@ -11704,6 +12743,14 @@ There should be an unestablished conference started by the user in order to be a
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -11726,6 +12773,8 @@ There should be an unestablished conference started by the user in order to be a
 </dl>
 
     
+    
+
     
 
     
@@ -11760,6 +12809,8 @@ This event is fired participant-side in response to a successful call to <code>j
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -11769,7 +12820,6 @@ This event is fired participant-side in response to a successful call to <code>j
 
             </li>
         </ul>
-    
     
     
     
@@ -11929,6 +12979,14 @@ This event is fired participant-side in response to a successful call to <code>j
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -11951,6 +13009,8 @@ This event is fired participant-side in response to a successful call to <code>j
 </dl>
 
     
+    
+
     
 
     
@@ -11984,6 +13044,8 @@ There should be an existing conference in order to be able to receive this event
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -11993,7 +13055,6 @@ There should be an existing conference in order to be able to receive this event
 
             </li>
         </ul>
-    
     
     
     
@@ -12249,6 +13310,14 @@ There should be an existing conference in order to be able to receive this event
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -12271,6 +13340,8 @@ There should be an existing conference in order to be able to receive this event
 </dl>
 
     
+    
+
     
 
     
@@ -12307,6 +13378,8 @@ This event can also be fired if the conference ends due to some unexpected reaso
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -12316,7 +13389,6 @@ This event can also be fired if the conference ends due to some unexpected reaso
 
             </li>
         </ul>
-    
     
     
     
@@ -12572,6 +13644,14 @@ This event can also be fired if the conference ends due to some unexpected reaso
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -12594,6 +13674,8 @@ This event can also be fired if the conference ends due to some unexpected reaso
 </dl>
 
     
+    
+
     
 
     
@@ -12628,6 +13710,8 @@ This event is fired in response to a successful call to <code>hold</code> method
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -12637,7 +13721,6 @@ This event is fired in response to a successful call to <code>hold</code> method
 
             </li>
         </ul>
-    
     
     
     
@@ -12862,6 +13945,14 @@ This event is fired in response to a successful call to <code>hold</code> method
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -12884,6 +13975,8 @@ This event is fired in response to a successful call to <code>hold</code> method
 </dl>
 
     
+    
+
     
 
     
@@ -12918,6 +14011,8 @@ This event is fired host-side  when an invitation has been accepted by the parti
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -12927,7 +14022,6 @@ This event is fired host-side  when an invitation has been accepted by the parti
 
             </li>
         </ul>
-    
     
     
     
@@ -13152,6 +14246,14 @@ This event is fired host-side  when an invitation has been accepted by the parti
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -13174,6 +14276,8 @@ This event is fired host-side  when an invitation has been accepted by the parti
 </dl>
 
     
+    
+
     
 
     
@@ -13206,6 +14310,8 @@ This event is fired host-side  when an invitation has been accepted by the parti
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -13215,7 +14321,6 @@ This event is fired host-side  when an invitation has been accepted by the parti
 
             </li>
         </ul>
-    
     
     
     
@@ -13375,6 +14480,14 @@ This event is fired host-side  when an invitation has been accepted by the parti
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -13397,6 +14510,8 @@ This event is fired host-side  when an invitation has been accepted by the parti
 </dl>
 
     
+    
+
     
 
     
@@ -13431,6 +14546,8 @@ This event is fired host-side  when an invitation has been rejected by the parti
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -13440,7 +14557,6 @@ This event is fired host-side  when an invitation has been rejected by the parti
 
             </li>
         </ul>
-    
     
     
     
@@ -13665,6 +14781,14 @@ This event is fired host-side  when an invitation has been rejected by the parti
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -13687,6 +14811,8 @@ This event is fired host-side  when an invitation has been rejected by the parti
 </dl>
 
     
+    
+
     
 
     
@@ -13722,6 +14848,8 @@ This event is followed by <a href="Phone.html#event:conference:invitation-sent">
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -13731,7 +14859,6 @@ This event is followed by <a href="Phone.html#event:conference:invitation-sent">
 
             </li>
         </ul>
-    
     
     
     
@@ -13845,6 +14972,14 @@ This event is followed by <a href="Phone.html#event:conference:invitation-sent">
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -13867,6 +15002,8 @@ This event is followed by <a href="Phone.html#event:conference:invitation-sent">
 </dl>
 
     
+    
+
     
 
     
@@ -13901,6 +15038,8 @@ This event is fired host-side in response to a successful call to <code>addParti
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -13910,7 +15049,6 @@ This event is fired host-side in response to a successful call to <code>addParti
 
             </li>
         </ul>
-    
     
     
     
@@ -14135,6 +15273,14 @@ This event is fired host-side in response to a successful call to <code>addParti
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -14157,6 +15303,8 @@ This event is fired host-side in response to a successful call to <code>addParti
 </dl>
 
     
+    
+
     
 
     
@@ -14192,6 +15340,8 @@ This event is followed by <a href="Phone.html#event:conference:connecting">Phone
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -14201,7 +15351,6 @@ This event is followed by <a href="Phone.html#event:conference:connecting">Phone
 
             </li>
         </ul>
-    
     
     
     
@@ -14361,6 +15510,14 @@ This event is followed by <a href="Phone.html#event:conference:connecting">Phone
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -14383,6 +15540,8 @@ This event is followed by <a href="Phone.html#event:conference:connecting">Phone
 </dl>
 
     
+    
+
     
 
     
@@ -14417,6 +15576,8 @@ This event is fired host-side in response to a successful call to <code>removePa
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -14426,7 +15587,6 @@ This event is fired host-side in response to a successful call to <code>removePa
 
             </li>
         </ul>
-    
     
     
     
@@ -14651,6 +15811,14 @@ This event is fired host-side in response to a successful call to <code>removePa
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -14673,6 +15841,8 @@ This event is fired host-side in response to a successful call to <code>removePa
 </dl>
 
     
+    
+
     
 
     
@@ -14708,6 +15878,8 @@ This event is fired in response to a successful call to <code>resume</code> meth
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -14717,7 +15889,6 @@ This event is fired in response to a successful call to <code>resume</code> meth
 
             </li>
         </ul>
-    
     
     
     
@@ -14942,6 +16113,14 @@ This event is fired in response to a successful call to <code>resume</code> meth
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -14964,6 +16143,8 @@ This event is fired in response to a successful call to <code>resume</code> meth
 </dl>
 
     
+    
+
     
 
     
@@ -14996,6 +16177,8 @@ This event is fired in response to a successful call to <code>resume</code> meth
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -15005,7 +16188,6 @@ This event is fired in response to a successful call to <code>resume</code> meth
 
             </li>
         </ul>
-    
     
     
     
@@ -15188,6 +16370,14 @@ This event is fired in response to a successful call to <code>resume</code> meth
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -15210,6 +16400,8 @@ This event is fired in response to a successful call to <code>resume</code> meth
 </dl>
 
     
+    
+
     
 
     
@@ -15242,6 +16434,8 @@ This event is fired in response to a successful call to <code>resume</code> meth
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -15251,7 +16445,6 @@ This event is fired in response to a successful call to <code>resume</code> meth
 
             </li>
         </ul>
-    
     
     
     
@@ -15457,6 +16650,14 @@ This event is fired in response to a successful call to <code>resume</code> meth
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -15479,6 +16680,8 @@ This event is fired in response to a successful call to <code>resume</code> meth
 </dl>
 
     
+    
+
     
 
     
@@ -15510,6 +16713,7 @@ This event is fired in response to a successful call to <code>resume</code> meth
     
 
     
+
     
     
     
@@ -15524,6 +16728,14 @@ This event is fired in response to a successful call to <code>resume</code> meth
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -15547,6 +16759,8 @@ This event is fired in response to a successful call to <code>resume</code> meth
 </dl>
 
     
+    
+
     
 
     
@@ -15581,6 +16795,8 @@ This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -15590,7 +16806,6 @@ This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:
 
             </li>
         </ul>
-    
     
     
     
@@ -15750,6 +16965,14 @@ This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -15772,6 +16995,8 @@ This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:
 </dl>
 
     
+    
+
     
 
     
@@ -15806,6 +17031,8 @@ This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -15815,7 +17042,6 @@ This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:
 
             </li>
         </ul>
-    
     
     
     
@@ -15952,6 +17178,14 @@ This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -15974,6 +17208,8 @@ This event is followed by <a href="Phone.html#event:call:connecting">Phone#call:
 </dl>
 
     
+    
+
     
 
     
@@ -16019,6 +17255,8 @@ in which case a common error code is used.</p>
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -16028,7 +17266,6 @@ in which case a common error code is used.</p>
 
             </li>
         </ul>
-    
     
     
     
@@ -16392,6 +17629,35 @@ in which case a common error code is used.</p>
         </tr>
 
 	
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Event fire time.</p></td>
+        </tr>
+
+	
 	</tbody>
 </table>
 </dl>
@@ -16403,6 +17669,14 @@ in which case a common error code is used.</p>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -16426,6 +17700,8 @@ in which case a common error code is used.</p>
 </dl>
 
     
+    
+
     
 
     
@@ -16458,6 +17734,8 @@ in which case a common error code is used.</p>
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -16467,7 +17745,6 @@ in which case a common error code is used.</p>
 
             </li>
         </ul>
-    
     
     
     
@@ -16696,6 +17973,14 @@ in which case a common error code is used.</p>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -16718,6 +18003,8 @@ in which case a common error code is used.</p>
 </dl>
 
     
+    
+
     
 
     
@@ -16751,6 +18038,8 @@ There should be an established call or conference in order to be able to receive
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -16760,7 +18049,6 @@ There should be an established call or conference in order to be able to receive
 
             </li>
         </ul>
-    
     
     
     
@@ -17018,6 +18306,14 @@ There should be an established call or conference in order to be able to receive
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -17040,6 +18336,8 @@ There should be an established call or conference in order to be able to receive
 </dl>
 
     
+    
+
     
 
     
@@ -17073,6 +18371,8 @@ This event is fired when we get '502' or <code>503</code> with 'Cannot reach the
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -17082,7 +18382,6 @@ This event is fired when we get '502' or <code>503</code> with 'Cannot reach the
 
             </li>
         </ul>
-    
     
     
     
@@ -17189,6 +18488,14 @@ This event is fired when we get '502' or <code>503</code> with 'Cannot reach the
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -17211,6 +18518,8 @@ This event is fired when we get '502' or <code>503</code> with 'Cannot reach the
 </dl>
 
     
+    
+
     
 
     
@@ -17245,6 +18554,8 @@ This event is fired after <a href="Phone.html#event:call:connected">Phone#call:c
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -17254,7 +18565,6 @@ This event is fired after <a href="Phone.html#event:call:connected">Phone#call:c
 
             </li>
         </ul>
-    
     
     
     
@@ -17479,6 +18789,14 @@ This event is fired after <a href="Phone.html#event:call:connected">Phone#call:c
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -17503,294 +18821,6 @@ This event is fired after <a href="Phone.html#event:call:connected">Phone#call:c
     
     
 
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="event:media:established">media:established</h4>
-    
-    
-    <p class="summary">Media established event fires when audio/video media has started for a call.</p>
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>The user has to be logged in order to be able to receive this event.<br>
-There should be an <code>connected</code> incoming or outgoing call in order to be able to receive this event.<br>
-This event is fired after <a href="Phone.html#event:call:connected">Phone#call:connected</a> has been fired.</p>
-<p>The event is fired with an attached event data of the following format:</p>
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
-
-
-            </li>
-        </ul>
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-	
-
-	<h5 class="subsection-title">Properties:</h5>
-
-	<dl>
-
-<table class="props table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-		<th>Argument</th>
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>index</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>The ordinal numbering of the call in the list of existing calls.</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>to</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>The phone number/id of the called party.</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>from</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>The phone number/id of the calling party.</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>mediaType</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>The media type of the call (audio/video).</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>codec</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>The CODECs associated with the call.</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>timestamp</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Date</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>Event fire time.</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-</dl>
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
     
 
     
@@ -17824,6 +18854,8 @@ There needs to be two calls in context in order to be able to receive this event
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -17833,7 +18865,6 @@ There needs to be two calls in context in order to be able to receive this event
 
             </li>
         </ul>
-    
     
     
     
@@ -17947,6 +18978,14 @@ There needs to be two calls in context in order to be able to receive this event
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -17969,6 +19008,8 @@ There needs to be two calls in context in order to be able to receive this event
 </dl>
 
     
+    
+
     
 
     
@@ -18001,6 +19042,7 @@ is deleted successfully. User can no longer make or receive calls.</p>
     
 
     
+
     
     
     
@@ -18015,6 +19057,14 @@ is deleted successfully. User can no longer make or receive calls.</p>
 	
 
 	
+
+    
+
+    
+
+    
+
+    
 
 	
 
@@ -18038,6 +19088,8 @@ is deleted successfully. User can no longer make or receive calls.</p>
 </dl>
 
     
+    
+
     
 
     
@@ -18072,6 +19124,8 @@ or 'The requested session resource was not found'.</p>
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -18081,7 +19135,6 @@ or 'The requested session resource was not found'.</p>
 
             </li>
         </ul>
-    
     
     
     
@@ -18188,6 +19241,14 @@ or 'The requested session resource was not found'.</p>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -18210,6 +19271,8 @@ or 'The requested session resource was not found'.</p>
 </dl>
 
     
+    
+
     
 
     
@@ -18243,6 +19306,8 @@ initialized and ready to make, receive calls</p>
     
 
     
+
+    
         <h5>Type:</h5>
         <ul>
             <li>
@@ -18252,7 +19317,6 @@ initialized and ready to make, receive calls</p>
 
             </li>
         </ul>
-    
     
     
     
@@ -18320,6 +19384,14 @@ initialized and ready to make, receive calls</p>
 
 	
 
+    
+
+    
+
+    
+
+    
+
 	
 
 	
@@ -18347,6 +19419,8 @@ initialized and ready to make, receive calls</p>
     
 
     
+
+    
     
     
     
@@ -18364,101 +19438,102 @@ initialized and ready to make, receive calls</p>
 
 
 
-				</div>
-
-				<div class="clearfix"></div>
-				<footer>
-					
-					
-		<span class="copyright">
-		AT&T
-		</span>
-					<br />
-					
-		<span class="jsdoc-message">
-		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a>
-		on 2015-08-24T16:06:45-07:00 using the <a
-			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
-		</span>
-				</footer>
-			</div>
-
-			
-			<div class="span3">
-				<div id="toc"></div>
-			</div>
-			
-			<br clear="both">
 		</div>
-
 	</div>
-	<!--<script src="scripts/sunlight.js"></script>-->
-	<script src="scripts/docstrap.lib.js"></script>
-	<script src="scripts/bootstrap-dropdown.js"></script>
-	<script src="scripts/toc.js"></script>
 
-	<script>
-		$( function () {
-			$( "[id*='$']" ).each( function () {
-				var $this = $( this );
+	<div class="clearfix"></div>
 
-				$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
-			} );
-
-			$( "#toc" ).toc( {
-				anchorName  : function ( i, heading, prefix ) {
-					return $( heading ).attr( "id" ) || ( prefix + i );
-				},
-				selectors   : "h1,h2,h3,h4",
-				showAndHide : false,
-				scrollTo    : "100px"
-			} );
-
-			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
-			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
-			$( '.dropdown-toggle' ).dropdown();
-//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
-
-			$( ".tutorial-section pre, .readme-section pre" ).each( function () {
-				var $this = $( this );
-
-				var example = $this.find( "code" );
-				exampleText = example.html();
-				var lang = /{@lang (.*?)}/.exec( exampleText );
-				if ( lang && lang[1] ) {
-					exampleText = exampleText.replace( lang[0], "" );
-					example.html( exampleText );
-					lang = lang[1];
-				} else {
-					lang = "javascript";
-				}
-
-				if ( lang ) {
-
-					$this
-						.addClass( "sunlight-highlight-" + lang )
-						.addClass( "linenums" )
-						.html( example.html() );
-
-				}
-			} );
-
-			Sunlight.highlightAll( {
-				lineNumbers : true,
-				showMenu : true,
-				enableDoclinks : true
-			} );
-		} );
-	 </script>
-
-
-
-	<!--Navigation and Symbol Display-->
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3"></div>
+		</div>
 	
 
+</div>
+</div>
 
-	<!--Google Analytics-->
-	
+
+<footer>
+
+
+	<span class="copyright">
+	AT&T
+	</span>
+	<br />
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a>
+	on 2015-08-28T13:42:49-07:00 using the <a
+	href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<!--<script src="scripts/sunlight.js"></script>-->
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/bootstrap-dropdown.js"></script>
+<script src="scripts/toc.js"></script>
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "h1,h2,h3,h4",
+		showAndHide : false,
+		scrollTo    : "100px"
+	} );
+
+	$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+	//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+	$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			lang = "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
 
 </body>
 </html>
