@@ -10,7 +10,7 @@ This SDK includes the following components:
 
 The following features and functionality are available in the current SDK release for all three supported calling types (Virtual Number and Account ID):
 
-### Chrome v44
+### Chrome v45
 
 *	**Basic audio and video call management** – make, receive, answer, end, mute, unmute, hold, resume, cancel, and reject calls.
 *	**Basic audio and video conferencing** – create a conference, add and remove participants, hold, resume, mute, unmute, and end conference.
@@ -30,14 +30,15 @@ The following features will be added soon:
 * Firefox browser support
 * AT&T Mobile Number support
 
-# v1.0.2
+# v1.0.3
 
-August 28, 2015
+September 11, 2015
 
-* **Fix:** The method `phone.on` throws an error instead of publishing one.
-* **Fix:** GitHub hosted tutorial documentation links are broken.
-* **Fix:** No timestamp for error messages.
-* **Fix:** No documentation for transfer events: `call:transferring` and `call:transferred`.
+* **Fix:** When rejecting conference invitation host is getting the 'unrecognized error' notification.
+* **Fix:** SDK doesn't fire `call:rejected` event for the caller.
+* **Fix:** Adding participant to conference logs __"Successfully added participant"__ instead of __"Successfully sent invitation to participant"__.
+* **Fix:** List of participants is not cleared when ending a conference.
+* **Fix:** Audio feedback loop when making calls in v1.0.2.
 
 ## Known Issues
 
@@ -117,12 +118,22 @@ invitation rejected event.
 
 ## Tested Environments
 
-* Chrome Version 44.0 for OSX v10.8.5 and Windows 8
+* Chrome Version 45.0 for OSX v10.10.4 and Windows 8
 
 **_The SDK may also work for other operating systems and browsers but not tested or supported._**
 
 
 # Changelog
+
+# v1.0.2
+
+August 28, 2015
+
+* **Fix:** The method `phone.on` throws an error instead of publishing one.
+* **Fix:** GitHub hosted tutorial documentation links are broken.
+* **Fix:** No timestamp for error messages.
+* **Fix:** No documentation for transfer events: `call:transferring` and `call:transferred`.
+* **Fix:** `call:hold` and `call:resume` events not triggered when caller/callee does hold and resume more than once.
 
 ## v1.0.1
 

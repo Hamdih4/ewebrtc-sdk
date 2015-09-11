@@ -687,6 +687,7 @@ function resetUI() {
     if ('conference' === currentCallType && currentConferenceHost) {
       enableButton('btn-add-participant');
       enableButton('btn-participants-list');
+      document.getElementById('participants-list').innerHTML = '';
     }
 
     // 2 calls or conferences
