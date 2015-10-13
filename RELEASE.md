@@ -30,15 +30,12 @@ The following features will be added soon:
 * Firefox browser support
 * AT&T Mobile Number support
 
-# v1.0.3
+# v1.0.4                                       
 
-September 11, 2015
+October 12, 2015
 
-* **Fix:** When rejecting conference invitation host is getting the 'unrecognized error' notification.
-* **Fix:** SDK doesn't fire `call:rejected` event for the caller.
-* **Fix:** Adding participant to conference logs __"Successfully added participant"__ instead of __"Successfully sent invitation to participant"__.
-* **Fix:** List of participants is not cleared when ending a conference.
-* **Fix:** Audio feedback loop when making calls in v1.0.2.
+* **New:** Handle Network Disconnection and Reconnection.
+* **New:** connectivity:on and connectivity:off event for network detection.
 
 ## Known Issues
 
@@ -124,6 +121,16 @@ invitation rejected event.
 
 
 # Changelog
+
+# v1.0.3
+
+September 11, 2015
+
+* **Fix:** When rejecting conference invitation host is getting the 'unrecognized error' notification.
+* **Fix:** SDK doesn't fire `call:rejected` event for the caller.
+* **Fix:** Adding participant to conference logs __"Successfully added participant"__ instead of __"Successfully sent invitation to participant"__.
+* **Fix:** List of participants is not cleared when ending a conference.
+* **Fix:** Audio feedback loop when making calls in v1.0.2.
 
 # v1.0.2
 

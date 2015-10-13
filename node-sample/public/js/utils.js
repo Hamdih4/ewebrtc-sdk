@@ -746,6 +746,14 @@ function onGatewayUnreachable() {
   setMessage('Currently the gateway is unreachable. Please try again.');
 }
 
+function onNetworkOn() {
+  setMessage('Device went online');
+}
+
+function onNetworkOff() {
+  setMessage('Device went offline');
+}
+
 function checkEnhancedWebRTCSession() {
   return sessionData.sessionId;
 }

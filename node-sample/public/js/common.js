@@ -15,7 +15,7 @@
   onConferenceEnded, onJoiningConference, onInvitationSent, onInviteAccepted, onInviteRejected,
   onParticipantRemoved, onConferenceDisconnecting, onConferenceHeld, onConferenceResumed, onNotification,
   onCallSwitched, onCallRingBackProvided, onTransferring, onTransferred, onCallMoved, onMediaModification,
-  onStateChanged, onModificationInProgress, onToneSent, onToneSending, onGatewayUnreachable*/
+  onStateChanged, onModificationInProgress, onToneSent, onToneSending, onGatewayUnreachable, onNetworkOn, onNetworkOff*/
 
 'use strict';
 
@@ -279,6 +279,37 @@ phone.on('error', onError);
 // }
 // </pre>
 phone.on('warning', onWarning);
+
+// ## connectivity Handling
+// -----------------
+// All Network status events of the Phone object are published
+// via the [**connectivity**](../../lib/webrtc-sdk/doc/Phone.html#connectivity:on) event.
+
+// ### Registering for connectivity:on event
+// ---------------------------------
+// Here the [**connectivity:on**](../../lib/webrtc-sdk/doc/Phone.html#connectivity:off) event is published when network changes from offline to online
+//
+// **Callback function example:**
+//
+// <pre>
+// function onNetworkOn() {
+// }
+// </pre>
+phone.on('connectivity:on', onNetworkOn);
+
+// ### Registering for connectivity:off event
+// ---------------------------------
+// Here the [**connectivity:off**](../../lib/webrtc-sdk/doc/Phone.html#connectivity:off) 
+// event is published when network changes from online to offline
+//
+// **Callback function example:**
+//
+// <pre>
+// function onNetworkOff() {
+// }
+// </pre>
+phone.on('connectivity:off', onNetworkOff);
+
 
 // # Session Management
 
