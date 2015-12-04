@@ -10,7 +10,7 @@ This SDK includes the following components:
 
 The following features and functionality are available in the current SDK release for all three supported calling types (Virtual Number and Account ID):
 
-### Chrome v45
+### Chrome
 
 *	**Basic audio and video call management** – make, receive, answer, end, mute, unmute, hold, resume, cancel, and reject calls.
 *	**Basic audio and video conferencing** – create a conference, add and remove participants, hold, resume, mute, unmute, and end conference.
@@ -18,6 +18,51 @@ The following features and functionality are available in the current SDK releas
 *	**Advanced call management** – move, transfer, add a second call, switch between two calls, upgrade, downgrade, reject downgrade and reject upgrade requests.
   *	Audio and video calls can be moved Web-to-Web
   *	Calls can be moved from the Web to an AT&T mobile phone
+
+####  Chrome v47 Impact
+  Google released Chrome 47 on Dec 1, 2015. This version introduced the following changes that break backwards-compatibility for WebRTC API.
+  1. getUserMedia now requires HTTPS
+  2. MediaStream.stop removed
+  3. Changes in SDP processing
+
+**What you need to do**
+  1. getUserMedia requires HTTPS
+
+  `ACTION NEEDED:`
+
+  Please ensure your Web Application is always used from HTTPS URL. If your user tries to use your app from HTTP URL, it should be automatically redirected to equivalent HTTPS URL.
+
+  2. MediaStream.stop removed
+
+  Following Phone features will not work in Chrome v47 if you continue to use ewebrtc-sdk versions 1.0.5 or earlier.
+
+  Methods: `Phone.hangup(), Phone.endConference()`
+
+  Events:  `call:disconnected, conference:ended`
+
+  `ACTION NEEDED:`
+
+  Please update the ewebrtc-sdk JavaScript library in your HTML pages to the latest version v1.0.6.
+
+  Latest version is available at https://raw.githubusercontent.com/attdevsupport/ewebrtc-sdk/master/js/ewebrtc-sdk.min.js.
+
+  You don't have to make any other changes to your application code.
+
+  ewebrtc-sdk v1.0.6 will also work correctly with Chrome v46 even if your users did not upgrade their browsers yet.
+
+  3. Changes in SDP processing
+
+  `NO ACTION NEEDED:`
+
+  If you are using ewebrtc-sdk library, you are not impacted by this.
+
+
+  **How to find out the version of ewebrtc-sdk your Web App is using**
+  1. Visit your Web App URL in Chrome
+  2. Go to a web page that uses Phone methods from ewebrtc-sdk library
+  3. Right-click anywhere on the page. In the pop-up menu, click `Inspect`
+  4. In the DevTools window, click `Console`
+  5. In Console, type the command: `ATT.rtc.Phone.getPhone().getVersion()`. It should show `1.0.6`
 
 ### Firefox
 
@@ -30,12 +75,13 @@ The following features will be added soon:
 * Firefox browser support
 * AT&T Mobile Number support
 
-# v1.0.4                                       
+# v1.0.6                                     
 
-October 12, 2015
+December 4, 2015
 
-* **New:** Handle Network Disconnection and Reconnection.
-* **New:** connectivity:on and connectivity:off event for network detection.
+* **Fix:** `MediaStream.stop()` is deprecated and is removed in Chrome v47.
+* **Fix:** Hold-resume by caller followed by another hold resume by callee results in no media.
+* **Fix:** SDK failed to refresh session after it gets expired.
 
 ## Known Issues
 
@@ -115,14 +161,21 @@ invitation rejected event.
 
 ## Tested Environments
 
-* Chrome Version 45.0 for OSX v10.10.4 and Windows 8
+* Chrome Version v47.0 for OSX v10.11.1 and Windows 8
 
 **_The SDK may also work for other operating systems and browsers but not tested or supported._**
 
 
 # Changelog
 
-# v1.0.3
+## v1.0.4                                       
+
+October 12, 2015
+
+* **New:** Handle Network Disconnection and Reconnection.
+* **New:** connectivity:on and connectivity:off event for network detection.
+
+## v1.0.3
 
 September 11, 2015
 
@@ -132,7 +185,7 @@ September 11, 2015
 * **Fix:** List of participants is not cleared when ending a conference.
 * **Fix:** Audio feedback loop when making calls in v1.0.2.
 
-# v1.0.2
+## v1.0.2
 
 August 28, 2015
 
