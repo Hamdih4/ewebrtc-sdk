@@ -57,12 +57,13 @@ The following features and functionality are available in the current SDK releas
   If you are using ewebrtc-sdk library, you are not impacted by this.
 
 
-  **How to find out the version of ewebrtc-sdk your Web App is using**
-  1. Visit your Web App URL in Chrome
-  2. Go to a web page that uses Phone methods from ewebrtc-sdk library
-  3. Right-click anywhere on the page. In the pop-up menu, click `Inspect`
-  4. In the DevTools window, click `Console`
-  5. In Console, type the command: `ATT.rtc.Phone.getPhone().getVersion()`. It should show `1.0.6`
+##### How to find out the version of ewebrtc-sdk your Web App is using
+
+* Visit your Web App URL in Chrome
+* Go to a web page that uses `Phone` methods from `ewebrtc-sdk` library
+* Right-click anywhere on the page. In the pop-up menu, click `Inspect`
+* In the DevTools window, click `Console`
+* In Console, type the command: `ATT.rtc.Phone.getPhone().getVersion()`. It should show `1.0.6`
 
 ### Firefox
 
@@ -143,6 +144,7 @@ invitation rejected event.
 #### Impacted scenario due to Move Issue
 * After Successful downgrade , move from the callee show as Downgrade request. 
 * Move caller after downgrade caller fails. 
+* If a call originates from VTN or NoTN, and a call move is attempted by the caller, the call will drop. If the call is moved by the recipient, the move is successful. 
 
 #### Media Issues
 * Video streaming issues when the caller downgrades then upgrades the call. 
