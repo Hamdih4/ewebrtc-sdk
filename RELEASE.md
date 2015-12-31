@@ -144,7 +144,7 @@ invitation rejected event.
 #### Impacted scenario due to Move Issue
 * After Successful downgrade , move from the callee show as Downgrade request. 
 * Move caller after downgrade caller fails. 
-* If a call originates from VTN or NoTN, and a call move is attempted by the caller, the call will drop. If the call is moved by the recipient, the move is successful. 
+* If a call originates from Virtual Number or Account ID, and a call move is attempted by the caller, the call will drop. If the call is moved by the recipient, the move is successful. 
 
 #### Media Issues
 * Video streaming issues when the caller downgrades then upgrades the call. 
