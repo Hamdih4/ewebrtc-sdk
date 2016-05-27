@@ -61,6 +61,18 @@
 							<a href="global.html#getConfiguration">getConfiguration</a>
 						</li>
 						
+						<li>
+							<a href="global.html#refreshAccessToken">refreshAccessToken</a>
+						</li>
+						
+						<li>
+							<a href="global.html#revokeAccessToken">revokeAccessToken</a>
+						</li>
+						
+						<li>
+							<a href="global.html#use">use</a>
+						</li>
+						
 
 					</ul>
 				</li>
@@ -1566,6 +1578,844 @@ config = myDHS.getConfiguration();</pre>
     
 </dd>
 
+        
+            
+<dt>
+    <h4 class="name" id="refreshAccessToken"><span class="type-signature"></span>refreshAccessToken<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    
+    
+    <p class="summary">Refreshes the current Access Token using AT&T's OAuth for mobile number, virtual number and account id users</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This methods accepts a <code>refresh_token</code> and extends the expiry time for that token.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>refresh_token</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Application token to be refreshed</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>success</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The callback that handles the successful response after refreshing the previously used AT&amp;T OAuth Access Token</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The callback that handles the generated error</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+            </td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Refresh access token using DHS
+var myDHS = require(&quot;att-dhs&quot;),
+options = {
+  refresh_token: &#x27;access_token_id&#x27;,
+  success: function (result) {
+     &#x2F;&#x2F; do something
+  },
+  error: function (err) {
+     &#x2F;&#x2F; do something
+  }
+};
+
+myDHS.refreshAccessToken(options);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="revokeAccessToken"><span class="type-signature"></span>revokeAccessToken<span class="signature">(options, {optional})</span><span class="type-signature"></span></h4>
+    
+    
+    <p class="summary">Revokes an Access Token or Refreshed Token using AT&T's OAuth for mobile number, virtual number and account id users</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This methods accepts a previously created access token and deletes it for the current logged in
+This method requires an access token obtained using <code>createAccessToken</code> during the consent flow.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Access token or refreshed token</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+            </td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>{optional}</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options.token_type_hint - 'access_token' or 'refresh_token'.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options.success</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The callback that handles the successful response after creating an AT&amp;T OAuth Access Token</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options.error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The callback that handles the generated error</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Revoke access token using DHS
+var myDHS = require(&quot;att-dhs&quot;),
+options = {
+  token: &#x27;token&#x27;,
+  success: function (result) {
+     &#x2F;&#x2F; do something
+  },
+  error: function (err) {
+     &#x2F;&#x2F; do something
+  }
+};
+
+myDHS.revokeAccessToken(options);</pre>
+
+    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Revoke access token using DHS
+var myDHS = require(&quot;att-dhs&quot;),
+options = {
+  token: &#x27;token&#x27;,
+  token_type_hint: &#x27;access_token&#x27;,
+  success: function (result) {
+     &#x2F;&#x2F; do something
+  },
+  error: function (err) {
+     &#x2F;&#x2F; do something
+  }
+};
+
+myDHS.revokeAccessToken(options);</pre>
+
+    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Revoke refreshed token using DHS
+var myDHS = require(&quot;att-dhs&quot;),
+options = {
+  token: &#x27;token&#x27;,
+  token_type_hint: &#x27;refresh_token&#x27;,
+  success: function (result) {
+     &#x2F;&#x2F; do something
+  },
+  error: function (err) {
+     &#x2F;&#x2F; do something
+  }
+};
+
+myDHS.revokeAccessToken(options);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="use"><span class="type-signature"></span>use<span class="signature">(plugin, options)</span><span class="type-signature"></span></h4>
+    
+    
+    <p class="summary">Enables a third party add-on to use it's features along with DHS</p>
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>A DHS method that enables or adds a third party plugin to simplify configuring the DHS</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>plugin</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Plugin Identifier</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>app</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Can only take Express JS object - Required when plugin='router'</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>server</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Can be a http node server object or https node server object
+- Required when plugin='websocket.eventchannel'</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>logger</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>A third party log manager tool object - Required when plugin='logger'</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+            </td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; To define your own logging tool it must contain the following methods:
+&#x2F;&#x2F; 1) logError
+&#x2F;&#x2F; 2) logWarn
+&#x2F;&#x2F; 3) logInfo
+&#x2F;&#x2F; 4) logDebug
+&#x2F;&#x2F; 5) logTrace
+
+var myDHS = require(&quot;att-dhs&quot;),
+    myLogger = require(&quot;my-own-logger&quot;);
+
+myDHS.configure({
+  ...
+});
+
+myDHS.use(&#x27;logger&#x27;, {
+  logger: myLogger
+});</pre>
+
+    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; To get default routes from DHS
+
+&#x2F;&#x2F; DHS predefined default routes:
+&#x2F;&#x2F; 1) GET &#x27;&#x2F;config&#x27;
+&#x2F;&#x2F; 2) POST &#x27;&#x2F;tokens&#x27;
+&#x2F;&#x2F; 3) POST &#x27;&#x2F;e911ids&#x27;
+
+var myDHS = require(&quot;att-dhs&quot;),
+    express = require(&quot;express&quot;);
+
+myDHS.configure({
+  ...
+});
+
+myDHS.use(&#x27;router&#x27;, {
+  app: express
+});</pre>
+
+    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; To change the DHS default routes
+
+var myDHS = require(&quot;att-dhs&quot;),
+    express = require(&quot;express&quot;);
+
+myDHS.configure({
+  ...
+  app_config_url: &#x27;&#x2F;my-config-url&#x27;,
+  app_tokens_url: &#x27;&#x2F;my-tokens-url&#x27;,
+  app_e911ids_url: &#x27;&#x2F;my-e911ids-url&#x27;
+});
+
+myDHS.use(&#x27;router&#x27;, {
+  app: express
+});</pre>
+
+
+    
+</dd>
+
         </dl>
     
 
@@ -1797,7 +2647,7 @@ config = myDHS.getConfiguration();</pre>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a>
-		on 2015-12-31T09:27:17-08:00 using the <a
+		on 2016-05-27T12:32:35-07:00 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>
