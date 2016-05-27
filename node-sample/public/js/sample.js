@@ -1,11 +1,11 @@
 /*jslint browser: true, devel: true, node: true, debug: true, todo: true, indent: 2, maxlen: 150*/
 /*global ATT, console, log, virtual_numbers, clearMessage, clearError, show, hide, pauseMedia,
-  onSessionDisconnected, validateAddress, associateE911Id, getE911Id, loginVirtualNumberOrAccountIdUser,
-  loginEnhancedWebRTC, onError, phoneLogout, loadView, switchView, currentCallType, callExists, dial,
-  answer, answer2ndCall, joinSecondConference, hold, resume, mute, unmute, upgrade, downgrade,
-  startConference, joinConference, addParticipant, virtual_numbers, getParticipants, removeParticipant,
-  move, switchCall, transfer, hangupCall, endConference, cleanPhoneNumber, toggleDialPad,
-  dialpad, sendDTMFTone */
+ onSessionDisconnected, validateAddress, associateE911Id, getE911Id, loginVirtualNumberOrAccountIdUser,
+ loginEnhancedWebRTC, onError, phoneLogout, loadView, switchView, currentCallType, callExists, dial,
+ answer, answer2ndCall, joinSecondConference, hold, resume, mute, unmute, upgrade, downgrade,
+ startConference, joinConference, addParticipant, virtual_numbers, getParticipants, removeParticipant,
+ move, switchCall, transfer, hangupCall, endConference, cleanPhoneNumber, toggleDialPad,
+ dialpad, sendDTMFTone */
 
 'use strict';
 
@@ -27,10 +27,18 @@ function createE911AddressId(event, form) {
 
     var address = validateAddress(form);
 
-    getE911Id(address.base,
+    var username = sessionData.user_type == "VIRTUAL_NUMBER" ? 'vtn:' + sessionData.user_name : sessionData.user_name;
+
+    getE911Id(sessionData.access_token,
+      address.base,
       address.is_confirmed,
       function (response) {
-        loginEnhancedWebRTC(sessionData.access_token, response);
+
+        if (sessionData.user_type == "MOBILE_NUMBER") {
+          loginEnhancedWebRTC(sessionData.access_token, response);
+        } else {
+          loginEnhancedWebRTC(sessionData.access_token, response, username);
+        }
       },
       onError);
 
@@ -143,7 +151,7 @@ function accountIdUserLogin(e) {
 function updateAddress(e) {
   e.stopPropagation();
 
-  var addressDiv =  document.getElementById("address-box");
+  var addressDiv = document.getElementById("address-box");
 
   document.removeEventListener('click', hideView);
   document.addEventListener('click', hideView.bind(null, addressDiv));

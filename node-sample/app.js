@@ -78,11 +78,12 @@
 // ---------------------------------------------
 
     app,
+    dhs,
+    httpsServer,
+    httpServer,
     pkg,
-    att,
     http_port,
     https_port,
-    cors_domains,
     cert_file,
     key_file,
     privateKey,
@@ -105,6 +106,7 @@
 //--------------------------------------------------------
   pkg = require('./package.json');
 
+
   is_heroku_env = process.env.NODE_HOME && process.env.NODE_HOME.indexOf('heroku') !== -1;
 
   if (is_heroku_env) {
@@ -122,18 +124,19 @@
 
   }
 
-  cors_domains = process.env.CORS_DOMAINS || pkg.cors_domains;
-  console.info('Domains to add in CORS Headers: ', cors_domains);
-
+  //TODO why do we need SSL certificate
   cert_file = process.env.CERT_FILE || pkg.cert_file;
   key_file = process.env.KEY_FILE || pkg.key_file;
   console.info('Using SSL Configuration - Certificate: ', cert_file, 'Key File: ', key_file);
 
+  //TODO what is argv[2] how is it supplied to node
   api_env = process.argv[2] || process.env.API_ENV || pkg.default_api_env;
   console.info('Using API Env : ', api_env);
 
   env_config = pkg[api_env];
   env_config.api_env = api_env;
+  env_config.host = '127.0.0.1';
+  env_config.port = https_port;
 
   app_key = env_config.app_key;
   app_secret = env_config.app_secret;
@@ -199,6 +202,7 @@
 // so that the Log strems are not corrupted
 //
   process.on('SIGUSR2', function () {
+    console.info('Pending Work items can be killed or stopped');
     console.info('Signal SIGUSR2 received. Reopening log streams...');
   });
 
@@ -213,10 +217,10 @@
 
   app = express();
 
-//View Engine setup
+//View Engine setup (Hogan.js)
 
   /*jslint nomen: true*/
-  app.set('views', __dirname + '/views');
+  //app.set('views', __dirname + '/views');
   app.set('view engine', 'hjs');
   /*jslint nomen: false*/
 
@@ -226,6 +230,8 @@
   app.use(favicon());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: false}));
+
+  //Checks all routs in the pubic folder
   app.use('/', express.static(__dirname + '/public'));
   /*jslint nomen: false*/
 
@@ -249,9 +255,15 @@
 // You don't need to include the following 5 lines
 // if you don't use that feature
 //
-  att = require('./routes/att');
+  dhs = require('att-dhs');
+// Configure the server with environment configuration
+// before it can be used
 
-  att.initialize(env_config, app);
+  dhs.configure(env_config);
+
+  dhs.use('router', {
+    server: app
+  });
 
 // ---------------------------------------------
 // END: CUSTOM CODE for 'AT&T Mobile Number'
@@ -297,17 +309,28 @@
 //
 // Create web servers - HTTP and HTTPS
 //
+  httpServer = http.createServer(app).listen(http_port, env_config.host, function () {
+    var self;
 
-  http.createServer(app).listen(http_port);
-  console.log('HTTP web server listening on port ' + http_port);
+    console.log('HTTP web server listening on port ' + http_port);
+
+    self = this;
+    dhs.use('websocket.eventchannel', {
+      server: self
+    });
+  });
+
 
   if (!is_heroku_env) {
-    https.createServer({
+    httpsServer = https.createServer({
       key: privateKey,
       cert: certificate
-    }, app).listen(https_port);
-    console.log('HTTPS web server listening on port ' + https_port);
+    }, app).listen(https_port, function () {
+
+      console.log('HTTPS web server listening on port ' + https_port);
+    });
   }
+
 
 // ---------------------------------------------
 // END: Boiler-plate Express app route set-up

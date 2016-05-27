@@ -30,22 +30,10 @@
 	"cert_file": "sample.cert",
 	"key_file": "sample.key",
 	"logs_dir": "logs",
-	"cors_domains": [
-		"your.test.com:9001",
-		"*.prod.com:9001",
-		"*.sandbox.myapp.com:9001",
-		"0.0.0.0:9001",
-		"localhost",
-		"localhost:9001",
-		"127.0.0.1:9001"
-	],
 	"default_api_env": "sandbox",
 	"sandbox": {
 		"app_key": "<your-app-key>",
 		"app_secret": "<your-app-secret>",
-		"oauth_callback": "https://127.0.0.1:9001/oauth/callback",
-		"app_token_url": "https://127.0.0.1:9001/tokens",
-		"app_e911id_url": "https://127.0.0.1:9001/e911ids",
 		"virtual_numbers_pool": [
 			"number1",
 			"number2",
@@ -72,6 +60,7 @@
 		"express": "~4.2.0",
 		"hjs": "~0.0.6",
 		"restify": "^2.8.5",
-		"static-favicon": "~1.0.0"
+		"static-favicon": "~1.0.0",
+		"ws": "^0.8.0"
 	}
 }

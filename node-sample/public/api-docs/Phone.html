@@ -1280,253 +1280,6 @@ phone.answer({
         
             
 <dt>
-    <h4 class="name" id="associateAccessToken"><span class="type-signature"></span>associateAccessToken<span class="signature">(options)</span><span class="type-signature"></span></h4>
-    
-    
-    <p class="summary">Associate an access token with a user id.</p>
-    
-</dt>
-<dd>
-    
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Options</p>
-                <h6>Properties</h6>
-                
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>userId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>userId to associate the access token with</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>token</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>token to associate with the user id</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>success</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>success callback function</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>error</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>failure callback function</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-            </td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-        <h5>Example</h5>
-        
-    <pre class="sunlight-highlight-javascript">&#x2F;&#x2F; Associate user id &#x27;john&#x27; with token &#x27;access_token&#x27;
-var success = function () {...},
-   error = function () {...};
-   phone = ATT.rtc.Phone.getPhone();
-
-phone.associateAccessToken({
-   userId: &#x27;john&#x27;,
-   token: &#x27;access_token&#x27;,
-   success: success,
-   error: error
-});</pre>
-
-
-    
-</dd>
-
-        
-            
-<dt>
     <h4 class="name" id="associateE911Id"><span class="type-signature"></span>associateE911Id<span class="signature">()</span><span class="type-signature"></span></h4>
     
     
@@ -4116,6 +3869,40 @@ The service parameter indicates the desired service such as audio or video call.
 
         <tr>
             
+                <td class="name"><code>userId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>User Id. Optional parameter for Mobile users.
+Required for Account ID users and Virtual Number users</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
                 <td class="name"><code>e911Id</code></td>
             
 
@@ -4214,7 +4001,8 @@ Required for Mobile Number and Virtual Number users</p></td>
     <pre class="sunlight-highlight-javascript">var phone = ATT.rtc.Phone.getPhone();
 phone.login({
   token: token,
-  e911Id: e911Id
+  e911Id: e911Id,
+  userId: userId
 });</pre>
 
 
@@ -6598,6 +6386,77 @@ This method fires <a href="Phone.html#event:call:modification-in-progress">Phone
 phone.upgrade();</pre>
 
 
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="associateAccessToken"><span class="type-signature">&lt;inner> </span>associateAccessToken<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+	<dt class="important tag-deprecated">Deprecated:</dt>
+	
+	<dd>
+		<ul class="dummy">
+			<li>since version 1.0.6 . Use login method</li>
+		</ul>
+	</dd>
+	
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
     
 </dd>
 
@@ -18787,7 +18646,7 @@ initialized and ready to make, receive calls</p>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a>
-		on 2015-12-31T09:26:35-08:00 using the <a
+		on 2016-05-27T12:13:44-07:00 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>

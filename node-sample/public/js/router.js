@@ -29,9 +29,54 @@ function loadConfiguration(callback) {
 
 // ### Create Access Token
 function createAccessToken(appScope, authCode, success, error) {
+  var xhrToken = new XMLHttpRequest(),
+    result;
+
+  xhrToken.open('POST', config.app_tokens_url);
+  xhrToken.setRequestHeader("Content-Type", "application/json");
+  xhrToken.onreadystatechange = function () {
+    if (xhrToken.readyState === 4) {
+      if (xhrToken.status === 200) {
+        result = JSON.parse(xhrToken.responseText);
+        localStorage.token = result.access_token;
+        localStorage.refresh_token = result.refresh_token;
+
+        success(result);
+      } else {
+        error(xhrToken.responseText);
+      }
+    }
+  };
+  xhrToken.send(JSON.stringify({app_scope: appScope, auth_code: authCode}));
+}
+
+// ### Refresh Access Token
+function refreshAccessToken(success, error) {
+  var xhrToken = new XMLHttpRequest(),
+    result;
+
+  xhrToken.open('PUT', config.app_tokens_url);
+  xhrToken.setRequestHeader("Content-Type", "application/json");
+  xhrToken.onreadystatechange = function () {
+    if (xhrToken.readyState === 4) {
+      if (xhrToken.status === 200) {
+        result = JSON.parse(xhrToken.responseText);
+        localStorage.refresh_token = result.refresh_token;
+
+        success(result);
+      } else {
+        error(xhrToken.responseText);
+      }
+    }
+  };
+  xhrToken.send(JSON.stringify({refresh_token: localStorage.refresh_token}));
+}
+
+// ### Revoke Access Token
+function revokeAccessToken(success, error) {
   var xhrToken = new XMLHttpRequest();
 
-  xhrToken.open('POST', config.app_token_url);
+  xhrToken.open('DELETE', config.app_tokens_url);
   xhrToken.setRequestHeader("Content-Type", "application/json");
   xhrToken.onreadystatechange = function () {
     if (xhrToken.readyState === 4) {
@@ -42,14 +87,32 @@ function createAccessToken(appScope, authCode, success, error) {
       }
     }
   };
-  xhrToken.send(JSON.stringify({app_scope: appScope, auth_code: authCode}));
+  xhrToken.send(JSON.stringify({token: localStorage.token}));
+}
+
+// ### Revoke Refresh Token
+function revokeRefreshToken(success, error) {
+  var xhrToken = new XMLHttpRequest();
+
+  xhrToken.open('DELETE', config.app_tokens_url);
+  xhrToken.setRequestHeader("Content-Type", "application/json");
+  xhrToken.onreadystatechange = function () {
+    if (xhrToken.readyState === 4) {
+      if (xhrToken.status === 200) {
+        success(JSON.parse(xhrToken.responseText));
+      } else {
+        error(xhrToken.responseText);
+      }
+    }
+  };
+  xhrToken.send(JSON.stringify({token: localStorage.refresh_token, token_type_hint: 'refresh_token'}));
 }
 
 // ### Create e911 id
 function createE911Id(accessToken, address, is_confirmed, success, error) {
   var xhrE911 = new XMLHttpRequest();
 
-  xhrE911.open('POST', config.app_e911id_url);
+  xhrE911.open('POST', config.app_e911ids_url);
   xhrE911.setRequestHeader("Content-Type", "application/json");
   xhrE911.onreadystatechange = function () {
     if (xhrE911.readyState === 4) {

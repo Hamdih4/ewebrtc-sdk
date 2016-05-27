@@ -81,15 +81,15 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-comment">/*global ATT, unsupportedBrowserError, loadSampleApp, checkEnhancedWebRTCSession, addCall,
-  onSessionReady, onSessionDisconnected, onSessionExpired, onAddressUpdated, onError, onWarning, onDialing,
-  onIncomingCall, onConnecting, onCallConnected, onMediaEstablished, onEarlyMedia, onAnswering, onCallMuted,
-  onCallUnMuted, onCallHeld, onCallResumed, onCallDisconnecting, onCallDisconnected, onCallCanceled,
-  onCallRejected, onConferenceConnected, onConferenceDisconnected, onConferenceInvite, onConferenceCanceled,
-  onConferenceEnded, onJoiningConference, onInvitationSent, onInviteAccepted, onInviteRejected,
-  onParticipantRemoved, onConferenceDisconnecting, onConferenceHeld, onConferenceResumed, onNotification,
-  onCallSwitched, onCallRingBackProvided, onTransferring, onTransferred, onCallMoved, onMediaModification,
-  onStateChanged, onModificationInProgress, onToneSent, onToneSending, onGatewayUnreachable, onNetworkOn, onNetworkOff*/</span>
-<span class="hljs-pi">
+ onSessionReady, onSessionDisconnected, onSessionExpired, onAddressUpdated, onError, onWarning, onDialing,
+ onIncomingCall, onConnecting, onCallConnected, onMediaEstablished, onEarlyMedia, onAnswering, onCallMuted,
+ onCallUnMuted, onCallHeld, onCallResumed, onCallDisconnecting, onCallDisconnected, onCallCanceled,
+ onCallRejected, onConferenceConnected, onConferenceDisconnected, onConferenceInvite, onConferenceCanceled,
+ onConferenceEnded, onJoiningConference, onInvitationSent, onInviteAccepted, onInviteRejected,
+ onParticipantRemoved, onConferenceDisconnecting, onConferenceHeld, onConferenceResumed, onNotification,
+ onCallSwitched, onCallRingBackProvided, onTransferring, onTransferred, onCallMoved, onMediaModification,
+ onStateChanged, onModificationInProgress, onToneSent, onToneSending, onGatewayUnreachable, onNetworkOn, onNetworkOff*/</span>
+<span class="hljs-meta">
 'use strict'</span>;
 
 <span class="hljs-keyword">var</span> phone,
@@ -327,6 +327,66 @@
    token: accessToken,
    address: address,
    is_confirmed: false
+ }));
+
+</pre>
+
+<h4 id="refreshing-the-access-token">Refreshing the access token</h4>
+<p>The access token can be refreshed for <strong>mobile number</strong> users, <strong>virtual number</strong> users and <strong>account id</strong> users.</p>
+<p><strong>Example</strong></p>
+<pre>
+ function success(data) {
+   // do something ...
+ }
+
+ function error(errorData) {
+   // do something ...
+ }
+
+ var xhrToken = new XMLHttpRequest();
+ xhrToken.open('POST', '/tokens');
+ xhrToken.setRequestHeader("Content-Type", "application/json");
+ xhrToken.onreadystatechange = function() {
+   if (xhrToken.readyState == 4) {
+     if (xhrToken.status == 200) {
+       success(JSON.parse(xhrToken.responseText));
+     } else {
+       error(xhrToken.responseText);
+     }
+   }
+ }
+ xhrToken.send(JSON.stringify({
+   refresh_token: accessToken
+ }));
+
+</pre>
+
+<h4 id="revoking-the-access-token">REvoking the access token</h4>
+<p>The access token can be revoked for <strong>mobile number</strong> users, <strong>virtual number</strong> users and <strong>account id</strong> users.</p>
+<p><strong>Example</strong></p>
+<pre>
+ function success(data) {
+   // do something ...
+ }
+
+ function error(errorData) {
+   // do something ...
+ }
+
+ var xhrToken = new XMLHttpRequest();
+ xhrToken.open('DELETE', '/tokens');
+ xhrToken.setRequestHeader("Content-Type", "application/json");
+ xhrToken.onreadystatechange = function() {
+   if (xhrToken.readyState == 4) {
+     if (xhrToken.status == 200) {
+       success(JSON.parse(xhrToken.responseText));
+     } else {
+       error(xhrToken.responseText);
+     }
+   }
+ }
+ xhrToken.send(JSON.stringify({
+   token: accessToken
  }));
 
 </pre>
@@ -788,7 +848,7 @@ function onNotification(data) {
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">associateAccessToken</span><span class="hljs-params">(userId, accessToken, success, error)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">associateAccessToken</span>(<span class="hljs-params">userId, accessToken, success, error</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -848,7 +908,7 @@ associates an access token to a user id that is needed before you can login.</p>
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">loginEnhancedWebRTC</span><span class="hljs-params">(token, e911Id)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">loginEnhancedWebRTC</span>(<span class="hljs-params">token, e911Id, userId</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -864,16 +924,20 @@ start making Enhanced WebRTC calls.</p>
 <ul>
 <li><p><code>token</code> is the oAuth token you get from the consent</p>
 </li>
+<li><p>‘[userId]’ is the user</p>
+</li>
 <li><p><code>[e911Id]</code> is e911 address identifier</p>
 </li>
 </ul>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  phone.login({
+            <div class="content"><div class='highlight'><pre>
+  phone.login({
     token: token,
     e911Id: e911Id ? e911Id.e911Locations.addressIdentifier : <span class="hljs-literal">null</span>
   });
+
 }</pre></div></div>
             
         </li>
@@ -902,7 +966,7 @@ start making Enhanced WebRTC calls.</p>
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">associateE911Id</span><span class="hljs-params">(e911Id)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">associateE911Id</span>(<span class="hljs-params">e911Id</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -1046,9 +1110,9 @@ This event is published to indicate the client cannot get connected to the gatew
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">phoneLogout</span><span class="hljs-params">()</span> </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">phoneLogout</span>(<span class="hljs-params"></span>) </span>{
   <span class="hljs-keyword">if</span> (checkEnhancedWebRTCSession()) {
-    phone.on(<span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(data)</span> </span>{
+    phone.on(<span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">data</span>) </span>{
       <span class="hljs-keyword">if</span> (data.error &amp;&amp; data.error.JSMethod === <span class="hljs-string">'logout'</span>) {
         onSessionDisconnected();
       }
@@ -1385,7 +1449,7 @@ function onCallCanceled(data) {
             </div>
             
             <div class="content"><div class='highlight'><pre>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dial</span><span class="hljs-params">(destination, mediaType, localMedia, remoteMedia)</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dial</span>(<span class="hljs-params">destination, mediaType, localMedia, remoteMedia</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -1644,7 +1708,7 @@ are published during the process of answering a call.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">answer</span><span class="hljs-params">(localMedia, remoteMedia)</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">answer</span>(<span class="hljs-params">localMedia, remoteMedia</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -1756,7 +1820,7 @@ sections of the tutorial.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addCall</span><span class="hljs-params">(callee, mediaType, localMedia, remoteMedia)</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addCall</span>(<span class="hljs-params">callee, mediaType, localMedia, remoteMedia</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -1896,7 +1960,7 @@ You need to pass:</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">answer2ndCall</span><span class="hljs-params">(localMedia, remoteMedia, action)</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">answer2ndCall</span>(<span class="hljs-params">localMedia, remoteMedia, action</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -2012,7 +2076,7 @@ is rejected by the receiving party</p>
             
             <div class="content"><div class='highlight'><pre>phone.on(<span class="hljs-string">'call:rejected'</span>, onCallRejected);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reject</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reject</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -2060,7 +2124,7 @@ it is published when <a href="../api-docs/Phone.html#mute"><strong>phone.mute</s
             
             <div class="content"><div class='highlight'><pre>phone.on(<span class="hljs-string">'call:muted'</span>, onCallMuted);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mute</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mute</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -2120,7 +2184,7 @@ published when <a href="../api-docs/Phone.html#unmute"><strong>phone.unmute</str
             
             <div class="content"><div class='highlight'><pre>phone.on(<span class="hljs-string">'call:unmuted'</span>, onCallUnMuted);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">unmute</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">unmute</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -2167,7 +2231,7 @@ published when <a href="../api-docs/Phone.html#unmute"><strong>phone.unmute</str
             
             <div class="content"><div class='highlight'><pre>phone.on(<span class="hljs-string">'call:held'</span>, onCallHeld);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hold</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hold</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -2215,7 +2279,7 @@ published when <a href="../api-docs/Phone.html#unmute"><strong>phone.unmute</str
             
             <div class="content"><div class='highlight'><pre>phone.on(<span class="hljs-string">'call:resumed'</span>, onCallResumed);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">resume</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">resume</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -2259,7 +2323,7 @@ published when <a href="../api-docs/Phone.html#unmute"><strong>phone.unmute</str
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cancel</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cancel</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -2307,7 +2371,7 @@ immediately after invoking <a href="../api-docs/Phone.html#hangup"><strong>phone
             
             <div class="content"><div class='highlight'><pre>phone.on(<span class="hljs-string">'call:disconnecting'</span>, onCallDisconnecting);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hangupCall</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hangupCall</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -2404,7 +2468,7 @@ function onCallMoved(data) {
             
             <div class="content"><div class='highlight'><pre>phone.on(<span class="hljs-string">'call:moved'</span>, onCallMoved);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">move</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">move</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -2490,7 +2554,7 @@ function onCallSwitched(data) {
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">switchCalls</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">switchCalls</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -2609,7 +2673,7 @@ function onTransferred(data) {
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transfer</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transfer</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -2749,7 +2813,7 @@ phone.on(<span class="hljs-string">'call:state-changed'</span>, onStateChanged);
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">downgrade</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">downgrade</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -2816,7 +2880,7 @@ event indicating the downgrade is complete.</li>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">upgrade</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">upgrade</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -2885,7 +2949,7 @@ from from Alice, the <code>call:media-modification</code> event will fire.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">acceptModification</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">acceptModification</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -2915,7 +2979,7 @@ from from Alice, the <code>call:media-modification</code> event will fire.</p>
               <p>After successfully accepting the modification, then:</p>
 <ul>
 <li>The <code>call:state-changed</code> event will fire for both users.</li>
-<li>Alice will start sending her new media — audio for a downgrade, video for an upgrade —.</li>
+<li>Alice will start sending her new media – audio for a downgrade, video for an upgrade –.</li>
 <li>Bob will update his media constraints to match those of Alice.</li>
 <li>Accepting a media modification will make both users have the same media constraints.</li>
 </ul>
@@ -2952,7 +3016,7 @@ from from Alice, the <code>call:media-modification</code> event will fire.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">rejectModification</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">rejectModification</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -2982,7 +3046,7 @@ from from Alice, the <code>call:media-modification</code> event will fire.</p>
               <p>After successfully rejecting the modification, then:</p>
 <ul>
 <li>The <code>call:state-changed</code> event will fire for both users.</li>
-<li>Alice will start sending her new media — audio for a downgrade, video for an upgrade —.</li>
+<li>Alice will start sending her new media – audio for a downgrade, video for an upgrade –.</li>
 <li>Bob will not update his media constraints, he will keep sending whatever he was sending 
 before the media modification.</li>
 </ul>
@@ -3267,7 +3331,7 @@ function onConferenceResumed(data) {
             </div>
             
             <div class="content"><div class='highlight'><pre>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">startConference</span><span class="hljs-params">(mediaType, localMedia, remoteMedia)</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">startConference</span>(<span class="hljs-params">mediaType, localMedia, remoteMedia</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -3427,7 +3491,7 @@ immediately when the other party accepts to join the conference</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">joinConference</span><span class="hljs-params">(localMedia, remoteMedia)</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">joinConference</span>(<span class="hljs-params">localMedia, remoteMedia</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -3518,7 +3582,7 @@ You must pass in:</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">joinSecondConference</span><span class="hljs-params">(localMedia, remoteMedia, action)</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">joinSecondConference</span>(<span class="hljs-params">localMedia, remoteMedia, action</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -3712,7 +3776,7 @@ event is published when the invitation is rejected by the other party.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addParticipant</span><span class="hljs-params">(participant)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addParticipant</span>(<span class="hljs-params">participant</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -3772,7 +3836,7 @@ is published when the participant is successfully removed from the current confe
             
             <div class="content"><div class='highlight'><pre>phone.on(<span class="hljs-string">'conference:participant-removed'</span>, onParticipantRemoved);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">removeParticipant</span><span class="hljs-params">(participant)</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">removeParticipant</span>(<span class="hljs-params">participant</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -3831,7 +3895,7 @@ to remove a participant from the current conference, e.g.,</p>
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getParticipants</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getParticipants</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -3875,7 +3939,7 @@ to remove a participant from the current conference, e.g.,</p>
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">rejectConference</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">rejectConference</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -3935,7 +3999,7 @@ immediately after invoking <a href="../api-docs/Phone.html#endConference"><stron
             
             <div class="content"><div class='highlight'><pre>phone.on(<span class="hljs-string">'conference:disconnecting'</span>, onConferenceDisconnecting);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">endConference</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">endConference</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -4006,7 +4070,7 @@ parsing and formatting.</p>
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cleanPhoneNumber</span><span class="hljs-params">(phoneNum)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cleanPhoneNumber</span>(<span class="hljs-params">phoneNum</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -4053,7 +4117,7 @@ and <code>1800CALFEDX</code> to <code>18002253339</code>.</p>
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getCallerInfo</span><span class="hljs-params">(callerUri)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getCallerInfo</span>(<span class="hljs-params">callerUri</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -4229,7 +4293,7 @@ phone.on(<span class="hljs-string">'dtmf:tone-sent'</span>, onToneSent);</pre></
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sendDTMFTone</span><span class="hljs-params">(tone)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sendDTMFTone</span>(<span class="hljs-params">tone</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -4263,7 +4327,7 @@ start send a DTMF tone.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    input : tone,</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    input: tone,</pre></div></div>
             
         </li>
         
@@ -4280,7 +4344,7 @@ start send a DTMF tone.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    gap : <span class="hljs-number">60</span>
+            <div class="content"><div class='highlight'><pre>    gap: <span class="hljs-number">60</span>
   });
 }</pre></div></div>
             

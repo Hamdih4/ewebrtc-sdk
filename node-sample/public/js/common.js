@@ -8,14 +8,14 @@
 
 // Make JSLint aware of variables and functions that are defined in other files.
 /*global ATT, unsupportedBrowserError, loadSampleApp, checkEnhancedWebRTCSession, addCall,
-  onSessionReady, onSessionDisconnected, onSessionExpired, onAddressUpdated, onError, onWarning, onDialing,
-  onIncomingCall, onConnecting, onCallConnected, onMediaEstablished, onEarlyMedia, onAnswering, onCallMuted,
-  onCallUnMuted, onCallHeld, onCallResumed, onCallDisconnecting, onCallDisconnected, onCallCanceled,
-  onCallRejected, onConferenceConnected, onConferenceDisconnected, onConferenceInvite, onConferenceCanceled,
-  onConferenceEnded, onJoiningConference, onInvitationSent, onInviteAccepted, onInviteRejected,
-  onParticipantRemoved, onConferenceDisconnecting, onConferenceHeld, onConferenceResumed, onNotification,
-  onCallSwitched, onCallRingBackProvided, onTransferring, onTransferred, onCallMoved, onMediaModification,
-  onStateChanged, onModificationInProgress, onToneSent, onToneSending, onGatewayUnreachable, onNetworkOn, onNetworkOff*/
+ onSessionReady, onSessionDisconnected, onSessionExpired, onAddressUpdated, onError, onWarning, onDialing,
+ onIncomingCall, onConnecting, onCallConnected, onMediaEstablished, onEarlyMedia, onAnswering, onCallMuted,
+ onCallUnMuted, onCallHeld, onCallResumed, onCallDisconnecting, onCallDisconnected, onCallCanceled,
+ onCallRejected, onConferenceConnected, onConferenceDisconnected, onConferenceInvite, onConferenceCanceled,
+ onConferenceEnded, onJoiningConference, onInvitationSent, onInviteAccepted, onInviteRejected,
+ onParticipantRemoved, onConferenceDisconnecting, onConferenceHeld, onConferenceResumed, onNotification,
+ onCallSwitched, onCallRingBackProvided, onTransferring, onTransferred, onCallMoved, onMediaModification,
+ onStateChanged, onModificationInProgress, onToneSent, onToneSending, onGatewayUnreachable, onNetworkOn, onNetworkOff*/
 
 'use strict';
 
@@ -224,6 +224,72 @@ if (!bWebRTCSupportExists) {
 //
 // </pre>
 //
+// #### Refreshing the access token
+//
+// The access token can be refreshed for **mobile number** users, **virtual number** users and **account id** users.
+//
+// **Example**
+//
+// <pre>
+//  function success(data) {
+//    // do something ...
+//  }
+//
+//  function error(errorData) {
+//    // do something ...
+//  }
+//
+//  var xhrToken = new XMLHttpRequest();
+//  xhrToken.open('POST', '/tokens');
+//  xhrToken.setRequestHeader("Content-Type", "application/json");
+//  xhrToken.onreadystatechange = function() {
+//    if (xhrToken.readyState == 4) {
+//      if (xhrToken.status == 200) {
+//        success(JSON.parse(xhrToken.responseText));
+//      } else {
+//        error(xhrToken.responseText);
+//      }
+//    }
+//  }
+//  xhrToken.send(JSON.stringify({
+//    refresh_token: accessToken
+//  }));
+//
+// </pre>
+//
+// #### REvoking the access token
+//
+// The access token can be revoked for **mobile number** users, **virtual number** users and **account id** users.
+//
+// **Example**
+//
+// <pre>
+//  function success(data) {
+//    // do something ...
+//  }
+//
+//  function error(errorData) {
+//    // do something ...
+//  }
+//
+//  var xhrToken = new XMLHttpRequest();
+//  xhrToken.open('DELETE', '/tokens');
+//  xhrToken.setRequestHeader("Content-Type", "application/json");
+//  xhrToken.onreadystatechange = function() {
+//    if (xhrToken.readyState == 4) {
+//      if (xhrToken.status == 200) {
+//        success(JSON.parse(xhrToken.responseText));
+//      } else {
+//        error(xhrToken.responseText);
+//      }
+//    }
+//  }
+//  xhrToken.send(JSON.stringify({
+//    token: accessToken
+//  }));
+//
+// </pre>
+//
 // ## The Phone Object
 // -----------
 // Every action for Call & Conference Management is done
@@ -383,17 +449,21 @@ function associateAccessToken(userId, accessToken, success, error) {
 
 // ### Create Enhanced WebRTC Session
 // ---------------------------------
-function loginEnhancedWebRTC(token, e911Id) {
+function loginEnhancedWebRTC(token, e911Id, userId) {
 //[**phone.login**](../../lib/webrtc-sdk/doc/Phone.html#login) establishes Enhanced WebRTC session so that the user can
 // start making Enhanced WebRTC calls.
 //
 // - `token` is the oAuth token you get from the consent
 //
+// - '[userId]' is the user
+//  
 // - `[e911Id]` is e911 address identifier
+
   phone.login({
     token: token,
     e911Id: e911Id ? e911Id.e911Locations.addressIdentifier : null
   });
+
 }
 
 // ### Updating the address
@@ -414,7 +484,6 @@ function associateE911Id(e911Id) {
 // after logging out from Enhanced WebRTC session.
 // This event is published to indicate that the session was successfully deleted.
 phone.on('session:disconnected', onSessionDisconnected);
-
 
 
 // ## Session expired from Enhanced WebRTC
@@ -1206,7 +1275,6 @@ function getCallerInfo(callerUri) {
 // The phone object provides methods to use DTMF functionality when in a call..
 
 
-
 // ### Register for _sendDTMFTone_ event
 // ---------------------------------
 
@@ -1228,9 +1296,9 @@ function sendDTMFTone(tone) {
 // start send a DTMF tone.
   phone.sendDTMFTone({
     // - a valid dial tone [0,1,2,3,4,5,6,7,8,9,*,#]
-    input : tone,
+    input: tone,
     // - a the intertone gap (in ms > 50) [50, 60]
-    gap : 60
+    gap: 60
   });
 }
 // ### Ending a DTMF 

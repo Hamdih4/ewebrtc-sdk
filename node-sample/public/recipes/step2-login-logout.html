@@ -88,7 +88,7 @@ function createAccessToken() {
                 if (xhrToken.status == 200) {
                     console.log(xhrToken.responseText);
                     accessToken = (JSON.parse(xhrToken.responseText));
-                    associateAccessToken();
+                    login();
                 } else {
                     console.log(xhrToken.responseText);
                 }
@@ -96,18 +96,9 @@ function createAccessToken() {
         }
         xhrToken.send(JSON.stringify({app_scope: "ACCOUNT_ID"}));
 }
-    
-function associateAccessToken() {
-    phone.associateAccessToken({
-        userId: loginInput.value,
-        token: accessToken.access_token,
-        success: login,
-        error: onError
-    }); 
-}
 
 function login() {
-    phone.login({token: accessToken.access_token});
+    phone.login({token: accessToken.access_token, userId: loginInput.value});
 }
     
 function logout() {

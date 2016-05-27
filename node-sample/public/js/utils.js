@@ -1,7 +1,7 @@
 /*jslint browser: true, devel: true, node: true, debug: true, todo: true, indent: 2, maxlen: 150*/
 /*global ATT, RESTClient, console, log, loadConfiguration, phone, eWebRTCDomain, currentConferenceHost,
  sessionData, onError, getCallerInfo, endAndAnswer, holdAndAnswer, reject, answerCall,
- endAndJoin, holdAndJoin, rejectConference, join, cancel, hangup,
+ endAndJoin, holdAndJoin, rejectConference, join, cancel, hangup, refreshToken, revokeToken,
  loginMobileNumber, createAccessToken, associateAccessToken, createE911Id, ewebrtc_domain,
  loginEnhancedWebRTC, hideParticipants, showParticipants, acceptModification, rejectModification*/
 
@@ -12,7 +12,8 @@ var buttons,
   autoRejectTimer,
   muted = false,
   currentCallType = null,
-  autoRejectWaitingTime = 10000;
+  autoRejectWaitingTime = 10000,
+  sessionExpiredFlag = false;
 
 defaultHeaders = {
   'Content-Type': 'application/json',
@@ -280,16 +281,16 @@ function formatError(error) {
 
   // SDK errors
   return ((error.ErrorCode ? "<br/>Error Code: " + error.ErrorCode : "") +
-      (error.JSObject ? "<br/>JSObject: " + error.JSObject : "") +
-      (error.JSMethod ? "<br/>JSMethod: " + error.JSMethod : "") +
-      (error.ResourceMethod ? "<br/>Resource Method: " + error.ResourceMethod : "") +
-      (error.ErrorMessage ? "<br/>Error Message: " + error.ErrorMessage : "") +
-      (error.APIError ? "<br/>API Error: " + error.APIError : "") +
-      (error.Cause ? "<br/>Cause: " + error.Cause : "") +
-      (error.AdditionalInformation ? "<br/>Additional Information: " + error.AdditionalInformation : "") +
-      (error.Resolution ? "<br/>Resolution: " + error.Resolution : "") +
-      (error.HttpStatusCode ? "<br/>Http Status Code: " + error.HttpStatusCode : "") +
-      (error.MessageId ? "<br/>MessageId: " + error.MessageId : ""));
+  (error.JSObject ? "<br/>JSObject: " + error.JSObject : "") +
+  (error.JSMethod ? "<br/>JSMethod: " + error.JSMethod : "") +
+  (error.ResourceMethod ? "<br/>Resource Method: " + error.ResourceMethod : "") +
+  (error.ErrorMessage ? "<br/>Error Message: " + error.ErrorMessage : "") +
+  (error.APIError ? "<br/>API Error: " + error.APIError : "") +
+  (error.Cause ? "<br/>Cause: " + error.Cause : "") +
+  (error.AdditionalInformation ? "<br/>Additional Information: " + error.AdditionalInformation : "") +
+  (error.Resolution ? "<br/>Resolution: " + error.Resolution : "") +
+  (error.HttpStatusCode ? "<br/>Http Status Code: " + error.HttpStatusCode : "") +
+  (error.MessageId ? "<br/>MessageId: " + error.MessageId : ""));
 }
 
 function setupHomeView() {
@@ -347,35 +348,35 @@ function createView(view, data, response) {
   logout = document.getElementById("logout");
 
   switch (view) {
-  case 'home':
-    setupHomeView();
+    case 'home':
+      setupHomeView();
 
-    if (username && data.user_name) {
-      username.innerHTML = data.user_name;
-      username.style.display = 'block';
-    }
-    if (updateAddress && data.user_type !== 'ACCOUNT_ID') {
-      updateAddress.style.display = 'block';
-    }
-    if (logout) {
-      logout.style.display = 'block';
-    }
-    break;
-  case 'login':
-    if (username) {
-      username.innerHTML = "Guest";
-      username.style.display = 'none';
-    }
-    if (updateAddress) {
-      updateAddress.style.display = 'none';
-    }
-    if (logout) {
-      logout.style.display = 'none';
-    }
-    if (message && data && data.message) {
-      message.innerHTML = data.message;
-    }
-    break;
+      if (username && data.user_name) {
+        username.innerHTML = data.user_name;
+        username.style.display = 'block';
+      }
+      if (updateAddress && data.user_type !== 'ACCOUNT_ID') {
+        updateAddress.style.display = 'block';
+      }
+      if (logout) {
+        logout.style.display = 'block';
+      }
+      break;
+    case 'login':
+      if (username) {
+        username.innerHTML = "Guest";
+        username.style.display = 'none';
+      }
+      if (updateAddress) {
+        updateAddress.style.display = 'none';
+      }
+      if (logout) {
+        logout.style.display = 'none';
+      }
+      if (message && data && data.message) {
+        message.innerHTML = data.message;
+      }
+      break;
   }
 }
 
@@ -442,7 +443,7 @@ function loadDefaultView() {
 
 function unsupportedBrowserError() {
   var error = new Error('The web browser does not support Enhanced WebRTC. Please use a supported version of' +
-      ' Chrome or Firefox. For more information on supported browsers, use method ATT.browser.getBrowserSupport');
+    ' Chrome or Firefox. For more information on supported browsers, use method ATT.browser.getBrowserSupport');
 
   onError(error);
 
@@ -462,17 +463,13 @@ function loadSampleApp() {
   }
 }
 
-function getE911Id(address, is_confirmed, success, error) {
-  createAccessToken('E911',
-    null,
-    function (response) {
-      try {
-        createE911Id(response.access_token, address, is_confirmed, success, error);
-      } catch (err) {
-        error(err);
-      }
-    },
-    error);
+function getE911Id(access_token, address, is_confirmed, success, error) {
+
+  try {
+    createE911Id(access_token, address, is_confirmed, success, error);
+  } catch (err) {
+    error(err);
+  }
 }
 
 //Callback function which invokes SDK login method once access token is created/associated
@@ -483,7 +480,7 @@ function accessTokenSuccess(data) {
     }
 
     if (data.user_type === 'MOBILE_NUMBER' ||
-        data.user_type === 'VIRTUAL_NUMBER') {
+      data.user_type === 'VIRTUAL_NUMBER') {
       switchView('address');
     } else { // Account ID
       // if access token obtained successfully, create web rtc session
@@ -495,6 +492,8 @@ function accessTokenSuccess(data) {
 }
 
 function login(userType, authCode, userName) {
+  sessionExpiredFlag = false;
+
   createAccessToken(userType,
     authCode,
     function (response) {
@@ -514,8 +513,8 @@ function login(userType, authCode, userName) {
         ATT.utils.extend(sessionData, data); // save token/user data locally
 
         if (userType === 'VIRTUAL_NUMBER' &&
-            userName.length === 11 &&
-            userName.charAt(0).localeCompare('1') === 0) {
+          userName.length === 11 &&
+          userName.charAt(0).localeCompare('1') === 0) {
           userName = userName.substr(1);
         }
 
@@ -532,6 +531,37 @@ function login(userType, authCode, userName) {
       }
     },
     onError);
+}
+
+function refreshToken() {
+
+  function successCallback(data) {
+    setMessage('Notification: ' + data, 'warning');
+  }
+
+  function errorCallback(error) {
+    setMessage(error, 'error');
+  }
+
+  refreshAccessToken(successCallback, errorCallback);
+}
+
+function revokeToken(type) {
+
+  function successCallback(data) {
+    setMessage('Notification: ' + data, 'warning');
+  }
+
+  function errorCallback(error) {
+    setMessage(error, 'error');
+  }
+
+  if ('refreshed' === type) {
+    revokeRefreshToken(successCallback, errorCallback);
+    return;
+  }
+
+  revokeAccessToken(successCallback, errorCallback);
 }
 
 function loginMobileNumber(args) {
@@ -729,17 +759,31 @@ function onNotification(data) {
 function onSessionDisconnected() {
   resetUI();
   clearSessionData();
-  switchView('login', {
-    message: 'Your enhanced WebRTC session has ended'
-  });
+  if (sessionExpiredFlag == true) {
+    switchView('login', {
+      message: 'Your enhanced WebRTC session has expired. Please login again.'
+    });
+  } else {
+    switchView('login', {
+      message: 'Your enhanced WebRTC session has ended'
+    });
+  }
+
 }
 
 function onSessionExpired() {
-  resetUI();
-  clearSessionData();
-  switchView('login', {
-    message: 'Your enhanced WebRTC session has expired. Please login again.'
-  });
+  // Handled Below session expired message in OnsessionDisconnected method by using sessionExpiredFlag
+  //Fixed :DE148838-SDK should stop the event channel after a session:expired event is fired
+  //resetUI();
+  //clearSessionData();
+  //switchView('login', {
+  // message: 'Your enhanced WebRTC session has expired. Please login again.'
+  //});
+  if (phone.getSession().getId() != null && sessionExpiredFlag == false) {
+    sessionExpiredFlag = true;
+    phone.logout();
+  }
+
 }
 
 function onGatewayUnreachable() {
@@ -899,21 +943,24 @@ function onDialing(data) {
 // This event callback gets invoked when an outgoing call flow is initiated and the call state is changed to connecting state
 function onConnecting(data) {
   var peer,
-    callerInfo;
+      peerCallerInfo,
+      userCallerInfo,
+      userName;
 
-  peer = data.from || data.to;
+  userName = data.from;
+  peer = data.to;
 
-  callerInfo = getCallerInfo(peer);
+  peerCallerInfo = getCallerInfo(peer);
+  userCallerInfo = getCallerInfo(userName);
 
-  peer = callerInfo.callerId;
+  peer = peerCallerInfo.callerId;
+  userName = userCallerInfo.callerId;
 
   if (undefined !== data.to) {
     setHangupBtnOp('cancel');
   }
 
-  setMessage('<h6>Connecting to: ' + peer
-    + (data.mediaType ? '. Media type: ' + data.mediaType : '')
-    + '. Time: ' + data.timestamp + '</h6>');
+    setMessage('<h6>Connecting call from ' + userName + ' to '+ peer +'. Time: ' + data.timestamp + '</h6>');
 
   playMedia('calling-tone');
 }
@@ -924,40 +971,44 @@ function onCallRingBackProvided() {
 
 function onCallConnected(data) {
   var peer,
-    callerInfo;
+      userName,
+      peerCallerInfo,
+      userCallerInfo;
 
   currentCallType = data.callType;
 
-  peer = data.from || data.to;
+  userName = data.from;
+  peer = data.to;
 
-  callerInfo = getCallerInfo(peer);
+  peerCallerInfo = getCallerInfo(peer);
+  userCallerInfo = getCallerInfo(userName);
 
-  peer = callerInfo.callerId;
+  peer = peerCallerInfo.callerId;
+  userName = userCallerInfo.callerId;
 
-  setMessage('<h6>Connected to call ' + (data.from ? 'from ' : 'to ') + peer +
-    (data.mediaType ? ". Media type: " + data.mediaType : '') +
-    (data.downgrade ? '. (Downgraded from video)' : '') +
-    '. Time: ' + data.timestamp + '<h6>');
+  setMessage('<h6>Connected to call ' + ' from ' + userName + ' to ' + peer + '. Time: ' + data.timestamp + '<h6>');
 
-  setCallInfo('In ' + data.mediaType + ' ' + currentCallType + ' ' + data.index + ' with ' + peer + ' started by ' + (data.from ? 'them' : 'you'));
+  setCallInfo('In ' + data.mediaType + ' ' + currentCallType + ' ' + data.index + ' with ' + peer + ' started by ' + userName);
 
   resetUI();
 }
 
 function onConferenceConnected(data) {
-  var peer;
+  var peer,
+      userName;
 
   currentCallType = data.callType;
 
-  if (data.from) {
-    peer = getCallerInfo(data.from).callerId;
+  userName = getCallerInfo(data.from).callerId;
+
+  if (data.to) {
+    peer = getCallerInfo(data.to).callerId;
   }
 
   setMessage('<h6>In conference. Media type: ' + data.mediaType + '. Time: ' + data.timestamp + '</h6>');
 
   setCallInfo('In ' + data.mediaType + ' ' + currentCallType + ' ' + data.index + (peer ? ' with ' + peer : '') +
-    ' started by ' + (data.from ? 'them' : 'you'));
-
+      ' started by ' + userName);
   resetUI();
 }
 
@@ -997,7 +1048,11 @@ function onInvitationSent() {
 }
 
 function onInviteAccepted(data) {
-  var peer, participants = [];
+  var peer, participants = [], userName;
+
+
+  userName = getCallerInfo(data.from).callerId;
+
 
   if (data.participants) {
     Object.keys(data.participants).forEach(function (participant) {
@@ -1008,7 +1063,7 @@ function onInviteAccepted(data) {
 
   setMessage('Invite accepted by ' + peer);
 
-  setCallInfo('In ' + data.mediaType + ' ' + currentCallType + ' ' + data.index + (peer ? ' with ' + peer : '') + ' started by you');
+  setCallInfo('In ' + data.mediaType + ' ' + currentCallType + ' ' + data.index + (peer ? ' with ' + peer : '') + ' started by ' + userName );
 }
 
 function onInviteRejected() {
@@ -1017,7 +1072,9 @@ function onInviteRejected() {
 }
 
 function onParticipantRemoved(data) {
-  var peer, participants = [];
+  var peer, participants = [], userName;
+
+  userName = getCallerInfo(data.from).callerId;
 
   if (data.participants) {
     Object.keys(data.participants).forEach(function (participant) {
@@ -1028,7 +1085,7 @@ function onParticipantRemoved(data) {
 
   setMessage('Participant removed from the ' + data.callType);
 
-  setCallInfo('In ' + data.mediaType + ' ' + currentCallType + ' ' + data.index + (peer ? ' with ' + peer : '') + ' started by you');
+  setCallInfo('In ' + data.mediaType + ' ' + currentCallType + ' ' + data.index + (peer ? ' with ' + peer : '') + ' started by ' + userName );
 
   hideParticipants();
   showParticipants();
@@ -1087,16 +1144,20 @@ function onConferenceDisconnecting(data) {
 
 function onCallDisconnected(data) {
   var peer,
-    callerInfo;
+      peerCallerInfo,
+      userCallerInfo,
+      userName;
 
-  peer = data.from || data.to;
+  peer = data.to;
+  userName = data.from;
 
-  callerInfo = getCallerInfo(peer);
+  peerCallerInfo = getCallerInfo(peer);
+  userCallerInfo = getCallerInfo(userName);
 
-  peer = callerInfo.callerId;
+  peer = peerCallerInfo.callerId;
+  userName = userCallerInfo.callerId;
 
-  setMessage('Call ' + (data.from ? ('from ' + peer) : ('to ' + peer)) + ' disconnected' +
-    (data.message ? '. ' + data.message : '') + '. Time: ' + data.timestamp);
+  setMessage('Disconnected call from '+ userName +' to '+ peer + (data.message ? '. ' + data.message : '') +'. Time: ' + data.timestamp);
 
   if (data.background) {
     clearBackgroundCallInfo();
@@ -1115,7 +1176,7 @@ function onConferenceEnded(data) {
     peer = getCallerInfo(data.from).callerId;
   }
 
-  setMessage('Conference ' + data.index + ' started by ' + (peer || 'you') + ' disconnected' +
+  setMessage('Conference ' + data.index + ' started by ' + peer + ' disconnected' +
     (data.message ? '. ' + data.message : '') + '. Time: ' + data.timestamp);
 
   clearCallInfo();
@@ -1133,10 +1194,13 @@ function onConferenceEnded(data) {
 function onCallSwitched(data) {
   var fromPeer,
     toPeer,
+    userName,
     fromParticipants = [],
     toParticipants = [];
 
   currentCallType = data.to.callType;
+
+  userName = getCallerInfo(data.from.from).callerId;
 
   if (data.from) {
     if ('conference' === data.from.callType && !data.from.to) { // background conference host
@@ -1148,7 +1212,7 @@ function onCallSwitched(data) {
         fromPeer = fromParticipants.join(', ');
       }
     } else {
-      fromPeer = data.from.from || data.from.to;
+      fromPeer = data.from.to;
       fromPeer = getCallerInfo(fromPeer).callerId;
     }
   }
@@ -1162,19 +1226,19 @@ function onCallSwitched(data) {
       toPeer = toParticipants.join(', ');
     }
   } else {
-    toPeer = data.to.from || data.to.to;
+    toPeer = data.to.to;
     toPeer = getCallerInfo(toPeer).callerId;
   }
 
-  setMessage('<h6>Switched ' + (data.from ? ('from ' + data.from.callType + (fromPeer ? ' with ' + fromPeer : '')) : '')
-    + ' to ' + data.to.callType + (toPeer ? ' with ' + toPeer : '') + '. Time: ' + data.timestamp + '<h6>');
+  setMessage('<h6>Switched from ' + data.from.callType + (fromPeer ? ' with ' + fromPeer : '') + ' to '
+      + data.to.callType + (toPeer ? ' with ' + toPeer : '') +'. Time: ' + data.timestamp + '<h6>');
 
   setCallInfo('In ' + data.to.mediaType + ' ' + data.to.callType + ' ' + data.to.index + (toPeer ? ' with ' + toPeer : '') +
-    ' started by ' + (data.to.from ? 'them' : 'you'));
+      ' started by ' + userName);
 
   if (data.from) {
     setBackgroundCallInfo('to ' + data.from.callType + ' ' + data.from.index + (fromPeer ? ' with ' + fromPeer : '') +
-      ' started by ' + (data.from.from ? 'them' : 'you'));
+      ' started by ' + userName);
   } else {
     clearBackgroundCallInfo();
   }
@@ -1208,11 +1272,21 @@ function onStateChanged(data) {
     return;
   }
 
-  var peer = data.from || data.to,
+  var peer = data.to,
+    userName = data.from,
     callType = 'call' === data.callType ? 'Call' : 'Conference';
 
+  userName = getCallerInfo(userName).callerId;
   if (peer !== undefined) {
     peer = getCallerInfo(peer).callerId;
+  }  else {
+    var participants = [];
+    if (data.participants) {
+      Object.keys(data.participants).forEach(function (participant) {
+        participants.push(getCallerInfo(participant).callerId);
+      });
+      peer = participants.join(', ');
+    }
   }
 
   setMessage(callType + ' state changed from ' + data.oldState + ' to ' + data.newState + '. Time: ' + data.timestamp);
@@ -1220,39 +1294,39 @@ function onStateChanged(data) {
   if ('hold' === data.operation) {            // hold
     if ('initiator' === data.generator) {     // initiator side
       if ('held' === data.newState) {           // one way and two way hold
-        setMessage(callType + ' to ' + peer + ' on hold. Time: ' + data.timestamp);
+        setMessage(callType + ' from '+ userName + (peer ? ' to ' + peer : '') + ' on hold. Time: ' + data.timestamp);
         disableButton('btn-hold');
         enableButton('btn-resume');
       }
     } else {                                // recvr side
       if ('connected' === data.newState) {    // one way hold initiated by other party
-        setMessage(callType + ' is held by ' + peer + '. Time: ' + data.timestamp);
+        setMessage('Held '+ callType + ' from '+ userName +' to ' + peer + '. Time: ' + data.timestamp);
       } else if ('held' === data.newState) {  // two way hold initiated by other party
-        setMessage(callType + ' is held by ' + peer + '. Time: ' + data.timestamp);
+        setMessage('Held '+ callType + ' from '+ userName +' to ' + peer + '. Time: ' + data.timestamp);
       }
     }
   } else if ('resume' === data.operation) {   // resume
     if ('initiator' === data.generator) {     // initiator side
       if ('connected' === data.newState) {      // one way and two way hold resumed
-        setMessage(callType + ' to ' + peer + ' resumed. Time: ' + data.timestamp);
+        setMessage('Resumed ' + callType + ' from '+ userName + (peer ? ' to ' + peer : '') + '. Time: ' + data.timestamp);
         enableButton('btn-hold');
         disableButton('btn-resume');
       }
     } else {                                // recvr side
       if ('connected' === data.newState) {    // one way hold resumed by other party
-        setMessage(callType + ' is resumed by ' + peer + '. Time: ' + data.timestamp);
+        setMessage('Resumed '+ callType + ' from '+ userName +' to ' + peer + '. Time: ' + data.timestamp);
       } else if ('held' === data.newState) {  // two way hold resumed by other party
-        setMessage(callType + ' is resumed by ' + peer + '. Time: ' + data.timestamp);
+        setMessage('Resumed '+ callType + ' from '+ userName +' to ' + peer + '. Time: ' + data.timestamp);
       }
     }
   } else if ('upgrade' === data.operation) {    // upgrade
     if ('connected' === data.newState) {
-      setMessage(callType + ' with ' + peer + ' is modified to ' + data.mediaType + '. Time: ' + data.timestamp);
+      setMessage(callType + ' from '+ userName + ' to ' + peer + ' is modified to ' + data.mediaType + '. Time: ' + data.timestamp);
       resetUI();
     }
   } else if ('downgrade' === data.operation) {  // downgrade
     if ('connected' === data.newState) {
-      setMessage(callType + ' with ' + peer + ' is modified to ' + data.mediaType + '. Time: ' + data.timestamp);
+      setMessage(callType + ' from '+ userName + ' to ' + peer + ' is modified to ' + data.mediaType + '. Time: ' + data.timestamp);
       resetUI();
     }
   } else {
@@ -1260,8 +1334,7 @@ function onStateChanged(data) {
   }
 
   setCallInfo('In ' + data.mediaType + ' ' + data.callType + ' ' + data.index + (peer ? ' with ' + peer : '') +
-    ' started by ' + (data.from ? 'them' : 'you'));
-
+      ' started by ' + userName);
 }
 
 function onConferenceCanceled(data) {
@@ -1271,30 +1344,37 @@ function onConferenceCanceled(data) {
 
 function onCallCanceled(data) {
   var peer,
-    callerInfo;
+    peerCallerInfo,
+    userCallerInfo,
+    userName;
 
-  peer = data.from || data.to;
+  peer = data.to;
+  userName = data.from;
+  peerCallerInfo = getCallerInfo(peer);
+  peer = peerCallerInfo.callerId;
 
-  callerInfo = getCallerInfo(peer);
+  userCallerInfo = getCallerInfo(userName);
+  userName = userCallerInfo.callerId;
 
-  peer = callerInfo.callerId;
-
-  setMessage('Call ' + (data.from ? ('from ' + peer) : ('to ' + peer)) + ' canceled.' + ' Time: ' + data.timestamp);
-
+  setMessage('Canceled call from ' + userName + ' to '+  peer + '. Time: ' + data.timestamp);
   resetUI();
 }
 
 function onCallRejected(data) {
   var peer,
-    callerInfo;
+    userName,
+    peerCallerInfo,
+    userCallerInfo;
 
-  peer = data.from || data.to;
+  peer = data.to;
+  userName = data.from;
+  userCallerInfo = getCallerInfo(userName);
+  peerCallerInfo = getCallerInfo(peer);
 
-  callerInfo = getCallerInfo(peer);
+  peer = peerCallerInfo.callerId;
+  userName = userCallerInfo.callerId;
 
-  peer = callerInfo.callerId;
-
-  setMessage('Call ' + (data.from ? ('from ' + peer) : ('to ' + peer)) + ' rejected.' + ' Time: ' + data.timestamp);
+  setMessage('Rejected call from '+ userName +' to '+ peer +'. Time: '+ data.timestamp);
 
   resetUI();
 }
@@ -1324,21 +1404,25 @@ function disableTimerAndReject() {
 
 function onMediaModification(data) {
   var peer,
-    callerInfo,
+    userName,
+    peerCallerInfo,
+    userCallerInfo,
     msg,
     buttons = [];
 
   autoRejectCallModification(autoRejectWaitingTime);
+  
+  peer = data.to;
+  peerCallerInfo = getCallerInfo(peer);
+  peer = peerCallerInfo.callerId;
 
-  peer = data.from || data.to;
-
-  callerInfo = getCallerInfo(peer);
-
-  peer = callerInfo.callerId;
+  userName = data.from;
+  userCallerInfo = getCallerInfo(userName);
+  userName = userCallerInfo.callerId;
 
   if (callExists()) {
 
-    msg = '<bold>' + peer + '</bold>' + ' is requesting to modify the call from ' + data.mediaType + ' to '
+    msg = 'Modify the call from ' + data.mediaType + ' to '
       + data.newMediaType + '. Time: ' + data.timestamp;
 
     buttons.push(createButton({
