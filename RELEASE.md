@@ -76,11 +76,10 @@ The following features will be added soon:
 * Firefox browser support
 * AT&T Mobile Number support
 
-# v1.1.2
-May 26, 2016
+# v1.1.3
+September 2, 2016
 
-* **Fix:** User not found error when trying to start conference on Chrome v51.
-* **Fix:** Cannot put conference on hold on Chrome v51.
+* **Fix:** Hold-Resume broken with latest Chrome v53-Beta on SDK v1.1.2
 
 ## Known Issues
 
@@ -155,6 +154,12 @@ May 26, 2016
 
 
 # Changelog
+
+## v1.1.2
+May 26, 2016
+
+* **Fix:** User not found error when trying to start conference on Chrome v51.
+* **Fix:** Cannot put conference on hold on Chrome v51.
 
 ## v1.1.1                                    
 
